@@ -1,4 +1,4 @@
-package com.labs14.roamly
+package app.labs14.roamly
 
 import org.junit.Test
 
