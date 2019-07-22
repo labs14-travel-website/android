@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.labs14.roamly"
+        applicationId "app.labs14.roamly"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
