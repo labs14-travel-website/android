@@ -1,36 +1,48 @@
-package com.labs14.roamly
+package app.labs14.roamly
 
 import android.os.Bundle
-import android.widget.Button
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import app.labs14.roamly.localStorage.DbHelper
+import app.labs14.roamly.localStorage.SqlDao
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import app.labs14.roamly.R
 import kotlinx.android.synthetic.main.activity_login_google.*
-import org.json.JSONObject
 
 
 const val RC_SIGN_IN = 123
+private var dbDao: SqlDao? = null
 
 class LoginGoogleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
+        SqlDbInit()
+        GoogleAuthInit()
+    }
 
+    fun SqlDbInit(){
+        dbDao = SqlDao(this)
+        val helper = DbHelper(this)
+        val writableDatabase = helper.writableDatabase
+
+        Thread(Runnable {
+            val trips = dbDao?.allTrips }).start()
+    }
+
+    fun GoogleAuthInit(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestServerAuthCode("945370196700-f5badmsl04pqis245mfhhvrcfl9otj3o.apps.googleusercontent.com")
-            .requestIdToken("945370196700-f5badmsl04pqis245mfhhvrcfl9otj3o.apps.googleusercontent.com")
             .build()
 
-       val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         sign_in_button.visibility = View.VISIBLE
         tv_name.visibility = View.GONE
         sign_in_button.setSize(SignInButton.SIZE_STANDARD)
@@ -67,7 +79,9 @@ class LoginGoogleActivity : AppCompatActivity() {
             var result = ""
             Thread {
                 result = NetworkAdapter.httpRequest(
-                    "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap)}.run { start() }
+                    "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
+                )
+            }.run { start() }
            //TODO: Parse out user data from result.
         } catch (e: ApiException) {
             e.printStackTrace()
