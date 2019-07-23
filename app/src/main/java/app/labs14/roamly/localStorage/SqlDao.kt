@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import app.labs14.roamly.Models.Trip
+import app.labs14.roamly.models.Trip
 
 import java.util.ArrayList
 
