@@ -1,6 +1,9 @@
 package app.labs14.roamly;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -115,4 +118,22 @@ public class NetworkAdapter {
             }
         }).start();
     }
+
+    public static boolean isInternetConnected(Context ctx) {
+        if(ctx==null)return false; //No context
+        ConnectivityManager cm;
+        NetworkInfo info = null;
+        try {
+            cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+            info = cm.getActiveNetworkInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (info != null) {
+            return true;
+        }  else {
+            return false;
+        }
+    }
+
 }

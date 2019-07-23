@@ -12,7 +12,6 @@ import app.labs14.roamly.localStorage.DbHelper
 import app.labs14.roamly.localStorage.SqlDao
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
-import app.labs14.roamly.R
 import kotlinx.android.synthetic.main.activity_login_google.*
 
 
@@ -24,11 +23,16 @@ class LoginGoogleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
-        SqlDbInit()
-        GoogleAuthInit()
+
+        debugMessages()
+        sqlDbInit()
+        googleLoginInit()
+        btn_offline.setOnClickListener { offlineSignOn()}
     }
 
-    fun SqlDbInit(){
+    private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
+
+    private fun sqlDbInit(){
         dbDao = SqlDao(this)
         val helper = DbHelper(this)
         val writableDatabase = helper.writableDatabase
@@ -37,14 +41,13 @@ class LoginGoogleActivity : AppCompatActivity() {
             val trips = dbDao?.allTrips }).start()
     }
 
-    fun GoogleAuthInit(){
+    private fun googleLoginInit(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         sign_in_button.visibility = View.VISIBLE
-        tv_name.visibility = View.GONE
         sign_in_button.setSize(SignInButton.SIZE_STANDARD)
         sign_in_button.setOnClickListener{
             val signInIntent = mGoogleSignInClient.signInIntent
@@ -62,12 +65,15 @@ class LoginGoogleActivity : AppCompatActivity() {
         }
     }
 
+    private fun offlineSignOn(){
+        //TODO : intent that directs to trip view activity
+    }
+
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val token = ""
             if (account != null) {
-                tv_name.text = account.displayName
                 val token = account.idToken
             }
 
@@ -75,7 +81,6 @@ class LoginGoogleActivity : AppCompatActivity() {
             headermap.put("authorization", token)
 
             sign_in_button.visibility = View.GONE
-            tv_name.visibility = View.VISIBLE
             var result = ""
             Thread {
                 result = NetworkAdapter.httpRequest(
@@ -86,7 +91,6 @@ class LoginGoogleActivity : AppCompatActivity() {
         } catch (e: ApiException) {
             e.printStackTrace()
             sign_in_button.visibility = View.VISIBLE
-            tv_name.visibility = View.GONE
         }
     }
 }
