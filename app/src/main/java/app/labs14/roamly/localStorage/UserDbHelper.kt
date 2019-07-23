@@ -5,7 +5,7 @@ import android.database.DatabaseErrorHandler
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context,
+class UserDbHelper(context: Context) : SQLiteOpenHelper(context,
     DATABASE_NAME, null,
     DATABASE_VERSION
 ) {
@@ -23,11 +23,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context,
     constructor(context: Context, name: String, version: Int, openParams: SQLiteDatabase.OpenParams) : this(context) {}
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(DbContract.TripEntry.SQL_CREATE_TABLE)
+        db.execSQL(UserDbContract.UserEntry.SQL_CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL(DbContract.TripEntry.SQL_DELETE_TABLE)
+        db.execSQL(UserDbContract.UserEntry.SQL_DELETE_TABLE)
         onCreate(db)
     }
 

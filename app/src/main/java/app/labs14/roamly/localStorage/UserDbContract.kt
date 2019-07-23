@@ -2,10 +2,10 @@ package app.labs14.roamly.localStorage
 
 import android.provider.BaseColumns
 
-class DbContract {
-    class TripEntry : BaseColumns {
+class UserDbContract {
+    class UserEntry : BaseColumns {
         companion object {
-            const val TABLE_NAME = "trips"
+            const val TABLE_NAME = "users"
             const val COLUMN_NAME_IS_READ = "is_read"
             const val _ID  = ""
 
