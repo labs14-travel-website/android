@@ -8,10 +8,19 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import app.labs14.roamly.models.OrderStatus
+import app.labs14.roamly.models.Orientation
+import app.labs14.roamly.models.TimeLineModel
+import app.labs14.roamly.models.TimelineAttributes
+import app.labs14.roamly.utils.DateTimeUtils
+import app.labs14.roamly.utils.Utils
+import app.labs14.roamly.utils.VectorDrawableUtils
 import com.github.vipulasri.timelineview.TimelineView
 import kotlinx.android.synthetic.main.activity_itinerary_detail.*
 import kotlinx.android.synthetic.main.item_timeline.view.*
+import java.util.ArrayList
 
 // Basil 7/24/2019
 
@@ -81,15 +90,40 @@ class ItineraryDetailActivity : AppCompatActivity() {
         }
 
 
-
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val temporaries = Array(25) { i -> "XYZ $i" }
+        //val temporaries = Array(25) { i -> "XYZ $i" }
 
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(temporaries)
+        //default values
+        var mAttributes: TimelineAttributes = TimelineAttributes(
+            markerSize = Utils.dpToPx(20f, this),
+            markerColor = ContextCompat.getColor(this, R.color.colorGrey300),
+            markerInCenter = true,
+            linePadding = Utils.dpToPx(2f, this),
+            startLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            endLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            lineStyle = TimelineView.LineStyle.NORMAL,
+            lineWidth = Utils.dpToPx(2f, this),
+            lineDashWidth = Utils.dpToPx(4f, this),
+            lineDashGap = Utils.dpToPx(2f, this)
+        )
+
+        val mDataList = ArrayList<TimeLineModel>()
+        mDataList.add(TimeLineModel("Item successfully delivered", "", OrderStatus.INACTIVE))
+        mDataList.add(TimeLineModel("Courier is out to delivery your order", "2017-02-12 08:00", OrderStatus.ACTIVE))
+        mDataList.add(TimeLineModel("Item has reached courier facility at New Delhi", "2017-02-11 21:00", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Item has been given to the courier", "2017-02-11 18:00", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Item is packed and will dispatch soon", "2017-02-11 09:30", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Order is being readied for dispatch", "2017-02-11 08:00", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Order processing initiated", "2017-02-10 15:00", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Order confirmed by seller", "2017-02-10 14:30", OrderStatus.COMPLETED))
+        mDataList.add(TimeLineModel("Order placed successfully", "2017-02-10 14:00", OrderStatus.COMPLETED))
+
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(mDataList, mAttributes)
     }
 
     class SimpleItemRecyclerViewAdapter(
-        private val values: Array<String>
+        private val values: ArrayList<TimeLineModel>,
+        private val attribs: TimelineAttributes
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -118,42 +152,75 @@ class ItineraryDetailActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_timeline, parent, false)
-            return ViewHolder(view)
+            /*val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_timeline, parent, false)*/
+
+            val  layoutInflater = LayoutInflater.from(parent.context)
+            val view: View
+
+            view = if (attribs.orientation == Orientation.HORIZONTAL) {
+                layoutInflater.inflate(R.layout.item_timeline_horizontal, parent, false)
+            } else {
+                layoutInflater.inflate(R.layout.item_timeline, parent, false)
+            }
+
+            return ViewHolder(view, viewType)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.tlDate.text = "Jul 25"
-            holder.tlTitle.text = "Subtext"
 
+            /*holder.tlDate.text = item.date
+            holder.tlTitle.text = item.message
             with(holder.itemView) {
                 tag = item
                 setOnClickListener(onClickListener)
+            }*/
+
+
+
+            when {
+                item.status == OrderStatus.INACTIVE -> {
+                    holder.tlTimeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, R.drawable.ic_marker_inactive, attribs.markerColor)
+                }
+                item.status == OrderStatus.ACTIVE -> {
+                    holder.tlTimeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, R.drawable.ic_marker_active,  attribs.markerColor)
+                }
+                else -> {
+                    holder.tlTimeline.setMarker(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_marker), attribs.markerColor)
+                }
             }
+
+            if (item.date.isNotEmpty()) {
+                holder.tlDate.visibility = View.VISIBLE
+                holder.tlDate.text = DateTimeUtils.parseDateTime(item.date, "yyyy-MM-dd HH:mm", "hh:mm a, dd-MMM-yyyy")
+            } else
+                holder.tlDate.visibility = View.GONE
+
+            holder.tlTitle.text = item.message
+
+
         }
 
         override fun getItemCount() = values.size
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        inner class ViewHolder(view: View, viewType: Int) : RecyclerView.ViewHolder(view) {
             val tlDate: TextView = view.text_timeline_date
             val tlTitle: TextView = view.text_timeline_title
-            val tlTimeline:TimelineView = view.timeline
+            val tlTimeline: TimelineView = view.timeline
 
             init {
-                tlTimeline.initLine(1)
-                tlTimeline.markerSize = 52
-                tlTimeline.setMarkerColor(R.color.colorPrimaryDark)
-                tlTimeline.isMarkerInCenter = true
-                tlTimeline.linePadding = 5
-
-                tlTimeline.lineWidth = 5
-                tlTimeline.setStartLineColor(R.color.colorAccent, 1)
-                tlTimeline.setEndLineColor(R.color.colorGrey300, 1)
-                tlTimeline.lineStyle = 0
-                tlTimeline.lineStyleDashLength = 10
-                tlTimeline.lineStyleDashGap = 5
+                tlTimeline.initLine(viewType)
+                tlTimeline.markerSize = attribs.markerSize
+                tlTimeline.setMarkerColor(attribs.markerColor)
+                tlTimeline.isMarkerInCenter = attribs.markerInCenter
+                tlTimeline.linePadding = attribs.linePadding
+                tlTimeline.lineWidth = attribs.lineWidth
+                tlTimeline.setStartLineColor(attribs.startLineColor, viewType)
+                tlTimeline.setEndLineColor(attribs.endLineColor, viewType)
+                tlTimeline.lineStyle = attribs.lineStyle
+                tlTimeline.lineStyleDashLength = attribs.lineDashWidth
+                tlTimeline.lineStyleDashGap = attribs.lineDashGap
             }
         }
     }
