@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.models.OrderStatus
 import app.labs14.roamly.models.Orientation
@@ -96,7 +97,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
         //default values
         var mAttributes: TimelineAttributes = TimelineAttributes(
             markerSize = Utils.dpToPx(20f, this),
-            markerColor = ContextCompat.getColor(this, R.color.colorGrey300),
+            markerColor = ContextCompat.getColor(this, R.color.material_grey_500),
             markerInCenter = true,
             linePadding = Utils.dpToPx(2f, this),
             startLineColor = ContextCompat.getColor(this, R.color.colorAccent),
@@ -109,7 +110,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
 
         val mDataList = ArrayList<TimeLineModel>()
         mDataList.add(TimeLineModel("Item successfully delivered", "", OrderStatus.INACTIVE))
-        mDataList.add(TimeLineModel("Courier is out to delivery your order", "2017-02-12 08:00", OrderStatus.ACTIVE))
+        mDataList.add(TimeLineModel("Courier is out to deliver your order", "2017-02-12 08:00", OrderStatus.ACTIVE))
         mDataList.add(TimeLineModel("Item has reached courier facility at New Delhi", "2017-02-11 21:00", OrderStatus.COMPLETED))
         mDataList.add(TimeLineModel("Item has been given to the courier", "2017-02-11 18:00", OrderStatus.COMPLETED))
         mDataList.add(TimeLineModel("Item is packed and will dispatch soon", "2017-02-11 09:30", OrderStatus.COMPLETED))
@@ -117,6 +118,18 @@ class ItineraryDetailActivity : AppCompatActivity() {
         mDataList.add(TimeLineModel("Order processing initiated", "2017-02-10 15:00", OrderStatus.COMPLETED))
         mDataList.add(TimeLineModel("Order confirmed by seller", "2017-02-10 14:30", OrderStatus.COMPLETED))
         mDataList.add(TimeLineModel("Order placed successfully", "2017-02-10 14:00", OrderStatus.COMPLETED))
+
+
+        //recyclerView.adapter = SimpleItemRecyclerViewAdapter(mDataList, mAttributes)
+
+
+        val mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        } else {
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        }
+
+        recyclerView.layoutManager = mLayoutManager
 
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(mDataList, mAttributes)
     }
@@ -176,7 +189,6 @@ class ItineraryDetailActivity : AppCompatActivity() {
                 tag = item
                 setOnClickListener(onClickListener)
             }*/
-
 
 
             when {
