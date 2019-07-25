@@ -1,4 +1,4 @@
-package app.labs14.roamly.models
+package app.labs14.roamly.model
 
 import com.google.android.gms.maps.model.LatLng
 import java.util.*

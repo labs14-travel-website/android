@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import app.labs14.roamly.R
 
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
 import kotlinx.android.synthetic.main.itinerary_list_content.view.*
@@ -57,7 +58,8 @@ class ItineraryListActivity : AppCompatActivity() {
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val temporaries = Array(25) { i -> "XYZ $i" }
 
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, temporaries, twoPane)
+        recyclerView.adapter =
+            SimpleItemRecyclerViewAdapter(this, temporaries, twoPane)
     }
 
     class SimpleItemRecyclerViewAdapter(

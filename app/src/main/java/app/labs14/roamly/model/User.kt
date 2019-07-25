@@ -1,4 +1,4 @@
-package app.labs14.roamly.models
+package app.labs14.roamly.model
 
 class User {
     val id = 0

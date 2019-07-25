@@ -11,7 +11,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".ItineraryListActivity">
+    tools:context=".view.ItineraryListActivity">
 
     <!--
     This layout is a two-pane layout for the Itineraries
@@ -28,7 +28,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="app.labs14.roamly.ItineraryListActivity"
+        tools:context="app.labs14.roamly.view.ItineraryListActivity"
         tools:listitem="@layout/itinerary_list_content" />
 
     <FrameLayout

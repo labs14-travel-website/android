@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import app.labs14.roamly.R
 import com.github.vipulasri.timelineview.TimelineView
 import kotlinx.android.synthetic.main.activity_itinerary_detail.*
 import kotlinx.android.synthetic.main.item_timeline.view.*
