@@ -14,6 +14,7 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 
+//shooon converted to kotlin 2019/07/25
 
 const val RC_SIGN_IN = 123
 private var dbDao: SqlDao? = null
