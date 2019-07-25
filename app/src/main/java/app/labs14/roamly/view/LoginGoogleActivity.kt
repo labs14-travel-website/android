@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.view
 
 import android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -8,9 +8,10 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import app.labs14.roamly.R
+import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.localStorage.DbHelper
 import app.labs14.roamly.localStorage.SqlDao
-import app.labs14.roamly.view.ItineraryListActivity
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -30,6 +31,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         sqlDbInit()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+        btn_museum.setOnClickListener{openMuseumList()}
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -69,6 +71,11 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openMuseumList(){
+        val intent = Intent(this, MuseumActivity::class.java)
         startActivity(intent)
     }
 

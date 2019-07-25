@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.data
 
 
 
@@ -11,7 +11,6 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.io.OutputStream
 import java.net.MalformedURLException
 import java.net.URL
 

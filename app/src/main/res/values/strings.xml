@@ -3,4 +3,6 @@
     <string name="title_activity_itinerary_list">ItineraryListActivity</string>
     <string name="title_itinerary_list">Itineraries</string>
     <string name="title_itinerary_detail">Itinerary Detail</string>
+    <string name="empty_list">No se encontró museos</string>
+    <string name="an_error_occurred">Ocurrió un error</string>
 </resources>
