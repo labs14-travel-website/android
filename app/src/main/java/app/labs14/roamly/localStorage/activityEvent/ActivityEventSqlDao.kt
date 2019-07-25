@@ -139,31 +139,22 @@ class ActivityEventSqlDao(context: Context) {
 
         private fun getContentValues(activityEvent: ActivityEvent): ContentValues {
             val values = ContentValues()
-            values.put(ActivityEventDbContract.ActivityEventEntry._ID, activityEvent.id)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_NAME, activityEvent.name)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_TIME, activityEvent.startTime)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_TIME, activityEvent.endTime)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ALARM_BEFORE, activityEvent.alarmBefore)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ALARM_AFTER, activityEvent.alarmAfter)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_LAT, activityEvent.startLat)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_LNG, activityEvent.startLng)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_LAT, activityEvent.endLat)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_LON, activityEvent.endLng)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ADDRESS, activityEvent.address)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_PHONE_NUM, activityEvent.phoneNum)
-            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_DESCRIPTION, activityEvent.description)
-            values.put(
-                ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_TYPE,
-                activityEvent.transportType
-            )
-            values.put(
-                ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_ETA,
-                activityEvent.transportEta
-            )
-            values.put(
-                ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_LABEL,
-                activityEvent.transportLabel
-            )
+            values.put(ActivityEventDbContract.ActivityEventEntry._ID,                         activityEvent.id)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_NAME,            activityEvent.name)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_TIME,      activityEvent.startTime)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_TIME,        activityEvent.endTime)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ALARM_BEFORE,    activityEvent.alarmBefore)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ALARM_AFTER,     activityEvent.alarmAfter)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_LAT,       activityEvent.startLat)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_START_LNG,       activityEvent.startLng)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_LAT,         activityEvent.endLat)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_END_LON,         activityEvent.endLng)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_ADDRESS,         activityEvent.address)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_PHONE_NUM,       activityEvent.phoneNum)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_DESCRIPTION,     activityEvent.description)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_TYPE,  activityEvent.transportType)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_ETA,   activityEvent.transportEta)
+            values.put(ActivityEventDbContract.ActivityEventEntry.COLUMN_NAME_TRANSPORT_LABEL, activityEvent.transportLabel)
             return values
         }
     }

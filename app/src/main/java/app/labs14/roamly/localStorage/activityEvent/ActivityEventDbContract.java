@@ -27,7 +27,7 @@ public class ActivityEventDbContract {
         public static final String SQL_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME
                 + " ( " +
                 _ID                         + " INTEGER PRIMARY KEY," +
-                COLUMN_NAME_NAME            + " TEXT," +
+                COLUMN_NAME_NAME            + " TEXT,"    +
                 COLUMN_NAME_START_TIME      + " INTEGER," +
                 COLUMN_NAME_END_TIME        + " INTEGER," +
                 COLUMN_NAME_ALARM_BEFORE    + " INTEGER," +
@@ -36,12 +36,12 @@ public class ActivityEventDbContract {
                 COLUMN_NAME_START_LNG       + " INTEGER," +
                 COLUMN_NAME_END_LAT         + " INTEGER," +
                 COLUMN_NAME_END_LON         + " INTEGER," +
-                COLUMN_NAME_ADDRESS         + " TEXT," +
-                COLUMN_NAME_PHONE_NUM       + " TEXT," +
-                COLUMN_NAME_DESCRIPTION     + " TEXT," +
+                COLUMN_NAME_ADDRESS         + " TEXT,"    +
+                COLUMN_NAME_PHONE_NUM       + " TEXT,"    +
+                COLUMN_NAME_DESCRIPTION     + " TEXT,"    +
                 COLUMN_NAME_TRANSPORT_TYPE  + " INTEGER," +
                 COLUMN_NAME_TRANSPORT_ETA   + " INTEGER," +
-                COLUMN_NAME_TRANSPORT_LABEL + " TEXT" +
+                COLUMN_NAME_TRANSPORT_LABEL + " TEXT"     +
                 "  );";
 
         public static final String SQL_DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
