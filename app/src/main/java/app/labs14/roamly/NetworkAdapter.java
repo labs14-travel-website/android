@@ -118,7 +118,7 @@ public class NetworkAdapter {
             }
         }).start();
     }
-
+    //shoon 2019/07/22
     public static boolean isInternetConnected(Context ctx) {
         if(ctx==null)return false; //No context
         ConnectivityManager cm;
