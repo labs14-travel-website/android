@@ -66,7 +66,8 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun offlineSignOn(){
-        //TODO : intent that directs to trip view activity
+        val intent = Intent(this, ItineraryListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
