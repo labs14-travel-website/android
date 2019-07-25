@@ -1,14 +1,21 @@
-package app.labs14.roamly.localStorage
+package app.labs14.roamly.localStorage.user
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import app.labs14.roamly.localStorage.DbHelper
 import app.labs14.roamly.models.User
 
 import java.util.ArrayList
 
 class UserSqlDao(context: Context) {
+
+    fun addUser(user: User) {
+        val values = getContentValues(user)
+        val insert = db.insert(UserDbContract.UserEntry.TABLE_NAME, null, values)
+    }
+
 
     val allUsers: List<User>
         get() {
@@ -27,7 +34,7 @@ class UserSqlDao(context: Context) {
         }
 
     init {
-        val dbHelper = UserDbHelper(context)
+        val dbHelper = DbHelper(context)
         db = dbHelper.writableDatabase
     }
 
@@ -52,10 +59,10 @@ class UserSqlDao(context: Context) {
         var index: Int = cursor.getColumnIndexOrThrow(UserDbContract.UserEntry._ID)
         val id = cursor.getInt(index)
 
-        index = cursor.getColumnIndexOrThrow(UserDbContract.UserEntry.COLUMN_NAME_IS_READ)
-        val isRead = cursor.getInt(index)
+        index = cursor.getColumnIndexOrThrow(UserDbContract.UserEntry.COLUMN_NAME_NAME)
+        val name = cursor.getString(index)
 
-        return User()
+        return User(id, name)
     }
 
     companion object {
@@ -63,14 +70,13 @@ class UserSqlDao(context: Context) {
 
         fun addUser(user: User) {
             val values = getContentValues(user)
-
             val insert = db.insert(UserDbContract.UserEntry.TABLE_NAME, null, values)
         }
 
         private fun getContentValues(user: User): ContentValues {
             val values = ContentValues()
-
             values.put(UserDbContract.UserEntry._ID, user.id)
+            values.put(UserDbContract.UserEntry.COLUMN_NAME_NAME, user.name)
             return values
         }
     }

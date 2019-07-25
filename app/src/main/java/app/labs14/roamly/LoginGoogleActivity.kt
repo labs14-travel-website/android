@@ -8,15 +8,21 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import app.labs14.roamly.localStorage.activityEvent.ActivityEventSqlDao
 import app.labs14.roamly.localStorage.DbHelper
-import app.labs14.roamly.localStorage.SqlDao
+import app.labs14.roamly.localStorage.trip.TripSqlDao
+import app.labs14.roamly.localStorage.user.UserSqlDao
+import app.labs14.roamly.models.ActivityEvent
+import app.labs14.roamly.models.User
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 
 
 const val RC_SIGN_IN = 123
-private var dbDao: SqlDao? = null
+private var tripSqlDao: TripSqlDao? = null
+private var activityEventSqlDao: ActivityEventSqlDao? = null
+private var userSqlDao: UserSqlDao? = null
 
 class LoginGoogleActivity : AppCompatActivity() {
 
@@ -33,12 +39,17 @@ class LoginGoogleActivity : AppCompatActivity() {
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
 
     private fun sqlDbInit(){
-        dbDao = SqlDao(this)
+        tripSqlDao = TripSqlDao(this)
+        activityEventSqlDao = ActivityEventSqlDao(this)
+        userSqlDao = UserSqlDao(this)
         val helper = DbHelper(this)
         val writableDatabase = helper.writableDatabase
 
         Thread(Runnable {
-            val trips = dbDao?.allTrips }).start()
+            val trips = tripSqlDao?.allTrips
+            val activityEvents = activityEventSqlDao?.allActivityEvents
+            val users = userSqlDao?.allUsers}).start()
+
     }
 
     private fun googleLoginInit(){
@@ -57,7 +68,6 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -78,7 +88,7 @@ class LoginGoogleActivity : AppCompatActivity() {
             }
 
             val headermap = hashMapOf<String,String>()
-            headermap.put("authorization", token)
+            headermap["authorization"] = token
 
             sign_in_button.visibility = View.GONE
             var result = ""

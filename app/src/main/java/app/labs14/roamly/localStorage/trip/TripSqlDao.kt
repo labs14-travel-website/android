@@ -1,19 +1,26 @@
-package app.labs14.roamly.localStorage
+package app.labs14.roamly.localStorage.trip
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import app.labs14.roamly.localStorage.DbHelper
+import app.labs14.roamly.localStorage.user.UserDbContract
 import app.labs14.roamly.models.Trip
 
 import java.util.ArrayList
 
 class TripSqlDao(context: Context) {
 
+    fun addTrip(trip: Trip) {
+        val values = getContentValues(trip)
+        val insert = db.insert(UserDbContract.UserEntry.TABLE_NAME, null, values)
+    }
+
     val allTrips: List<Trip>
         get() {
             val cursor = db.rawQuery(
-                "SELECT * FROM " + DbContract.TripEntry.TABLE_NAME,
+                "SELECT * FROM " + TripDbContract.TripEntry.TABLE_NAME,
                 arrayOf()
             )
 
@@ -33,26 +40,26 @@ class TripSqlDao(context: Context) {
 
     fun updateTrip(trip: Trip) {
         val affectedRows = db.update(
-            DbContract.TripEntry.TABLE_NAME,
+            TripDbContract.TripEntry.TABLE_NAME,
             getContentValues(trip),
-            DbContract.TripEntry._ID + "=?",
+            TripDbContract.TripEntry._ID + "=?",
             arrayOf(trip.id.toString())
         )
     }
 
     fun deleteTrip(trip: Trip) {
         val affectedRows = db.delete(
-            DbContract.TripEntry.TABLE_NAME,
-            DbContract.TripEntry._ID + "=?",
+            TripDbContract.TripEntry.TABLE_NAME,
+            TripDbContract.TripEntry._ID + "=?",
             arrayOf(trip.id.toString())
         )
     }
 
     private fun getTrip(cursor: Cursor): Trip {
-        var index: Int = cursor.getColumnIndexOrThrow(DbContract.TripEntry._ID)
+        var index: Int = cursor.getColumnIndexOrThrow(TripDbContract.TripEntry._ID)
         val id = cursor.getInt(index)
 
-        index = cursor.getColumnIndexOrThrow(DbContract.TripEntry.COLUMN_NAME_IS_READ)
+        index = cursor.getColumnIndexOrThrow(TripDbContract.TripEntry.COLUMN_NAME_NAME)
         val isRead = cursor.getInt(index)
 
         return Trip()
@@ -64,13 +71,13 @@ class TripSqlDao(context: Context) {
         fun addTrip(trip: Trip) {
             val values = getContentValues(trip)
 
-            val insert = db.insert(DbContract.TripEntry.TABLE_NAME, null, values)
+            val insert = db.insert(TripDbContract.TripEntry.TABLE_NAME, null, values)
         }
 
         private fun getContentValues(trip: Trip): ContentValues {
             val values = ContentValues()
 
-            values.put(DbContract.TripEntry._ID, trip.id)
+            values.put(TripDbContract.TripEntry._ID, trip.id)
             return values
         }
     }
