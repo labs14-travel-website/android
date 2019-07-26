@@ -53,15 +53,6 @@
                 android:textColor = "@android:color/black"
                 tools:text = "Order Successfully Completed" />
 
-            <!--shoon 2019/07/26-->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id = "@+id/text_timeline_content"
-                android:layout_width = "match_parent"
-                android:layout_height = "wrap_content"
-                android:layout_marginTop = "5dp"
-                android:textColor = "@android:color/black"
-                tools:text = "Order Successfully Completed" />
-
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

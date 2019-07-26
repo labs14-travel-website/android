@@ -101,7 +101,7 @@ class ItineraryListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
             holder.idView.text = item
-            holder.contentView.text = "Subtext"+item //shoon 2019/07/26
+            holder.contentView.text = "Subtext"
 
             with(holder.itemView) {
                 tag = item
