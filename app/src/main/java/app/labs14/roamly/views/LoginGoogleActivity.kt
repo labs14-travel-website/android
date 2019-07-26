@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.views
 
 import android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -8,6 +8,8 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import app.labs14.roamly.data.NetworkAdapter
+import app.labs14.roamly.R
 import app.labs14.roamly.localStorage.DbHelper
 import app.labs14.roamly.localStorage.SqlDao
 import com.google.android.gms.common.SignInButton

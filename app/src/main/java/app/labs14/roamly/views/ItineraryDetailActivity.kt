@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.labs14.roamly.R
 import app.labs14.roamly.models.OrderStatus
 import app.labs14.roamly.models.Orientation
 import app.labs14.roamly.models.TimeLineModel

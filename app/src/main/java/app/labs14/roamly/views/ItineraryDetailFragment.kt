@@ -1,4 +1,4 @@
-/*
+package app.labs14.roamly.views/*
 package app.labs14.roamly
 
 import android.os.Bundle

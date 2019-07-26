@@ -16,19 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ItineraryListActivity"
+            android:name=".views.ItineraryListActivity"
             android:label="@string/title_itinerary_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".ItineraryDetailActivity"
+            android:name=".views.ItineraryDetailActivity"
             android:label="@string/title_itinerary_detail"
-            android:parentActivityName=".ItineraryListActivity"
+            android:parentActivityName=".views.ItineraryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.labs14.roamly.ItineraryListActivity" />
+                android:value="app.labs14.roamly.views.ItineraryListActivity" />
         </activity>
-        <activity android:name=".LoginGoogleActivity">
+        <activity android:name=".views.LoginGoogleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

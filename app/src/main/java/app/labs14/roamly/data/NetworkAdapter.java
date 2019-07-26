@@ -1,4 +1,4 @@
-package app.labs14.roamly;
+package app.labs14.roamly.data;
 
 
 import android.content.Context;
@@ -30,19 +30,19 @@ public class NetworkAdapter {
         void processResult(String result);
     }
 
-    static String httpRequest(String urlString) {
+    public static String httpRequest(String urlString) {
         return httpRequest(urlString, GET, null, null);
     }
 
-    static String httpRequest(String urlString, String requestMethod) {
+    public static String httpRequest(String urlString, String requestMethod) {
         return httpRequest(urlString, requestMethod, null, null);
     }
 
-    static String httpRequest(String urlString, String requestMethod, Map<String,String> headerProperties) {
+    public static String httpRequest(String urlString, String requestMethod, Map<String,String> headerProperties) {
         return httpRequest(urlString, requestMethod, null, headerProperties);
     }
 
-    static String httpRequest(String urlString, String requestMethod, JSONObject requestBody, Map<String, String> headerProperties) {
+    public static String httpRequest(String urlString, String requestMethod, JSONObject requestBody, Map<String, String> headerProperties) {
         String             result      = "";
         InputStream        inputStream = null;
         HttpsURLConnection connection  = null;
