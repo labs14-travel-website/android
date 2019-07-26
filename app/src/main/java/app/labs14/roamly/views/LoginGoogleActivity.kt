@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.views
 
 import android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -8,15 +8,14 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import app.labs14.roamly.localStorage.DbHelper
-import app.labs14.roamly.localStorage.SqlDao
+import app.labs14.roamly.data.NetworkAdapter
+import app.labs14.roamly.R
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 
 
 const val RC_SIGN_IN = 123
-private var dbDao: SqlDao? = null
 
 class LoginGoogleActivity : AppCompatActivity() {
 
@@ -33,12 +32,6 @@ class LoginGoogleActivity : AppCompatActivity() {
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
 
     private fun sqlDbInit(){
-        dbDao = SqlDao(this)
-        val helper = DbHelper(this)
-        val writableDatabase = helper.writableDatabase
-
-        Thread(Runnable {
-            val trips = dbDao?.allTrips }).start()
     }
 
     private fun googleLoginInit(){
@@ -66,7 +59,8 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun offlineSignOn(){
-        //TODO : intent that directs to trip view activity
+        val intent = Intent(this, ItineraryListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
@@ -78,7 +72,7 @@ class LoginGoogleActivity : AppCompatActivity() {
             }
 
             val headermap = hashMapOf<String,String>()
-            headermap.put("authorization", token)
+            headermap["authorization"] = token
 
             sign_in_button.visibility = View.GONE
             var result = ""
