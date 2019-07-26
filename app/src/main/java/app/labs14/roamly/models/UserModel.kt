@@ -6,7 +6,7 @@ import androidx.room.Entity
 
 
 //shoon 2019/07/26
-@Entity(tableName = "user_table")
+@Entity(tableName = "itinerary_table")
 data class UserModel(
         val userID:Long,
         val name : String,
