@@ -1,4 +1,4 @@
-package app.labs14.roamly
+package app.labs14.roamly.views
 
 import android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -8,6 +8,10 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import app.labs14.roamly.data.NetworkAdapter
+import app.labs14.roamly.R
+import app.labs14.roamly.localStorage.DbHelper
+import app.labs14.roamly.localStorage.SqlDao
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -48,6 +52,7 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -56,7 +61,8 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun offlineSignOn(){
-        //TODO : intent that directs to trip view activity
+        val intent = Intent(this, ItineraryListActivity::class.java)
+        startActivity(intent)
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
