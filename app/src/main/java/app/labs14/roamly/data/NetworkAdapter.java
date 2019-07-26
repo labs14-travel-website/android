@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-
 public class NetworkAdapter {
     public static final String GET     = "GET";
     public static final String POST    = "POST";

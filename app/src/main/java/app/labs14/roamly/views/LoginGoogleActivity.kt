@@ -30,7 +30,6 @@ class LoginGoogleActivity : AppCompatActivity() {
         sqlDbInit()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-        btn_note.setOnClickListener{openNote()}     //shoon 2019/07/26
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -70,12 +69,6 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
-        startActivity(intent)
-    }
-
-    //shoon 2019/07/26
-    private fun openNote(){
-        val intent = Intent(this, NoteActivity::class.java)
         startActivity(intent)
     }
 
