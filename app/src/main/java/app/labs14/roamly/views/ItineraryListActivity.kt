@@ -8,7 +8,10 @@ import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ExpandableListAdapter
+import android.widget.ExpandableListView
 import android.widget.TextView
+import android.widget.Toast
 import app.labs14.roamly.R
 
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
