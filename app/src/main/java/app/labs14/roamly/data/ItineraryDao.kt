@@ -20,9 +20,9 @@ interface ItineraryDao {
     fun delete(itinerary: ItineraryModel)
 
     @Query("DELETE FROM itinerary_table")
-    fun deleteAllNotes()
+    fun deleteAllItineraries()
 
     @Query("SELECT * FROM itinerary_table ORDER BY startTime DESC")
-    fun getAllNotes(): LiveData<List<ItineraryModel>>
+    fun getAllItineraries(): LiveData<List<ItineraryModel>>
 
 }

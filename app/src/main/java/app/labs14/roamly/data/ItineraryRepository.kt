@@ -4,77 +4,77 @@ package app.labs14.roamly.data
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
-import app.labs14.roamly.models.Note
+import app.labs14.roamly.models.ItineraryModel
 
 
 //shoon 2019/07/26
 class ItineraryRepository(application: Application) {
 
-    private var noteDao: NoteDao
+    private var ItineraryDao: ItineraryDao
 
-    private var allNotes: LiveData<List<Note>>
+    private var allItineraries: LiveData<List<ItineraryModel>>
 
     init {
-        val database: NoteDatabase = NoteDatabase.getInstance(
+        val database: ItineraryDatabase = ItineraryDatabase.getInstance(
             application.applicationContext
         )!!
-        noteDao = database.noteDao()
-        allNotes = noteDao.getAllNotes()
+        ItineraryDao = database.itineraryDao()
+        allItineraries = ItineraryDao.getAllItineraries()
     }
 
-    fun insert(note: Note) {
-        val insertNoteAsyncTask = InsertNoteAsyncTask(noteDao).execute(note)
+    fun insert(Itinerary: ItineraryModel) {
+        val insertItineraryModelAsyncTask = InsertItineraryAsyncTask(ItineraryDao).execute(Itinerary)
     }
 
-    fun update(note: Note) {
-        val updateNoteAsyncTask = UpdateNoteAsyncTask(noteDao).execute(note)
+    fun update(Itinerary: ItineraryModel) {
+        val updateItineraryModelAsyncTask = UpdateItineraryAsyncTask(ItineraryDao).execute(Itinerary)
     }
 
 
-    fun delete(note: Note) {
-        val deleteNoteAsyncTask = DeleteNoteAsyncTask(noteDao).execute(note)
+    fun delete(Itinerary: ItineraryModel) {
+        val deleteItineraryModelAsyncTask = DeleteItineraryAsyncTask(ItineraryDao).execute(Itinerary)
     }
 
-    fun deleteAllNotes() {
-        val deleteAllNotesAsyncTask = DeleteAllNotesAsyncTask(
-            noteDao
+    fun deleteAllItineraries() {
+        val deleteAllItineraryModelsAsyncTask = Companion.DeleteAllItinerarisAsyncTask(
+            ItineraryDao
         ).execute()
     }
 
-    fun getAllNotes(): LiveData<List<Note>> {
-        return allNotes
+    fun getAllItineraries(): LiveData<List<ItineraryModel>> {
+        return allItineraries
     }
 
     companion object {
-        private class InsertNoteAsyncTask(noteDao: NoteDao) : AsyncTask<Note, Unit, Unit>() {
-            val noteDao = noteDao
+        private class InsertItineraryAsyncTask(ItineraryDao: ItineraryDao) : AsyncTask<ItineraryModel, Unit, Unit>() {
+            val ItineraryDao = ItineraryDao
 
-            override fun doInBackground(vararg p0: Note?) {
-                noteDao.insert(p0[0]!!)
+            override fun doInBackground(vararg p0: ItineraryModel?) {
+                ItineraryDao.insert(p0[0]!!)
             }
         }
 
-        private class UpdateNoteAsyncTask(noteDao: NoteDao) : AsyncTask<Note, Unit, Unit>() {
-            val noteDao = noteDao
+        private class UpdateItineraryAsyncTask(ItineraryDao: ItineraryDao) : AsyncTask<ItineraryModel, Unit, Unit>() {
+            val ItineraryDao = ItineraryDao
 
-            override fun doInBackground(vararg p0: Note?) {
-                noteDao.update(p0[0]!!)
+            override fun doInBackground(vararg p0: ItineraryModel?) {
+                ItineraryDao.update(p0[0]!!)
             }
         }
 
-        private class DeleteNoteAsyncTask(noteDao: NoteDao) : AsyncTask<Note, Unit, Unit>() {
-            val noteDao = noteDao
+        private class DeleteItineraryAsyncTask(ItineraryDao: ItineraryDao) : AsyncTask<ItineraryModel, Unit, Unit>() {
+            val ItineraryDao = ItineraryDao
 
-            override fun doInBackground(vararg p0: Note?) {
-                noteDao.delete(p0[0]!!)
+            override fun doInBackground(vararg p0: ItineraryModel?) {
+                ItineraryDao.delete(p0[0]!!)
             }
         }
 
-        private class DeleteAllNotesAsyncTask(noteDao: NoteDao) : AsyncTask<Unit, Unit, Unit>() {
-            val noteDao = noteDao
+        private class DeleteAllItinerarisAsyncTask(ItineraryDao: ItineraryDao) : AsyncTask<Unit, Unit, Unit>() {
+            val ItineraryDao = ItineraryDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                noteDao.deleteAllNotes()
+                ItineraryDao.deleteAllItineraries()
             }
         }
     }

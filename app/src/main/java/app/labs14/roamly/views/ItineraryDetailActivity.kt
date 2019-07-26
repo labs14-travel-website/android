@@ -2,27 +2,30 @@ package app.labs14.roamly.views
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
-import app.labs14.roamly.models.OrderStatus
-import app.labs14.roamly.models.Orientation
-import app.labs14.roamly.models.TimeLineModel
-import app.labs14.roamly.models.TimelineAttributes
+import app.labs14.roamly.models.*
 import app.labs14.roamly.utils.DateTimeUtils
 import app.labs14.roamly.utils.Utils
 import app.labs14.roamly.utils.VectorDrawableUtils
+import app.labs14.roamly.viewmodels.ItineraryViewModel
+import app.labs14.roamly.views.viewmodels.NoteViewModel
 import com.github.vipulasri.timelineview.TimelineView
 import kotlinx.android.synthetic.main.activity_itinerary_detail.*
 import kotlinx.android.synthetic.main.item_timeline.view.*
 import java.util.ArrayList
+import androidx.lifecycle.Observer//shoon 2019/07/26
+import androidx.recyclerview.widget.ItemTouchHelper
+import app.labs14.roamly.adapters.ItineraryAdapter
+import app.labs14.roamly.adapters.NoteAdapter
+import kotlinx.android.synthetic.main.activity_note.*
 
 // Basil 7/24/2019
 
@@ -33,11 +36,39 @@ import java.util.ArrayList
  * in a [ItineraryListActivity].
  */
 class ItineraryDetailActivity : AppCompatActivity() {
+    //shoon 2019/07/26
+    companion object {
+        const val ADD_ITINERARY_REQUEST = 1
+        const val EDIT_ITINERARY_REQUEST = 2
+    }
+
+    private lateinit var itineraryViewModel: ItineraryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_itinerary_detail)
-        setSupportActionBar(detail_toolbar)
+ //       setContentView(R.layout.activity_itinerary_detail)
+ //       setSupportActionBar(detail_toolbar)
+        setContentView(R.layout.activity_note)
+
+//shoon 2019/07/26
+        // I made this section to show how to seperate adapter and connecting data
+        //with using note recycler view. So please reconnect to Basil's recycler view
+
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(false)
+        var adapter = ItineraryAdapter()
+        recycler_view.adapter = adapter
+
+        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+
+        itineraryViewModel.getAllItineraries().observe(this, Observer<List<ItineraryModel>> {
+            adapter.submitList(it)
+        })
+//////////////////////////////////////////////////////////////////////
+
+
+
+
 
         /*fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
@@ -47,7 +78,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setupRecyclerView(rv_itinerary_details)
+    //    setupRecyclerView(rv_itinerary_details)
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
