@@ -211,7 +211,18 @@ class ItineraryDetailActivity : AppCompatActivity() {
                 holder.tlDate.visibility = View.GONE
 
             holder.tlTitle.text = item.message
-
+            //shoon 2019/07/26
+            val spacer="                                "
+            holder.tlContent.text=spacer+"▼"
+            holder.tlContent.setOnClickListener(){
+                    it->
+                if(holder.tlContent.text==spacer+"▼") {
+                    holder.tlContent.text=item.message+"\n"+item.message+"\n"+item.message+"\n"+item.message+"\n"+spacer+"▲"
+                }else{
+                    holder.tlContent.text=spacer+"▼"
+                }
+            }
+            //
 
         }
 
@@ -220,6 +231,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
         inner class ViewHolder(view: View, viewType: Int) : RecyclerView.ViewHolder(view) {
             val tlDate: TextView = view.text_timeline_date
             val tlTitle: TextView = view.text_timeline_title
+            val tlContent: TextView = view.text_timeline_content
             val tlTimeline: TimelineView = view.timeline
 
             init {
