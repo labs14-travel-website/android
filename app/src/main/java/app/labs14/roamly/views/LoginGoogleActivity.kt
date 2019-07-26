@@ -10,8 +10,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.R
-import app.labs14.roamly.localStorage.DbHelper
-import app.labs14.roamly.localStorage.SqlDao
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
