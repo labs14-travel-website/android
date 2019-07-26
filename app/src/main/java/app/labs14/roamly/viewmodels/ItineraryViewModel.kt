@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import app.labs14.roamly.data.ItineraryRepository
 import app.labs14.roamly.data.NoteRepository
-import app.labs14.roamly.models.ItineraryModel
 import app.labs14.roamly.models.Note
 
 
@@ -14,25 +13,25 @@ import app.labs14.roamly.models.Note
 class ItineraryViewModel(application: Application) : AndroidViewModel(application) {
     private var repository: ItineraryRepository =
         ItineraryRepository(application)
-    private var allItineraries: LiveData<List<ItineraryModel>> = repository.getAllItineraries()
+    private var allItineraries: LiveData<List<Note>> = repository.getAllNotes()
 
-    fun insert(note: ItineraryModel) {
+    fun insert(note: Note) {
         repository.insert(note)
     }
 
-    fun update(note: ItineraryModel) {
+    fun update(note: Note) {
         repository.update(note)
     }
 
-    fun delete(note: ItineraryModel) {
+    fun delete(note: Note) {
         repository.delete(note)
     }
 
     fun deleteAllNotes() {
-        repository.deleteAllItineraries()
+        repository.deleteAllNotes()
     }
 
-    fun getAllItineraries(): LiveData<List<ItineraryModel>> {
+    fun getAllNotes(): LiveData<List<Note>> {
         return allItineraries
     }
 }

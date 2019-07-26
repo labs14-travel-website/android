@@ -19,7 +19,7 @@ import app.labs14.roamly.adapters.NoteAdapter
 
 import kotlinx.android.synthetic.main.activity_note.*
 
-
+//shoon 2019/07/26
 class NoteActivity : AppCompatActivity() {
 
     companion object {

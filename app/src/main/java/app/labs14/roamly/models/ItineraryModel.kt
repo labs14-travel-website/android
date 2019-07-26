@@ -2,7 +2,7 @@ package app.labs14.roamly.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+
 
 
 //shoon 2019/07/26
@@ -20,4 +20,7 @@ data class ItineraryModel(
     @PrimaryKey(autoGenerate = true)
     var id: Long= 0
 }
+
+
+
 
