@@ -8,21 +8,12 @@ import com.google.android.gms.tasks.Task
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import app.labs14.roamly.localStorage.activityEvent.ActivityEventSqlDao
-import app.labs14.roamly.localStorage.DbHelper
-import app.labs14.roamly.localStorage.trip.TripSqlDao
-import app.labs14.roamly.localStorage.user.UserSqlDao
-import app.labs14.roamly.models.ActivityEvent
-import app.labs14.roamly.models.User
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 
 
 const val RC_SIGN_IN = 123
-private var tripSqlDao: TripSqlDao? = null
-private var activityEventSqlDao: ActivityEventSqlDao? = null
-private var userSqlDao: UserSqlDao? = null
 
 class LoginGoogleActivity : AppCompatActivity() {
 
@@ -39,17 +30,6 @@ class LoginGoogleActivity : AppCompatActivity() {
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
 
     private fun sqlDbInit(){
-        tripSqlDao = TripSqlDao(this)
-        activityEventSqlDao = ActivityEventSqlDao(this)
-        userSqlDao = UserSqlDao(this)
-        val helper = DbHelper(this)
-        val writableDatabase = helper.writableDatabase
-
-        Thread(Runnable {
-            val trips = tripSqlDao?.allTrips
-            val activityEvents = activityEventSqlDao?.allActivityEvents
-            val users = userSqlDao?.allUsers}).start()
-
     }
 
     private fun googleLoginInit(){
