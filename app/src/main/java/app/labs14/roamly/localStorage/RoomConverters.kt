@@ -2,10 +2,6 @@ package app.labs14.roamly.localStorage
 
 
 import androidx.room.TypeConverter
-import app.labs14.roamly.models.ActivityEvent
-import app.labs14.roamly.models.EventLocation
-import app.labs14.roamly.models.Trip
-import app.labs14.roamly.models.User
 import java.util.Date
 
 

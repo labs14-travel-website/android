@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import app.labs14.roamly.R
-import app.labs14.roamly.models.Trip
-import app.labs14.roamly.viewModels.TripViewModel
+import app.labs14.roamly.models.Itinerary
+import app.labs14.roamly.viewModels.ItineraryViewModel
 
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
 import kotlinx.android.synthetic.main.itinerary_list_content.view.*
@@ -35,7 +35,7 @@ class ItineraryListActivity : AppCompatActivity() {
      * device.
      */
     private var twoPane: Boolean = false
-    private lateinit var tripViewModel: TripViewModel
+    private lateinit var itineraryViewModel: ItineraryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +69,8 @@ class ItineraryListActivity : AppCompatActivity() {
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val temporaries = Array(25) { i -> "XYZ $i" }
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, temporaries, twoPane)
-        tripViewModel = ViewModelProviders.of(this).get(TripViewModel::class.java)
-        tripViewModel.getAllTrips().observe(this, Observer<List<Trip>> {
+        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+        itineraryViewModel.getAllItineraries().observe(this, Observer<List<Itinerary>> {
        //TODO : Link to recyclerView here
         })
     }

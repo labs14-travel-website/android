@@ -6,12 +6,13 @@ import androidx.room.*
 
 @Entity(tableName = "user_table")
 
-data class User(
-    @PrimaryKey(autoGenerate = true)
-    var user_id: Long,
+class User(
     var name: String = ""
 ) {
+
+    @PrimaryKey(autoGenerate = true)
+    var user_id: Long = 0
+
     @Ignore
-    var trips = listOf<Trip>()
-    constructor(name:String = "") : this(0,name)
+    var Itineraries = listOf<Itinerary>()
 }
