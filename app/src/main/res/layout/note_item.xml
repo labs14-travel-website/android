@@ -32,12 +32,22 @@
                 android:text="Title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
-        <TextView
-                android:id="@+id/text_view_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_title"
-                android:text="Description"/>
+
+        <ExpandableListView
+            android:id = "@+id/expandableListView2"
+            android:layout_width = "match_parent"
+            android:layout_height = "match_parent"
+            android:dividerHeight = "0.5dp"
+            android:layout_toStartOf="@id/text_view_title">
+
+        </ExpandableListView>
+
+    <TextView
+        android:id="@+id/text_view_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/expandableListView2"
+        android:text="Description"/>
 
     </RelativeLayout>
 
