@@ -14,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".views.UserActivity"
+            android:label="@string/title_itinerary_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".views.AddEditUserActivity"
+            android:parentActivityName=".views.UserActivity">
+
+        </activity>
+        <activity
             android:name=".views.ItineraryListActivity"
             android:label="@string/title_itinerary_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>

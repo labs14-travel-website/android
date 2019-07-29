@@ -41,6 +41,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+        btn_note.setOnClickListener{viewUser()}
         mockData()
     }
 
@@ -110,6 +111,12 @@ class LoginGoogleActivity : AppCompatActivity() {
         val intent = Intent(this, ItineraryListActivity::class.java)
         startActivity(intent)
     }
+
+    private fun viewUser(){
+        val intent = Intent(this, UserActivity::class.java)
+        startActivity(intent)
+    }
+
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
