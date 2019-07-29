@@ -11,10 +11,9 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities = [User::class, Itinerary::class, Attraction::class], exportSchema = true,version = 11)
+@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 14)
 abstract class UserDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UserDao
     abstract fun itineraryDao(): ItineraryDao
     abstract fun attractionDao(): AttractionDao
 
@@ -51,12 +50,11 @@ abstract class UserDatabase : RoomDatabase() {
 
     //Mock Data here
     class PopulateDbAsyncTask(db: UserDatabase?) : AsyncTask<Unit, Unit, Unit>() {
-        private val userDao = db?.userDao()
         private val itineraryDao = db?.itineraryDao()
         private val attractionDao = db?.attractionDao()
 
         override fun doInBackground(vararg p0: Unit?) {
-        //Mock data goes here
+
         }
     }
 }

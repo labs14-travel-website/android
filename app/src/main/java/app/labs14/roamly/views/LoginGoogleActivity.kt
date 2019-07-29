@@ -18,7 +18,6 @@ import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
-import app.labs14.roamly.viewModels.UserViewModel
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -28,16 +27,15 @@ const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
 
-
-    private lateinit var userViewModel: UserViewModel
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
-    lateinit var users:List<User>
+    lateinit var currentUser:User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
 
+        initViewModels()
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
@@ -54,26 +52,25 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     }
 
-    private fun updateUser(updateUsers:List<User>){
-        users = updateUsers
+    fun initViewModels(){
+        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
+    }
+
+    private fun updateAttraction(updateAttraction:List<Attraction>,pos:Int){
+    }
+
+    private fun updateItinerary(updateItinerary:List<Itinerary>){
+    }
+
+    private fun updateUser(){
+
     }
 
     private fun mockData(){
+        itineraryViewModel.getAllItineraries().observe(this, Observer<List<Itinerary>>{
 
-
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        userViewModel.getAllUsers().observe(this, Observer<List<User>>{
-            //Everytime user data changes, this block will run
-            updateUser(it)
         })
-
-        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
-        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
-
-        userViewModel.insert(User("Test User"))
-        userViewModel.insert(User("Test User"))
-
-
     }
 
     private fun getLocalUserData(){
