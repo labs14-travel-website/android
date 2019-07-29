@@ -32,6 +32,7 @@ class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var userViewModel: UserViewModel
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
+    lateinit var users:List<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-        //mockData()
+        mockData()
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -53,16 +54,26 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     }
 
+    private fun updateUser(updateUsers:List<User>){
+        users = updateUsers
+    }
+
     private fun mockData(){
+
+
         userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        userViewModel.getAllUsers().observe(this, Observer<List<User>>{})
+        userViewModel.getAllUsers().observe(this, Observer<List<User>>{
+            //Everytime user data changes, this block will run
+            updateUser(it)
+        })
+
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
 
-        Log.i("Test 123", "Mock Data Hit")
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
 
-        userViewModel.insert(User("Test User"))
-        userViewModel.insert(User("Test User"))
+
     }
 
     private fun getLocalUserData(){
