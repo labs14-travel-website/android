@@ -22,4 +22,7 @@ interface TripDao {
 
     @Query("SELECT * FROM trip_table")
     fun getAllTrips(): LiveData<List<Trip>>
+
+    @Query("SELECT * FROM trip_table WHERE userId = :id")
+    fun getTrip(id: Long): LiveData<List<Trip>>
 }

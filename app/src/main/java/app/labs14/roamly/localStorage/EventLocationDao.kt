@@ -2,6 +2,7 @@ package app.labs14.roamly.localStorage
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import app.labs14.roamly.models.ActivityEvent
 import app.labs14.roamly.models.EventLocation
 
 @Dao
@@ -21,4 +22,7 @@ interface EventLocationDao {
 
     @Query("SELECT * FROM event_table")
     fun getAllEventLocations(): LiveData<List<EventLocation>>
+
+    @Query("SELECT * FROM event_table WHERE activityEventId = :id")
+    fun getEventLocation(id: Long): LiveData<List<EventLocation>>
 }

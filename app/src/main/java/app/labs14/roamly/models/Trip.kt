@@ -2,37 +2,30 @@ package app.labs14.roamly.models
 
 import androidx.room.*
 
-@Entity(tableName = "trip_table"
-    , indices = [(Index(value = ["trip_id"], name = "idx_trips_trip_id"))],
+//Brandon Lively - 07/28/2019
+
+@Entity(
+    tableName = "trip_table",
     foreignKeys =
     [(ForeignKey(
-        entity = ActivityEvent::class
-        , parentColumns = ["activity_event_id"]
+        entity = User::class
+        , parentColumns = ["user_id"]
         , childColumns = ["trip_id"]
         , onUpdate = ForeignKey.CASCADE
-        , onDelete = ForeignKey.CASCADE))]
+        , onDelete = ForeignKey.CASCADE
+    ))]
 )
-class Trip {
-
+data class Trip(
     @PrimaryKey(autoGenerate = true)
-    var trip_id = 0
-    var description = ""
+    val trip_id: Long, val userId: Long, var description: String
+) {
 
     @Ignore
-    var activityEvents = mutableListOf<ActivityEvent>()
+    var activityEvents = listOf<ActivityEvent>()
 
-    constructor(trip_id: Int, description: String, activityEvents: MutableList<ActivityEvent>) {
-        this.trip_id = trip_id
-        this.description = description
-        this.activityEvents = activityEvents
-    }
+    @Ignore
+    constructor(userId: Long) : this(0, userId, "")
 
-    constructor(description: String, activityEvents: MutableList<ActivityEvent>) {
-        this.description = description
-        this.activityEvents = activityEvents
-    }
-
-    constructor()
-
-
+    @Ignore
+    constructor(userId: Long, description: String) : this(0, userId, description)
 }

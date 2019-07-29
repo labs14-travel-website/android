@@ -6,10 +6,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.R
+import app.labs14.roamly.localStorage.UserDao
+import app.labs14.roamly.models.ActivityEvent
+import app.labs14.roamly.models.EventLocation
+import app.labs14.roamly.models.Trip
+import app.labs14.roamly.models.User
+import app.labs14.roamly.viewModels.ActivityEventViewModel
+import app.labs14.roamly.viewModels.EventLocationViewModel
+import app.labs14.roamly.viewModels.TripViewModel
+import app.labs14.roamly.viewModels.UserViewModel
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -19,19 +32,88 @@ const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
 
+
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var tripViewModel: TripViewModel
+    private lateinit var activityEventViewModel: ActivityEventViewModel
+    private lateinit var eventLocationViewModel: EventLocationViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
 
         debugMessages()
-        sqlDbInit()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+        Log.i("Test 123", "Mock Data Hit")
+       // mockData()
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
 
-    private fun sqlDbInit(){
+
+    private fun loadUserData(){
+
+        //TODO: if internet connection isn't available
+        // or user settings is set to offline getLocalData
+
+    }
+
+    private fun mockData(){
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        userViewModel.getAllUsers().observe(this, Observer<List<User>>{})
+        tripViewModel = ViewModelProviders.of(this).get(TripViewModel::class.java)
+        activityEventViewModel = ViewModelProviders.of(this).get(ActivityEventViewModel::class.java)
+        eventLocationViewModel = ViewModelProviders.of(this).get(EventLocationViewModel::class.java)
+
+
+
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+
+
+        var users = userViewModel.getAllUsers()
+        var currentUser = users.value!![0]
+
+        tripViewModel.insert(Trip(currentUser.user_id,"To Bali!"))
+        var trips = tripViewModel.getTripsById(currentUser.user_id)
+
+        var counter = 0
+
+        trips.value!!.forEach{ it ->
+            counter++
+            activityEventViewModel.insert(ActivityEvent(it.trip_id,"Event number $counter"))
+            var activityEvent = activityEventViewModel.getActivityEventByTripId(it.trip_id)
+
+            var aeCounter = 0
+
+            activityEvent.value!!.forEach {
+                aeCounter++
+                eventLocationViewModel.insert(EventLocation(it.activity_event_id,1.4F,2.53F))
+                var eventLocation = eventLocationViewModel.getEventLocationById(it.activity_event_id)
+                it.location = eventLocation.value!![0]
+            }
+
+            it.activityEvents = activityEvent.value!!
+        }
+
+        currentUser.trips = trips.value!!
+    }
+
+    private fun getLocalUserData(){
+
+
+
+    }
+
+    private fun getServerUserData(){
+
     }
 
     private fun googleLoginInit(){

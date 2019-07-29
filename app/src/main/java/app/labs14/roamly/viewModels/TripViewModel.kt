@@ -31,4 +31,8 @@ class TripViewModel (application: Application) : AndroidViewModel(application){
     fun getAllTrips(): LiveData<List<Trip>> {
         return allTrips
     }
+
+    fun getTripsById(id:Long):LiveData<List<Trip>>{
+        return repository.getTripsByUser(id)
+    }
 }

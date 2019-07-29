@@ -21,4 +21,7 @@ interface ActivityEventDao {
 
     @Query("SELECT * FROM activity_event_table")
     fun getAllActivityEvents(): LiveData<List<ActivityEvent>>
+
+    @Query("SELECT * FROM activity_event_table WHERE tripId = :id")
+    fun getActivityEvents(id: Long): LiveData<List<ActivityEvent>>
 }

@@ -23,29 +23,5 @@ object RoomConverters {
         return date?.time
     }
 
-    @TypeConverter
-    @JvmStatic
-    fun eventLocationToString(eventLocation: EventLocation?): String? {
-        return null
-    }
-
-    @TypeConverter
-    @JvmStatic
-    fun activityEventToString(activityEvent: ActivityEvent?): String? {
-        return null
-    }
-
-    @TypeConverter
-    @JvmStatic
-    fun tripToString(trip: Trip?): String? {
-        return null
-    }
-
-    @TypeConverter
-    @JvmStatic
-    fun userToString(user: User?): String? {
-        return null
-    }
-
     // Add more converters here, or make another class altogether
 }

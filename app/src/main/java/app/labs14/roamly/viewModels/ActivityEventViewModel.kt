@@ -31,4 +31,8 @@ class ActivityEventViewModel(application: Application) : AndroidViewModel(applic
     fun getAllActivityEvent(): LiveData<List<ActivityEvent>> {
         return allActivityEvent
     }
+
+    fun getActivityEventByTripId(id:Long):LiveData<List<ActivityEvent>>{
+        return repository.getActivityEventsById(id)
+    }
 }

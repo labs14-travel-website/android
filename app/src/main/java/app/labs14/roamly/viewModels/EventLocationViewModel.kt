@@ -31,4 +31,8 @@ class EventLocationViewModel (application: Application) : AndroidViewModel(appli
     fun getAllEventLocation(): LiveData<List<EventLocation>> {
         return allEventLocation
     }
+
+    fun getEventLocationById(id:Long): LiveData<List<EventLocation>>{
+        return repository.getEventLocationById(id)
+    }
 }

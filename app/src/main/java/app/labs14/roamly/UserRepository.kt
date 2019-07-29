@@ -2,6 +2,7 @@ package app.labs14.roamly
 
 import android.app.Application
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.LiveData
 import app.labs14.roamly.localStorage.*
 import app.labs14.roamly.models.ActivityEvent
@@ -9,28 +10,32 @@ import app.labs14.roamly.models.EventLocation
 import app.labs14.roamly.models.Trip
 import app.labs14.roamly.models.User
 
+//Brandon Lively - 07/28/2019
+
 class UserRepository(application: Application) {
-    private var userDao: UserDao
-    private var tripDao: TripDao
+    private var userDao:          UserDao
+    private var tripDao:          TripDao
     private var eventLocationDao: EventLocationDao
     private var activityEventDao: ActivityEventDao
 
-    private var allUsers: LiveData<List<User>>
-    private var allTrips: LiveData<List<Trip>>
+    private var allUsers:          LiveData<List<User>>
+    private var allTrips:          LiveData<List<Trip>>
     private var allEventLocations: LiveData<List<EventLocation>>
     private var allActivityEvents: LiveData<List<ActivityEvent>>
 
-    init {
+
+    init {           Log.i("Test 123", "Mock Data Hit")
+
         val database: UserDatabase = UserDatabase.getInstance(
             application.applicationContext
         )!!
-        userDao = database.userDao()
-        activityEventDao = database.activityEventDao()
+        userDao          = database.userDao()
+        tripDao          = database.tripDao()
         eventLocationDao = database.eventLocationDao()
-        tripDao = database.tripDao()
+        activityEventDao = database.activityEventDao()
 
-        allUsers = userDao.getAllUsers()
-        allTrips = tripDao.getAllTrips()
+        allUsers          = userDao.getAllUsers()
+        allTrips          = tripDao.getAllTrips()
         allEventLocations = eventLocationDao.getAllEventLocations()
         allActivityEvents = activityEventDao.getAllActivityEvents()
     }
@@ -60,6 +65,15 @@ class UserRepository(application: Application) {
         return allUsers
     }
 
+    fun getUser(id:Long): LiveData<User> {
+
+        var currentUser = userDao.getUser(id)!!
+        //TODO: add null check
+        currentUser.value!!.trips = getTripsByUser(currentUser.value!!.user_id).value!!
+
+        return currentUser
+    }
+
 
 
     //Trips
@@ -85,6 +99,16 @@ class UserRepository(application: Application) {
 
     fun getAllTrips(): LiveData<List<Trip>> {
         return allTrips
+    }
+
+    fun getTripsByUser(userId:Long): LiveData<List<Trip>> {
+        var currentTrips = tripDao.getTrip(userId)
+
+        currentTrips.value!!.forEach {
+            it.activityEvents = getActivityEventsById(it.trip_id).value!!
+        }
+
+        return currentTrips
     }
 
 
@@ -115,6 +139,10 @@ class UserRepository(application: Application) {
         return allEventLocations
     }
 
+    fun getEventLocationById(id:Long):LiveData<List<EventLocation>>{
+        return eventLocationDao.getEventLocation(id)
+    }
+
 
 
     //ActivityEvents
@@ -141,6 +169,16 @@ class UserRepository(application: Application) {
 
     fun getAllActivityEvents(): LiveData<List<ActivityEvent>> {
         return allActivityEvents
+    }
+
+    fun getActivityEventsById(id:Long): LiveData<List<ActivityEvent>> {
+        var activityEvents = activityEventDao.getActivityEvents(id)
+
+        activityEvents.value!!.forEach{
+            it.location = eventLocationDao.getEventLocation(it.activity_event_id).value!![0]
+        }
+
+        return activityEvents
     }
 
     companion object {
