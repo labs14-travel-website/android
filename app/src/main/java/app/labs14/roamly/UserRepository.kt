@@ -2,37 +2,38 @@ package app.labs14.roamly
 
 import android.app.Application
 import android.os.AsyncTask
+import android.util.Log
 import androidx.lifecycle.LiveData
 import app.labs14.roamly.localStorage.*
-import app.labs14.roamly.models.ActivityEvent
-import app.labs14.roamly.models.EventLocation
-import app.labs14.roamly.models.Trip
+import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
+
+//Brandon Lively - 07/28/2019
 
 class UserRepository(application: Application) {
     private var userDao: UserDao
-    private var tripDao: TripDao
-    private var eventLocationDao: EventLocationDao
-    private var activityEventDao: ActivityEventDao
+    private var itineraryDao: ItineraryDao
+    private var attractionDao: AttractionDao
 
     private var allUsers: LiveData<List<User>>
-    private var allTrips: LiveData<List<Trip>>
-    private var allEventLocations: LiveData<List<EventLocation>>
-    private var allActivityEvents: LiveData<List<ActivityEvent>>
+    private var allItineraries: LiveData<List<Itinerary>>
+    private var allAttractions: LiveData<List<Attraction>>
+
 
     init {
+        Log.i("Test 123", "user view model init hit")
+
         val database: UserDatabase = UserDatabase.getInstance(
             application.applicationContext
         )!!
         userDao = database.userDao()
-        activityEventDao = database.activityEventDao()
-        eventLocationDao = database.eventLocationDao()
-        tripDao = database.tripDao()
+        itineraryDao = database.itineraryDao()
+        attractionDao = database.attractionDao()
 
         allUsers = userDao.getAllUsers()
-        allTrips = tripDao.getAllTrips()
-        allEventLocations = eventLocationDao.getAllEventLocations()
-        allActivityEvents = activityEventDao.getAllActivityEvents()
+        allItineraries = itineraryDao.getAllItineraries()
+        allAttractions = attractionDao.getAllAttractions()
     }
 
     //Users
@@ -60,87 +61,73 @@ class UserRepository(application: Application) {
         return allUsers
     }
 
+    fun getUser(id: Long): LiveData<User> {
 
-
-    //Trips
-
-    fun insert(trip: Trip) {
-        val insertTripAsyncTask = InsertTripAsyncTask(tripDao).execute(trip)
-    }
-
-    fun update(trip: Trip) {
-        val updateTripAsyncTask = UpdateTripAsyncTask(tripDao).execute(trip)
+        var currentUser = userDao.getUser(id)!!
+        return currentUser
     }
 
 
-    fun delete(trip: Trip) {
-        val deleteTripAsyncTask = DeleteTripAsyncTask(tripDao).execute(trip)
+    //Itineraries
+
+    fun insert(itinerary: Itinerary) {
+        val insertItineraryAsyncTask = InsertItineraryAsyncTask(itineraryDao).execute(itinerary)
     }
 
-    fun deleteAllTrips() {
-        val deleteAllTripsAsyncTask = DeleteAllTripsAsyncTask(
-            tripDao
+    fun update(itinerary: Itinerary) {
+        val updateItineraryAsyncTask = UpdateItineraryAsyncTask(itineraryDao).execute(itinerary)
+    }
+
+
+    fun delete(itinerary: Itinerary) {
+        val deleteItineraryAsyncTask = DeleteItineraryAsyncTask(itineraryDao).execute(itinerary)
+    }
+
+    fun deleteAllItineraries() {
+        val deleteAllItinerariesAsyncTask = DeleteAllItinerariesAsyncTask(
+            itineraryDao
         ).execute()
     }
 
-    fun getAllTrips(): LiveData<List<Trip>> {
-        return allTrips
+    fun getAllItineraries(): LiveData<List<Itinerary>> {
+        return allItineraries
+    }
+
+    fun getItinerariesByUser(userId: Long): LiveData<List<Itinerary>> {
+        var currentItineraries = itineraryDao.getItineraries(userId)
+        return currentItineraries
     }
 
 
+    //Attractions
 
-    //EventLocation
 
-
-    fun insert(eventLocation: EventLocation) {
-        val insertEventLocationAsyncTask = InsertEventLocationAsyncTask(eventLocationDao).execute(eventLocation)
+    fun insert(attraction: Attraction) {
+        val insertAttractionAsyncTask = InsertAttractionAsyncTask(attractionDao).execute(attraction)
     }
 
-    fun update(eventLocation: EventLocation) {
-        val updateEventLocationAsyncTask = UpdateEventLocationAsyncTask(eventLocationDao).execute(eventLocation)
+    fun update(attraction: Attraction) {
+        val updateAttractionAsyncTask = UpdateAttractionAsyncTask(attractionDao).execute(attraction)
     }
 
 
-    fun delete(eventLocation: EventLocation) {
-        val deleteEventLocationAsyncTask = DeleteEventLocationAsyncTask(eventLocationDao).execute(eventLocation)
+    fun delete(attraction: Attraction) {
+        val deleteAttractionAsyncTask = DeleteAttractionAsyncTask(attractionDao).execute(attraction)
     }
 
-    fun deleteAllEventLocations() {
-        val deleteAllEventLocationsAsyncTask = DeleteAllEventLocationsAsyncTask(
-            eventLocationDao
+    fun deleteAllAttractions() {
+        val deleteAllAttractionsAsyncTask = DeleteAllAttractionsAsyncTask(
+            attractionDao
         ).execute()
     }
 
-    fun getAllEventLocations(): LiveData<List<EventLocation>> {
-        return allEventLocations
+    fun getAllAttractions(): LiveData<List<Attraction>> {
+        return allAttractions
     }
 
-
-
-    //ActivityEvents
-
-
-    fun insert(activityEvent: ActivityEvent) {
-        val insertActivityEventAsyncTask = InsertActivityEventAsyncTask(activityEventDao).execute(activityEvent)
-    }
-
-    fun update(activityEvent: ActivityEvent) {
-        val updateActivityEventAsyncTask = UpdateActivityEventAsyncTask(activityEventDao).execute(activityEvent)
-    }
-
-
-    fun delete(activityEvent: ActivityEvent) {
-        val deleteActivityEventAsyncTask = DeleteActivityEventAsyncTask(activityEventDao).execute(activityEvent)
-    }
-
-    fun deleteAllActivityEvents() {
-        val deleteAllActivityEventsAsyncTask = DeleteAllActivityEventsAsyncTask(
-            activityEventDao
-        ).execute()
-    }
-
-    fun getAllActivityEvents(): LiveData<List<ActivityEvent>> {
-        return allActivityEvents
+    fun getAttractionsByItineraryId(id: Long): LiveData<List<Attraction>> {
+        var activityEvents = attractionDao.getAttractions(id)
+        return activityEvents
     }
 
     companion object {
@@ -179,103 +166,70 @@ class UserRepository(application: Application) {
             }
         }
 
-        //Trips
-        private class InsertTripAsyncTask(tripDao: TripDao) : AsyncTask<Trip, Unit, Unit>() {
-            val tripDao = tripDao
+        //Itineraries
+        private class InsertItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
+            val tripDao = itineraryDao
 
-            override fun doInBackground(vararg p0: Trip?) {
+            override fun doInBackground(vararg p0: Itinerary?) {
                 tripDao.insert(p0[0]!!)
             }
         }
 
-        private class UpdateTripAsyncTask(tripDao: TripDao) : AsyncTask<Trip, Unit, Unit>() {
-            val tripDao = tripDao
+        private class UpdateItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
+            val tripDao = itineraryDao
 
-            override fun doInBackground(vararg p0: Trip?) {
+            override fun doInBackground(vararg p0: Itinerary?) {
                 tripDao.update(p0[0]!!)
             }
         }
 
-        private class DeleteTripAsyncTask(tripDao: TripDao) : AsyncTask<Trip, Unit, Unit>() {
-            val tripDao = tripDao
+        private class DeleteItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
+            val tripDao = itineraryDao
 
-            override fun doInBackground(vararg p0: Trip?) {
+            override fun doInBackground(vararg p0: Itinerary?) {
                 tripDao.delete(p0[0]!!)
             }
         }
 
-        private class DeleteAllTripsAsyncTask(tripDao: TripDao) : AsyncTask<Unit, Unit, Unit>() {
-            val tripDao = tripDao
+        private class DeleteAllItinerariesAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Unit, Unit, Unit>() {
+            val tripDao = itineraryDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                tripDao.deleteAllTrips()
+                tripDao.deleteAllItineraries()
             }
         }
 
-        //EventLocation
-        private class InsertEventLocationAsyncTask(eventLocationDao: EventLocationDao) : AsyncTask<EventLocation, Unit, Unit>() {
-            val eventLocationDao = eventLocationDao
+        //Attraction
 
-            override fun doInBackground(vararg p0: EventLocation?) {
-                eventLocationDao.insert(p0[0]!!)
-            }
-        }
+        private class InsertAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
+            val activityEventDao = attractionDao
 
-        private class UpdateEventLocationAsyncTask(eventLocationDao: EventLocationDao) : AsyncTask<EventLocation, Unit, Unit>() {
-            val eventLocationDao = eventLocationDao
-
-            override fun doInBackground(vararg p0: EventLocation?) {
-                eventLocationDao.update(p0[0]!!)
-            }
-        }
-
-        private class DeleteEventLocationAsyncTask(eventLocationDao: EventLocationDao) : AsyncTask<EventLocation, Unit, Unit>() {
-            val eventLocationDao = eventLocationDao
-
-            override fun doInBackground(vararg p0: EventLocation?) {
-                eventLocationDao.delete(p0[0]!!)
-            }
-        }
-
-        private class DeleteAllEventLocationsAsyncTask(eventLocationDao: EventLocationDao) : AsyncTask<Unit, Unit, Unit>() {
-            val eventLocationDao = eventLocationDao
-
-            override fun doInBackground(vararg p0: Unit?) {
-                eventLocationDao.deleteAllEventLocations()
-            }
-        }
-
-        //ActivityEvent
-
-        private class InsertActivityEventAsyncTask(activityEventDao: ActivityEventDao) : AsyncTask<ActivityEvent, Unit, Unit>() {
-            val activityEventDao = activityEventDao
-
-            override fun doInBackground(vararg p0: ActivityEvent?) {
+            override fun doInBackground(vararg p0: Attraction?) {
                 activityEventDao.insert(p0[0]!!)
             }
         }
 
-        private class UpdateActivityEventAsyncTask(activityEventDao: ActivityEventDao) : AsyncTask<ActivityEvent, Unit, Unit>() {
-            val activityEventDao = activityEventDao
+        private class UpdateAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
+            val activityEventDao = attractionDao
 
-            override fun doInBackground(vararg p0: ActivityEvent?) {
+            override fun doInBackground(vararg p0: Attraction?) {
                 activityEventDao.update(p0[0]!!)
             }
         }
 
-        private class DeleteActivityEventAsyncTask(activityEventDao: ActivityEventDao) : AsyncTask<ActivityEvent, Unit, Unit>() {
-            val activityEventDao = activityEventDao
+        private class DeleteAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
+            val activityEventDao = attractionDao
 
-            override fun doInBackground(vararg p0: ActivityEvent?) {
+            override fun doInBackground(vararg p0: Attraction?) {
                 activityEventDao.delete(p0[0]!!)
             }
         }
 
-        private class DeleteAllActivityEventsAsyncTask(activityEventDao: ActivityEventDao) : AsyncTask<Unit, Unit, Unit>() {
-            val activityEventDao = activityEventDao
+        private class DeleteAllAttractionsAsyncTask(attractionDao: AttractionDao) : AsyncTask<Unit, Unit, Unit>() {
+            val activityEventDao = attractionDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                activityEventDao.deleteAllActivityEvents()
+                activityEventDao.deleteAllAttractions()
             }
         }
     }

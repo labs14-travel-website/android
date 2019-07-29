@@ -6,10 +6,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.R
+import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.Itinerary
+import app.labs14.roamly.models.User
+import app.labs14.roamly.viewModels.AttractionViewModel
+import app.labs14.roamly.viewModels.ItineraryViewModel
+import app.labs14.roamly.viewModels.UserViewModel
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -19,19 +28,58 @@ const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
 
+
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var itineraryViewModel: ItineraryViewModel
+    private lateinit var attractionViewModel: AttractionViewModel
+    lateinit var users:List<User>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
 
         debugMessages()
-        sqlDbInit()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+        mockData()
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
 
-    private fun sqlDbInit(){
+
+    private fun loadUserData(){
+
+        //TODO: if internet connection isn't available
+        // or user settings is set to offline getLocalData
+
+    }
+
+    private fun updateUser(updateUsers:List<User>){
+        users = updateUsers
+    }
+
+    private fun mockData(){
+
+
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        userViewModel.getAllUsers().observe(this, Observer<List<User>>{
+            //Everytime user data changes, this block will run
+            updateUser(it)
+        })
+
+        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
+
+        userViewModel.insert(User("Test User"))
+        userViewModel.insert(User("Test User"))
+
+
+    }
+
+    private fun getLocalUserData(){
+    }
+
+    private fun getServerUserData(){
     }
 
     private fun googleLoginInit(){
