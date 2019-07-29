@@ -43,11 +43,11 @@
 
     <!--shoon 2019/07/26-->
     <Button
-        android:id = "@+id/btn_note"
+        android:id = "@+id/btn_user"
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
         android:layout_marginTop = "8dp"
-        android:text = "Note"
+        android:text = "Users"
         app:layout_constraintBottom_toBottomOf = "parent"
         app:layout_constraintHorizontal_bias = "0.498"
         app:layout_constraintLeft_toLeftOf = "parent"

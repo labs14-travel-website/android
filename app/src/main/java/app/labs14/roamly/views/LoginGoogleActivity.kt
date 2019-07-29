@@ -41,7 +41,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-        btn_note.setOnClickListener{viewUser()}
+        btn_user.setOnClickListener{viewUser()}
         mockData()
     }
 
