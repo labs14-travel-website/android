@@ -40,11 +40,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
         Thread.sleep(2000)
-       // mockData()
-
-      //  itineraryViewModel.getAllItineraries().observe(this,Observer<List<Itinerary>>{ btn_offline.text = it[0].destinationName })
-
-        //btn_note.setOnClickListener{mockData()}
+      //  mockData()
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -73,19 +69,23 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun mockData(){
+        itineraryViewModel.deleteAllItineraries()
         itineraryViewModel.insert(Itinerary("Bali", "This place is rad"))
         itineraryViewModel.insert(Itinerary("Vegas", "What happens here, stays here"))
         itineraryViewModel.insert(Itinerary("Fiji", "Climb it!"))
-       itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
+        itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
+        itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
+        itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
+        itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
 
         itineraryViewModel.getAllItineraries()
 
         attractionViewModel.insert(Attraction(1,"Swim with Sharks", 2000,3000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
         attractionViewModel.insert(Attraction(2,"Swim with Sharks2", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
         attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
-        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
-        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
-        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        //attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        //attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        //attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
     }
 
     private fun getLocalUserData(){

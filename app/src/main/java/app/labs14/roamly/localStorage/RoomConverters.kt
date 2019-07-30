@@ -18,6 +18,5 @@ object RoomConverters {
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time
     }
-
     // Add more converters here, or make another class altogether
 }
