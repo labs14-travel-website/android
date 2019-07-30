@@ -22,7 +22,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
+        android:layout_height = "200dp"
         android:layout_gravity = "center_vertical"
         android:layout_marginLeft = "10dp"
         android:layout_marginTop = "15dp"
@@ -33,25 +33,37 @@
 
         <LinearLayout
             android:layout_width = "match_parent"
-            android:layout_height = "wrap_content"
+            android:layout_height = "match_parent"
             android:layout_gravity = "center"
             android:gravity = "center"
-            android:orientation = "vertical">
+            android:orientation = "horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <!--<androidx.appcompat.widget.AppCompatTextView
                 android:id = "@+id/text_timeline_date"
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
                 android:textSize = "12sp"
                 tools:text = "24 JAN" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id = "@+id/text_timeline_title"
                 android:layout_width = "match_parent"
                 android:layout_height = "wrap_content"
                 android:layout_marginTop = "5dp"
                 android:textColor = "@android:color/black"
-                tools:text = "Order Successfully Completed" />
+                tools:text = "Order Successfully Completed" />-->
+
+            <!--<LinearLayout
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:orientation="horizontal">-->
+
+            <ExpandableListView
+                android:id = "@+id/expandableListView"
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                android:dividerHeight = "0.5dp" />
+
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 
