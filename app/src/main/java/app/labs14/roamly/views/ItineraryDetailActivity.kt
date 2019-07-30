@@ -48,7 +48,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
  //       setContentView(R.layout.activity_itinerary_detail)
  //       setSupportActionBar(detail_toolbar)
-        setContentView(R.layout.activity_note)
+        setContentView(R.layout.activity_timeline)
 
 //shoon 2019/07/26
         // I made this section to show how to seperate adapter and connecting data

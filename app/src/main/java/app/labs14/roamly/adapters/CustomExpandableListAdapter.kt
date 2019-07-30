@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
 import app.labs14.roamly.R
+import java.util.ArrayList
 
 import java.util.HashMap
 
-class CustomExpandableListAdapter internal constructor(private val context: Context, private val titleList: List<String>, private val dataList: HashMap<String, List<String>>) : BaseExpandableListAdapter() {
+class CustomExpandableListAdapter internal constructor(private val context: Context, private var titleList: List<String>,  private var dataList: HashMap<String, List<String>>) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): Any {
         return this.dataList[this.titleList[listPosition]]!![expandedListPosition]
@@ -32,6 +33,13 @@ class CustomExpandableListAdapter internal constructor(private val context: Cont
         expandedListTextView.text = expandedListText
         return convertView
     }
+    fun set(title:String,element:String,position:Int){
+        var tempList= ArrayList(this.dataList.get(title))
+        tempList.set(position,element)
+
+        dataList.set(title,tempList)
+    }
+
 
     override fun getChildrenCount(listPosition: Int): Int {
         return this.dataList[this.titleList[listPosition]]!!.size
@@ -69,4 +77,9 @@ class CustomExpandableListAdapter internal constructor(private val context: Cont
     override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
         return true
     }
+
+
 }
+
+
+

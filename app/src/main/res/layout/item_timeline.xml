@@ -37,13 +37,7 @@
             android:layout_gravity = "center"
             android:gravity = "center"
             android:orientation = "vertical">
-            <ExpandableListView
-                android:id = "@+id/expandableListView"
-                android:layout_width = "match_parent"
-                android:layout_height = "match_parent"
-                android:dividerHeight = "0.5dp">
 
-            </ExpandableListView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id = "@+id/text_timeline_date"
@@ -68,6 +62,14 @@
                 android:layout_marginTop = "5dp"
                 android:textColor = "@android:color/black"
                 tools:text = "Order Successfully Completed" />
+            <ExpandableListView
+                android:id = "@+id/expandableListViewItinerary"
+                android:layout_width = "match_parent"
+                android:layout_height ="wrap_content"
+                android:dividerHeight = "0.5dp"
+                >
+
+            </ExpandableListView>
 
         </LinearLayout>
 
