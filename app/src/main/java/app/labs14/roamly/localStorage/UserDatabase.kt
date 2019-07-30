@@ -11,10 +11,9 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities = [User::class, Itinerary::class, Attraction::class], exportSchema = true,version = 11)
+@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 16)
 abstract class UserDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UserDao
     abstract fun itineraryDao(): ItineraryDao
     abstract fun attractionDao(): AttractionDao
 
@@ -51,12 +50,19 @@ abstract class UserDatabase : RoomDatabase() {
 
     //Mock Data here
     class PopulateDbAsyncTask(db: UserDatabase?) : AsyncTask<Unit, Unit, Unit>() {
-        private val userDao = db?.userDao()
         private val itineraryDao = db?.itineraryDao()
         private val attractionDao = db?.attractionDao()
 
         override fun doInBackground(vararg p0: Unit?) {
-        //Mock data goes here
+            itineraryDao?.insert(Itinerary("Bali", "This place is rad"))
+            itineraryDao?.insert(Itinerary("Vegas", "What happens here, stays here"))
+            itineraryDao?.insert(Itinerary("Fiji", "Climb it!"))
+            itineraryDao?.insert(Itinerary("San Francisco", "Brapp brapp!"))
+
+            attractionDao?.insert(Attraction(1,"Swim with Sharks1-1", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+            attractionDao?.insert(Attraction(1,"Swim with Sharks1-2", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+            attractionDao?.insert(Attraction(1,"Swim with Sharks1-3", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+            attractionDao?.insert(Attraction(1,"Swim with Sharks1-4", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
         }
     }
 }

@@ -12,59 +12,22 @@ import app.labs14.roamly.models.User
 //Brandon Lively - 07/28/2019
 
 class UserRepository(application: Application) {
-    private var userDao: UserDao
     private var itineraryDao: ItineraryDao
     private var attractionDao: AttractionDao
 
-    private var allUsers: LiveData<List<User>>
     private var allItineraries: LiveData<List<Itinerary>>
     private var allAttractions: LiveData<List<Attraction>>
 
 
     init {
-        Log.i("Test 123", "user view model init hit")
-
         val database: UserDatabase = UserDatabase.getInstance(
             application.applicationContext
         )!!
-        userDao = database.userDao()
         itineraryDao = database.itineraryDao()
         attractionDao = database.attractionDao()
 
-        allUsers = userDao.getAllUsers()
         allItineraries = itineraryDao.getAllItineraries()
         allAttractions = attractionDao.getAllAttractions()
-    }
-
-    //Users
-
-    fun insert(user: User) {
-        val insertUserAsyncTask = InsertUserAsyncTask(userDao).execute(user)
-    }
-
-    fun update(user: User) {
-        val updateUserAsyncTask = UpdateUserAsyncTask(userDao).execute(user)
-    }
-
-
-    fun delete(user: User) {
-        val deleteUserAsyncTask = DeleteUserAsyncTask(userDao).execute(user)
-    }
-
-    fun deleteAllUsers() {
-        val deleteAllUsersAsyncTask = DeleteAllUsersAsyncTask(
-            userDao
-        ).execute()
-    }
-
-    fun getAllUsers(): LiveData<List<User>> {
-        return allUsers
-    }
-
-    fun getUser(id: Long): LiveData<User> {
-
-        var currentUser = userDao.getUser(id)!!
-        return currentUser
     }
 
 
@@ -91,11 +54,6 @@ class UserRepository(application: Application) {
 
     fun getAllItineraries(): LiveData<List<Itinerary>> {
         return allItineraries
-    }
-
-    fun getItinerariesByUser(userId: Long): LiveData<List<Itinerary>> {
-        var currentItineraries = itineraryDao.getItineraries(userId)
-        return currentItineraries
     }
 
 
@@ -132,70 +90,36 @@ class UserRepository(application: Application) {
 
     companion object {
 
-        //Users
-
-        private class InsertUserAsyncTask(userDao: UserDao) : AsyncTask<User, Unit, Unit>() {
-            val userDao = userDao
-
-            override fun doInBackground(vararg p0: User?) {
-                userDao.insert(p0[0]!!)
-            }
-        }
-
-        private class UpdateUserAsyncTask(userDao: UserDao) : AsyncTask<User, Unit, Unit>() {
-            val userDao = userDao
-
-            override fun doInBackground(vararg p0: User?) {
-                userDao.update(p0[0]!!)
-            }
-        }
-
-        private class DeleteUserAsyncTask(userDao: UserDao) : AsyncTask<User, Unit, Unit>() {
-            val userDao = userDao
-
-            override fun doInBackground(vararg p0: User?) {
-                userDao.delete(p0[0]!!)
-            }
-        }
-
-        private class DeleteAllUsersAsyncTask(userDao: UserDao) : AsyncTask<Unit, Unit, Unit>() {
-            val userDao = userDao
-
-            override fun doInBackground(vararg p0: Unit?) {
-                userDao.deleteAllUsers()
-            }
-        }
-
         //Itineraries
         private class InsertItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
-            val tripDao = itineraryDao
+            val ItineraryDao = itineraryDao
 
             override fun doInBackground(vararg p0: Itinerary?) {
-                tripDao.insert(p0[0]!!)
+                ItineraryDao.insert(p0[0]!!)
             }
         }
 
         private class UpdateItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
-            val tripDao = itineraryDao
+            val ItineraryDao = itineraryDao
 
             override fun doInBackground(vararg p0: Itinerary?) {
-                tripDao.update(p0[0]!!)
+                ItineraryDao.update(p0[0]!!)
             }
         }
 
         private class DeleteItineraryAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Itinerary, Unit, Unit>() {
-            val tripDao = itineraryDao
+            val ItineraryDao = itineraryDao
 
             override fun doInBackground(vararg p0: Itinerary?) {
-                tripDao.delete(p0[0]!!)
+                ItineraryDao.delete(p0[0]!!)
             }
         }
 
         private class DeleteAllItinerariesAsyncTask(itineraryDao: ItineraryDao) : AsyncTask<Unit, Unit, Unit>() {
-            val tripDao = itineraryDao
+            val ItineraryDao = itineraryDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                tripDao.deleteAllItineraries()
+                ItineraryDao.deleteAllItineraries()
             }
         }
 

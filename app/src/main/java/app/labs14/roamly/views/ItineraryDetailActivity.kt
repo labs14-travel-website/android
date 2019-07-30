@@ -2,21 +2,24 @@ package app.labs14.roamly.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ExpandableListAdapter
+import android.widget.ExpandableListView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
+import app.labs14.roamly.adapters.CustomExpandableListAdapter
 import app.labs14.roamly.models.OrderStatus
 import app.labs14.roamly.models.Orientation
 import app.labs14.roamly.models.TimeLineModel
 import app.labs14.roamly.models.TimelineAttributes
-import app.labs14.roamly.utils.DateTimeUtils
 import app.labs14.roamly.utils.Utils
 import app.labs14.roamly.utils.VectorDrawableUtils
 import com.github.vipulasri.timelineview.TimelineView
@@ -33,6 +36,7 @@ import java.util.ArrayList
  * in a [ItineraryListActivity].
  */
 class ItineraryDetailActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +73,6 @@ class ItineraryDetailActivity : AppCompatActivity() {
                     )
                 }
             }
-
             supportFragmentManager.beginTransaction()
                 .add(R.id.itinerary_detail_container, fragment)
                 .commit()
@@ -145,7 +148,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
 
         init {
             onClickListener = View.OnClickListener { v ->
-                val item = v.tag as String
+                val item = v.tag
                 /*if (twoPane) {
                     val fragment = ItineraryDetailFragment().apply {
                         arguments = Bundle().apply {
@@ -157,8 +160,9 @@ class ItineraryDetailActivity : AppCompatActivity() {
                         .replace(R.id.itinerary_detail_container, fragment)
                         .commit()
                 } else {*/
+                Log.i("EXPAND", " Item $v clicked")
                 val intent = Intent(v.context, ItineraryDetailActivity::class.java).apply {
-                    putExtra("item_id", item)
+                    putExtra("item_id", item.toString())
                 }
                 v.context.startActivity(intent)
                 /*}*/
@@ -169,7 +173,7 @@ class ItineraryDetailActivity : AppCompatActivity() {
             /*val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_timeline, parent, false)*/
 
-            val  layoutInflater = LayoutInflater.from(parent.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             val view: View
 
             view = if (attribs.orientation == Orientation.HORIZONTAL) {
@@ -197,29 +201,90 @@ class ItineraryDetailActivity : AppCompatActivity() {
                     holder.tlTimeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, R.drawable.ic_marker_inactive, attribs.markerColor)
                 }
                 item.status == OrderStatus.ACTIVE -> {
-                    holder.tlTimeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, R.drawable.ic_marker_active,  attribs.markerColor)
+                    holder.tlTimeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, R.drawable.ic_marker_active, attribs.markerColor)
                 }
                 else -> {
                     holder.tlTimeline.setMarker(ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_marker), attribs.markerColor)
                 }
             }
 
-            if (item.date.isNotEmpty()) {
+            /*if (item.date.isNotEmpty()) {
                 holder.tlDate.visibility = View.VISIBLE
                 holder.tlDate.text = DateTimeUtils.parseDateTime(item.date, "yyyy-MM-dd HH:mm", "hh:mm a, dd-MMM-yyyy")
             } else
                 holder.tlDate.visibility = View.GONE
-
-            holder.tlTitle.text = item.message
-
+            holder.tlTitle.text = item.message*/
 
         }
 
         override fun getItemCount() = values.size
 
         inner class ViewHolder(view: View, viewType: Int) : RecyclerView.ViewHolder(view) {
-            val tlDate: TextView = view.text_timeline_date
-            val tlTitle: TextView = view.text_timeline_title
+
+
+            internal var expandableListView: ExpandableListView? = view.findViewById(R.id.expandableListView)
+            internal var adapter: ExpandableListAdapter? = null
+            internal var titleList: List<String>? = null
+
+            val data: HashMap<String, List<String>>
+                get() {
+                    val listData = HashMap<String, List<String>>()
+
+                    val starting = ArrayList<String>()
+                    starting.add("San Fransisco, CA")
+                    starting.add("Personal Car")
+
+                    val museum = ArrayList<String>()
+                    museum.add("Golden Gate Ruins")
+                    museum.add("142 Golden Gate Way")
+                    museum.add("9:30 am")
+
+                    val lunch = ArrayList<String>()
+                    lunch.add("Joni's Slop Shop")
+                    lunch.add("5543 Main Street")
+                    lunch.add("12:00 pm")
+
+                    val swimming = ArrayList<String>()
+                    swimming.add("Beach, Atlantic Ocean")
+                    swimming.add("Anywhere along coastal route 1")
+                    swimming.add("2:30 pm")
+
+                    listData["Starting"] = starting
+                    listData["Museum"] = museum
+                    listData["Lunch"] = lunch
+                    listData["Swimming"] = swimming
+
+                    return listData
+                }
+
+
+            init {
+
+                if (expandableListView != null) {
+                    val listData = data
+                    titleList = ArrayList(listData.keys)
+                    adapter = CustomExpandableListAdapter(view.context, titleList as ArrayList<String>, listData)
+                    expandableListView!!.setAdapter(adapter)
+
+                    expandableListView!!.setOnGroupExpandListener { groupPosition ->
+                        Toast.makeText(view.context, (titleList as ArrayList<String>)[groupPosition] + " List Expanded.", Toast.LENGTH_SHORT).show()
+                    }
+
+                    expandableListView!!.setOnGroupCollapseListener { groupPosition ->
+                        Toast.makeText(view.context, (titleList as ArrayList<String>)[groupPosition] + " List Collapsed.", Toast.LENGTH_SHORT).show()
+                    }
+
+                    expandableListView!!.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+                        Toast.makeText(view.context, "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(childPosition), Toast.LENGTH_SHORT).show()
+                        false
+                    }
+                }
+
+
+            }
+
+            /*val tlDate: TextView = view.text_timeline_date
+            val tlTitle: TextView = view.text_timeline_title*/
             val tlTimeline: TimelineView = view.timeline
 
             init {

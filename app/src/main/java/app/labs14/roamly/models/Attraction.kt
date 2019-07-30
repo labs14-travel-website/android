@@ -15,7 +15,7 @@ import androidx.room.*
         , onDelete = ForeignKey.CASCADE
     ))]
 )
-data class Attraction(
+class Attraction(
     val itinerary_id: Long,
     var name: String,
     var startTime: Long,
@@ -23,14 +23,15 @@ data class Attraction(
     var alarmBefore:Long,
     var alarmAfter:Long,
     var description:String,
-    var lat:Double,
-    var lng:Double,
+    var lat:String,
+    var lng:String,
     var address:String,
     var phoneNum:String,
     var transportType: Int,
     var transportEta:Long,
     var transportLabel:String) {
 
+    @ColumnInfo(name = "attraction_id")
     @PrimaryKey(autoGenerate = true)
     var attraction_id: Long = 0
 }

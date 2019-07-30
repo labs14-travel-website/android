@@ -18,7 +18,6 @@ import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
-import app.labs14.roamly.viewModels.UserViewModel
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -28,20 +27,24 @@ const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
 
-
-    private lateinit var userViewModel: UserViewModel
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
-    lateinit var users:List<User>
+    lateinit var currentUser:User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
 
+        initViewModels()
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-        mockData()
+        Thread.sleep(2000)
+       // mockData()
+
+      //  itineraryViewModel.getAllItineraries().observe(this,Observer<List<Itinerary>>{ btn_offline.text = it[0].destinationName })
+
+        //btn_note.setOnClickListener{mockData()}
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -54,26 +57,35 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     }
 
-    private fun updateUser(updateUsers:List<User>){
-        users = updateUsers
+    fun initViewModels(){
+        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
+    }
+
+    private fun updateAttraction(updateAttraction:List<Attraction>,pos:Int){
+    }
+
+    private fun updateItinerary(updateItinerary:List<Itinerary>){
+    }
+
+    private fun updateUser(){
+
     }
 
     private fun mockData(){
+        itineraryViewModel.insert(Itinerary("Bali", "This place is rad"))
+        itineraryViewModel.insert(Itinerary("Vegas", "What happens here, stays here"))
+        itineraryViewModel.insert(Itinerary("Fiji", "Climb it!"))
+       itineraryViewModel.insert(Itinerary("San Francisco", "Brapp brapp!"))
 
+        itineraryViewModel.getAllItineraries()
 
-        userViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
-        userViewModel.getAllUsers().observe(this, Observer<List<User>>{
-            //Everytime user data changes, this block will run
-            updateUser(it)
-        })
-
-        itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
-        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
-
-        userViewModel.insert(User("Test User"))
-        userViewModel.insert(User("Test User"))
-
-
+        attractionViewModel.insert(Attraction(1,"Swim with Sharks", 2000,3000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        attractionViewModel.insert(Attraction(2,"Swim with Sharks2", 3000,4000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
+        attractionViewModel.insert(Attraction(3,"Swim with Sharks3", 4000,5000,25,25,"Don't be eaten","23.5215215", "65.52353", "Middle of the ocean street", "(555)555-5555",1,3000,"Uber"))
     }
 
     private fun getLocalUserData(){

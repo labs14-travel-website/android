@@ -3,20 +3,15 @@ package app.labs14.roamly.views
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import app.labs14.roamly.adapters.ItineraryListAdapter
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.viewModels.ItineraryViewModel
-
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
-import kotlinx.android.synthetic.main.itinerary_list_content.view.*
 import kotlinx.android.synthetic.main.itinerary_list.*
 
 // Basil 7/24/2019
@@ -30,18 +25,12 @@ import kotlinx.android.synthetic.main.itinerary_list.*
  */
 class ItineraryListActivity : AppCompatActivity() {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private var twoPane: Boolean = false
     private lateinit var itineraryViewModel: ItineraryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itinerary_list)
-
-
 
         setSupportActionBar(toolbar)
         toolbar.title = title
@@ -52,82 +41,34 @@ class ItineraryListActivity : AppCompatActivity() {
         }
 
         if (rv_itinerary_details2 != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             twoPane = true
         }
 
-        setupRecyclerView(rv_itinerary_list)
-        loadMockData()
+         setupRecyclerView()
     }
 
-    private fun loadMockData(){
-    }
+    private fun setupRecyclerView() {
+        rv_itinerary_list.layoutManager = LinearLayoutManager(this)
+        rv_itinerary_list.setHasFixedSize(true)
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val temporaries = Array(25) { i -> "XYZ $i" }
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, temporaries, twoPane)
+        var adapter = ItineraryListAdapter()
+
+        rv_itinerary_list.adapter = adapter
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
+
         itineraryViewModel.getAllItineraries().observe(this, Observer<List<Itinerary>> {
-       //TODO : Link to recyclerView here
+            adapter.submitList(it)
+        })
+
+        adapter.setOnItemClickListener(object : ItineraryListAdapter.OnItemClickListener {
+            override fun onItemClick(itinerary: Itinerary) {
+                var intent = Intent(baseContext, ItineraryDetailActivity::class.java)
+                intent.putExtra("id",itinerary.itinerary_id)
+                startActivity(intent)
+            }
         })
     }
 
-    class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: ItineraryListActivity,
-        private val values: Array<String>,
-        private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
-        private val onClickListener: View.OnClickListener
 
-        init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as String
-                /*if (twoPane) {
-                    val fragment = ItineraryDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putString(ItineraryDetailFragment.ARG_ITEM_ID, item.id)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.itinerary_detail_container, fragment)
-                        .commit()
-                } else {*/
-                    val intent = Intent(v.context, ItineraryDetailActivity::class.java).apply {
-                        putExtra("item_id", item)
-                    }
-                    v.context.startActivity(intent)
-                /*}*/
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.itinerary_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.idView.text = item
-            holder.contentView.text = "Subtext"
-
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.id_text
-            val contentView: TextView = view.content
-        }
-    }
 }

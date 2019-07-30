@@ -30,8 +30,4 @@ class ItineraryViewModel (application: Application) : AndroidViewModel(applicati
     fun getAllItineraries(): LiveData<List<Itinerary>> {
         return allItineraries
     }
-
-    fun getItinerariesById(id:Long):LiveData<List<Itinerary>>{
-        return repository.getItinerariesByUser(id)
-    }
 }

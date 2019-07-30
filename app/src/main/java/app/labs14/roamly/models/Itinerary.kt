@@ -5,18 +5,10 @@ import androidx.room.*
 //Brandon Lively - 07/28/2019
 
 @Entity(
-    tableName = "itinerary_table",
-    foreignKeys =
-    [(ForeignKey(
-        entity = User::class
-        , parentColumns = ["user_id"]
-        , childColumns = ["itinerary_id"]
-        , onUpdate = ForeignKey.CASCADE
-        , onDelete = ForeignKey.CASCADE
-    ))]
-)
-class Itinerary(val userId: Long, var description: String) {
+    tableName = "itinerary_table")
+class Itinerary(var destinationName: String, var description: String) {
 
+    @ColumnInfo(name = "itinerary_id")
     @PrimaryKey(autoGenerate = true)
     var itinerary_id: Long = 0
 
