@@ -2,7 +2,7 @@
     <string name="app_name">Roamly</string>
     <string name="title_activity_itinerary_list">ItineraryListActivity</string>
     <string name="title_itinerary_list">Itineraries</string>
-    <string name="title_itinerary_detail">Itinerary Detail</string>
+    <string name="title_itinerary_detail">Details</string>
 
     <string name="action_settings">Settings</string>
 

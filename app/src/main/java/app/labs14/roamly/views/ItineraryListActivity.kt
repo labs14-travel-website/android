@@ -59,14 +59,16 @@ class ItineraryListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val temporaries = Array(25) { i -> "XYZ $i" }
+//        val temporaries = Array(25) { i -> "XYZ $i" }
+        val temporaries = listOf<String>("Thailand", "St. Louis", "Bermuda Triangle")
+
 
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, temporaries, twoPane)
     }
 
     class SimpleItemRecyclerViewAdapter(
         private val parentActivity: ItineraryListActivity,
-        private val values: Array<String>,
+        private val values: List<String>,
         private val twoPane: Boolean
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
@@ -104,7 +106,7 @@ class ItineraryListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
             holder.idView.text = item
-            holder.contentView.text = "Subtext"
+            holder.contentView.text = "Itinerary"
 
             with(holder.itemView) {
                 tag = item
