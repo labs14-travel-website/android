@@ -10,12 +10,14 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.Orientation
+import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils
 import kotlinx.android.synthetic.main.attraction_list_content.view.*
 import java.util.*
 
 
-class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
+class AttractionListAdapter(private var mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Attraction>() {
@@ -34,6 +36,14 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
         val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content, parent, false)
+        val  layoutInflater = LayoutInflater.from(parent.context)
+
+        val view: View
+        view = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.item_timeline_horizontal, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.attraction_list_content, parent, false)
+        }
         return AttractionHolder(itemView)
     }
 

@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.labs14.roamly.adapters.ItineraryListAdapter
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Itinerary
+import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
+import kotlinx.android.synthetic.main.activity_itinerary_list.toolbar
+import kotlinx.android.synthetic.main.itinerary_detail.*
 import kotlinx.android.synthetic.main.itinerary_list.*
 
 // Basil 7/24/2019
@@ -24,7 +27,7 @@ import kotlinx.android.synthetic.main.itinerary_list.*
  * item details side-by-side using two vertical panes.
  */
 class ItineraryListActivity : AppCompatActivity() {
-
+    private lateinit var mAttributes: TimelineAttributes
     private var twoPane: Boolean = false
     private lateinit var itineraryViewModel: ItineraryViewModel
 
@@ -34,6 +37,9 @@ class ItineraryListActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         toolbar.title = title
+        var bundle: Bundle? = intent.extras
+        mAttributes = bundle!!.getParcelable("attributes")
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -65,6 +71,7 @@ class ItineraryListActivity : AppCompatActivity() {
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
                 intent.putExtra("id",itinerary.itinerary_id)
                 intent.putExtra("title", itinerary.destinationName)
+                intent.putExtra("attributes",mAttributes)
                 startActivity(intent)
             }
         })

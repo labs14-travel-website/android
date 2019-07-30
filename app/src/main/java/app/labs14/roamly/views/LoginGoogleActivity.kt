@@ -9,15 +9,19 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.R
-import app.labs14.roamly.models.Attraction
-import app.labs14.roamly.models.Itinerary
-import app.labs14.roamly.models.User
+import app.labs14.roamly.adapters.AttractionListAdapter
+import app.labs14.roamly.models.*
+import app.labs14.roamly.utils.Utils
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
+import com.github.vipulasri.timelineview.TimelineView
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -26,11 +30,13 @@ import kotlinx.android.synthetic.main.activity_login_google.*
 const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
+    private lateinit var mAdapter: AttractionListAdapter
 
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
-
+    private lateinit var mLayoutManager: LinearLayoutManager
+    private lateinit var mAttributes: TimelineAttributes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
@@ -39,8 +45,23 @@ class LoginGoogleActivity : AppCompatActivity() {
         debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+        btn_option.setOnClickListener{viewOption()}
         Thread.sleep(2000)
       //  mockData()
+
+        //default values
+        mAttributes = TimelineAttributes(
+            markerSize = Utils.dpToPx(20f, this),
+            markerColor = ContextCompat.getColor(this, R.color.material_grey_500),
+            markerInCenter = true,
+            linePadding = Utils.dpToPx(2f, this),
+            startLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            endLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            lineStyle = TimelineView.LineStyle.NORMAL,
+            lineWidth = Utils.dpToPx(2f, this),
+            lineDashWidth = Utils.dpToPx(4f, this),
+            lineDashGap = Utils.dpToPx(2f, this)
+        )
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
@@ -120,8 +141,21 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
+
+
+        intent.putExtra("attributes",mAttributes)
         startActivity(intent)
     }
+
+    private fun viewOption(){
+        TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {
+            override fun onAttributesChanged(attributes: TimelineAttributes) {
+                mAttributes = attributes
+                initAdapter()
+            }
+        })
+    }
+
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
@@ -147,4 +181,22 @@ class LoginGoogleActivity : AppCompatActivity() {
             sign_in_button.visibility = View.VISIBLE
         }
     }
+    private fun initAdapter() {
+
+        mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        } else {
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        }
+
+        recyclerView.layoutManager = mLayoutManager
+
+        mAdapter = AttractionListAdapter( mAttributes)
+        recyclerView.adapter = mAdapter
+    }
+    private var mCallbacks: TimelineAttributesBottomSheet.Callbacks? = null
+    private fun setCallback(callbacks: TimelineAttributesBottomSheet.Callbacks) {
+        mCallbacks = callbacks
+    }
+
 }

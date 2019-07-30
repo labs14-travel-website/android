@@ -31,7 +31,7 @@ class AttractionListActivity : AppCompatActivity() {
     private lateinit var attractionViewModel: AttractionViewModel
 
     var itineraryId:Long = 0
-
+    private lateinit var mAttributes: TimelineAttributes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.itinerary_detail)
@@ -39,7 +39,7 @@ class AttractionListActivity : AppCompatActivity() {
         var bundle: Bundle? = intent.extras
         itineraryId = bundle!!.getLong("id")
         toolbar.title = bundle!!.getString("title")
-
+        mAttributes = bundle!!.getParcelable("attributes")
         initRecyclerView()
     }
 
@@ -47,7 +47,7 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.layoutManager = LinearLayoutManager(this)
         rv_attraction_list.setHasFixedSize(true)
 
-        var adapter = AttractionListAdapter()
+        var adapter = AttractionListAdapter(   mAttributes)
 
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
