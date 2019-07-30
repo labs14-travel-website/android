@@ -73,4 +73,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.github.vipulasri:timelineview:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha02'
 }

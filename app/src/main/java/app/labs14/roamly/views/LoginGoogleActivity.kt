@@ -40,9 +40,9 @@ class LoginGoogleActivity : AppCompatActivity() {
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
         Thread.sleep(2000)
-       // mockData()
+    //    mockData()
 
-      //  itineraryViewModel.getAllItineraries().observe(this,Observer<List<Itinerary>>{ btn_offline.text = it[0].destinationName })
+ //       itineraryViewModel.getAllItineraries().observe(this,Observer<List<Itinerary>>{ btn_offline.text = it[0].destinationName })
 
         //btn_note.setOnClickListener{mockData()}
     }
