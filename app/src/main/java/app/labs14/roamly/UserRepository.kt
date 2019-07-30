@@ -84,8 +84,8 @@ class UserRepository(application: Application) {
     }
 
     fun getAttractionsByItineraryId(id: Long): LiveData<List<Attraction>> {
-        var activityEvents = attractionDao.getAttractions(id)
-        return activityEvents
+        var attractions = attractionDao.getAttractions(id)
+        return attractions
     }
 
     companion object {

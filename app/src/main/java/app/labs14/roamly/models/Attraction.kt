@@ -20,18 +20,31 @@ class Attraction(
     var name: String,
     var startTime: Long,
     var endTime: Long,
-    var alarmBefore:Long,
-    var alarmAfter:Long,
-    var description:String,
-    var lat:String,
-    var lng:String,
-    var address:String,
-    var phoneNum:String,
+    var alarmBefore: Long,
+    var alarmAfter: Long,
+    var description: String,
+    var lat: String,
+    var lng: String,
+    var address: String,
+    var phoneNum: String,
     var transportType: Int,
-    var transportEta:Long,
-    var transportLabel:String) {
+    var transportEta: Long,
+    var transportLabel: String
+) {
 
     @ColumnInfo(name = "attraction_id")
     @PrimaryKey(autoGenerate = true)
     var attraction_id: Long = 0
+
+    constructor(
+        itinerary_id: Long,
+        name: String,
+        startTime: Long,
+        endTime: Long,
+        description: String,
+        lat: String,
+        lng: String,
+        address: String,
+        phoneNum: String
+    ) : this(itinerary_id,name,startTime,endTime,0,0,description,lat,lng,address,phoneNum,0,0,"")
 }

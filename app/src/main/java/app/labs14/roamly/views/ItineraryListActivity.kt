@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.itinerary_list.*
  * An activity representing a list of Pings. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItineraryDetailActivity] representing
+ * lead to a [AttractionListActivity] representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
@@ -62,8 +62,9 @@ class ItineraryListActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object : ItineraryListAdapter.OnItemClickListener {
             override fun onItemClick(itinerary: Itinerary) {
-                var intent = Intent(baseContext, ItineraryDetailActivity::class.java)
+                var intent = Intent(baseContext, AttractionListActivity::class.java)
                 intent.putExtra("id",itinerary.itinerary_id)
+                intent.putExtra("title", itinerary.destinationName)
                 startActivity(intent)
             }
         })

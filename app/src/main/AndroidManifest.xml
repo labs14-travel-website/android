@@ -19,7 +19,7 @@
             android:label = "@string/title_itinerary_list"
             android:theme = "@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".views.ItineraryDetailActivity"
+            android:name=".views.AttractionListActivity"
             android:label="@string/title_itinerary_detail"
             android:parentActivityName=".views.ItineraryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
