@@ -48,7 +48,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         btn_option.setOnClickListener{viewOption()}
         Thread.sleep(2000)
 
-     //   mockData()
+        //mockData()
 
         //default values
         mAttributes = TimelineAttributes(
@@ -130,9 +130,9 @@ class LoginGoogleActivity : AppCompatActivity() {
         attractionViewModel.insert(Attraction(3,"Haunted Forest Tour", 1564486657,1564496100,25,25,"Explore the scary forest","35.360638", "138.729050", "Mount Fuji, Japan", "(888) 282-4410",3,1564485950,"Train"))
 
         attractionViewModel.insert(Attraction(3,"Mountain Climbing", 1572739200,1572748451,25,25,"Take oxygen","35.360638", "138.729050", "Mount Fuji, Japan", "(950) 585-1665",3,1572738653,"Train"))
-        attractionViewModel.insert(Attraction(4,"Fisherman's Wharf", 1564486657,1564496100,25,25,"Hear the sea lions and eat seafood","37.773972", "-122.431297", "California", "(463) 939-1809",4,1564485950,"Bicycle"))
+      //  attractionViewModel.insert(Attraction(4,"Fishermans Wharf", 1564486657,1564496100,25,25,"Hear the sea lions and eat seafood","37.773972", "-122.431297", "California", "(463) 939-1809",4,1564485950,"Bicycle"))
 
-        attractionViewModel.insert(Attraction(4,"Alcatraz Historical Tour", 1564486657,1564496100,25,25,"Explore the prison island","37.773972", "-122.431297", "California", "(611) 934-0394",4,1564485950,"Bicycle"))
+      //  attractionViewModel.insert(Attraction(4,"Alcatraz Historical Tour", 1564486657,1564496100,25,25,"Explore the prison island","37.773972", "-122.431297", "California", "(611) 934-0394",4,1564485950,"Bicycle"))
 
         attractionViewModel.insert(Attraction(4,"Golden Gate Ruins", 1572739200,1572748451,25,25,"Experience ancient times","37.773972", "-122.431297", "California", "(985) 744-4351",4,1572738653,"Bicycle"))
         attractionViewModel.insert(Attraction(5,"Temple Hopping", 1564486657,1564496100,25,25,"See the exquisitely preserved temples","13.736717", "100.523186", "Thailand", "(477) 697-6290",5,1564485950,"Tuk-tuk"))

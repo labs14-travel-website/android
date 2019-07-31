@@ -47,7 +47,8 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
 
         val currentItinerary: Itinerary = getItem(position)
 
-        holder.tvDescription.text = currentItinerary.description
+      //  holder.tvDescription.text = currentItinerary.description //shoon 2019/08/01
+        holder.tvDescription.text = currentItinerary.itinerary_id.toString()+" "+currentItinerary.description //shoon 2019/08/01
         holder.tvDestination.text = currentItinerary.destinationName
     }
 
