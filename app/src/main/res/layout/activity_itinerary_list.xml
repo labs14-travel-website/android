@@ -19,7 +19,14 @@
             android:id = "@+id/toolbar"
             android:layout_width = "match_parent"
             android:layout_height = "?attr/actionBarSize"
-            app:popupTheme = "@style/AppTheme.PopupOverlay" />
+            app:popupTheme = "@style/AppTheme.PopupOverlay">
+            <Button
+                android:id = "@+id/button_all_attraction"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text = "All attraction" />
+        </androidx.appcompat.widget.Toolbar>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -51,6 +51,14 @@ class ItineraryListActivity : AppCompatActivity() {
         }
 
          setupRecyclerView()
+
+        button_all_attraction.setOnClickListener{
+                var intent = Intent(baseContext, AllAttractionListActivity::class.java)
+                intent.putExtra("title", "All attractions")
+                intent.putExtra("attributes",mAttributes)
+                startActivity(intent)
+         }
+
     }
 
     private fun setupRecyclerView() {
@@ -75,6 +83,7 @@ class ItineraryListActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
+
     }
 
 

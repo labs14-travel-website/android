@@ -7,17 +7,21 @@
     tools:context="app.labs14.roamly.views.AttractionListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/appbarLayout"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:id = "@+id/appbarLayout"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:theme = "@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="@color/colorWhite"
-            app:title="@string/activity_example_label" />
+            android:id = "@+id/toolbar"
+            android:layout_width = "1000dp"
+            android:layout_height = "wrap_content"
+            android:background = "@color/colorWhite"
+            app:title = "@string/activity_example_label">
+
+
+        </androidx.appcompat.widget.Toolbar>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 

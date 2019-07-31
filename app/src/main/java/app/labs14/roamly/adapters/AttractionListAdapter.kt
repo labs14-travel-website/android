@@ -35,7 +35,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
-
+        //shoon 2019/08/01
         val  layoutInflater = LayoutInflater.from(parent.context)
 
         val view: View
@@ -59,19 +59,19 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
                     it.ll_expandable.visibility = View.GONE
                     setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.endLineColor)
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
-                    setMarker(holder, R.drawable.ic_marker_active, mAttributes.markerColor)
+                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_blue_600))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(mAttributes.endLineColor))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.endLineColor)
                 }
             }
         }
 
         holder.timeline.initLine(0)
-        holder.tvDescription.text = currentAttraction.description
+        holder.tvDescription.text = currentAttraction.itinerary_id.toString()+" "+currentAttraction.attraction_id.toString()+" "+currentAttraction.name+currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
         holder.tvTitle.text = currentAttraction.name
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
