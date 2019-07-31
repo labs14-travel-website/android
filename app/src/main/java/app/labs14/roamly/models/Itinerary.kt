@@ -11,5 +11,5 @@ class Itinerary(var destinationName: String, var description: String) {
 
     @ColumnInfo(name = "itinerary_id")
     @PrimaryKey(autoGenerate = true)
-    var itinerary_id: Long = 0
+    var itinerary_id: Int = 0
 }

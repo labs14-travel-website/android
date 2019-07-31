@@ -31,7 +31,7 @@ class AttractionViewModel(application: Application) : AndroidViewModel(applicati
         return allAttraction
     }
 
-    fun getAttractionById(id:Long):LiveData<List<Attraction>>{
+    fun getAttractionById(id:Int):LiveData<List<Attraction>>{
         return repository.getAttractionsByItineraryId(id)
     }
 }

@@ -33,6 +33,10 @@
     <string name="activity_example_label">Example</string>
     <string name="apply">Apply</string>
 
+
+    <string name="notification">New Notification</string>
+    <string name="notification_channel_description">This is a sample notification channel for demonstration purpose.</string>
+
     <string-array name="line_type">
         <item>Normal</item>
         <item>Dashed</item>

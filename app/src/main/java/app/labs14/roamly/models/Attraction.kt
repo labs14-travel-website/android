@@ -16,7 +16,7 @@ import androidx.room.*
     ))]
 )
 class Attraction(
-    val itinerary_id: Long,
+    val itinerary_id: Int,
     var name: String,
     var startTime: Long,
     var endTime: Long,
@@ -34,10 +34,10 @@ class Attraction(
 
     @ColumnInfo(name = "attraction_id")
     @PrimaryKey(autoGenerate = true)
-    var attraction_id: Long = 0
+    var attraction_id: Int = 0
 
     constructor(
-        itinerary_id: Long,
+        itinerary_id: Int,
         name: String,
         startTime: Long,
         endTime: Long,

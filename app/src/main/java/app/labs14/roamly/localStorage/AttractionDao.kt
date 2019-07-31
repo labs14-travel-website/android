@@ -23,5 +23,5 @@ interface AttractionDao {
     fun getAllAttractions(): LiveData<List<Attraction>>
 
     @Query("SELECT * FROM attraction_table WHERE itinerary_id = :id")
-    fun getAttractions(id: Long): LiveData<List<Attraction>>
+    fun getAttractions(id: Int): LiveData<List<Attraction>>
 }

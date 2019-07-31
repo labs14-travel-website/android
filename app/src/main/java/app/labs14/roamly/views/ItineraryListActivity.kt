@@ -47,6 +47,8 @@ class ItineraryListActivity : AppCompatActivity() {
          setupRecyclerView()
     }
 
+
+
     private fun setupRecyclerView() {
         rv_itinerary_list.layoutManager = LinearLayoutManager(this)
         rv_itinerary_list.setHasFixedSize(true)

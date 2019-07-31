@@ -83,7 +83,7 @@ class UserRepository(application: Application) {
         return allAttractions
     }
 
-    fun getAttractionsByItineraryId(id: Long): LiveData<List<Attraction>> {
+    fun getAttractionsByItineraryId(id: Int): LiveData<List<Attraction>> {
         var attractions = attractionDao.getAttractions(id)
         return attractions
     }
@@ -126,34 +126,34 @@ class UserRepository(application: Application) {
         //Attraction
 
         private class InsertAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
-            val activityEventDao = attractionDao
+            val attractionDao = attractionDao
 
             override fun doInBackground(vararg p0: Attraction?) {
-                activityEventDao.insert(p0[0]!!)
+                attractionDao.insert(p0[0]!!)
             }
         }
 
         private class UpdateAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
-            val activityEventDao = attractionDao
+            val attractionDao = attractionDao
 
             override fun doInBackground(vararg p0: Attraction?) {
-                activityEventDao.update(p0[0]!!)
+                attractionDao.update(p0[0]!!)
             }
         }
 
         private class DeleteAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {
-            val activityEventDao = attractionDao
+            val attractionDao = attractionDao
 
             override fun doInBackground(vararg p0: Attraction?) {
-                activityEventDao.delete(p0[0]!!)
+                attractionDao.delete(p0[0]!!)
             }
         }
 
         private class DeleteAllAttractionsAsyncTask(attractionDao: AttractionDao) : AsyncTask<Unit, Unit, Unit>() {
-            val activityEventDao = attractionDao
+            val attractionDao = attractionDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                activityEventDao.deleteAllAttractions()
+                attractionDao.deleteAllAttractions()
             }
         }
     }
