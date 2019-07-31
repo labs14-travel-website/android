@@ -70,7 +70,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             }
         }
         //Switch holder.tvTitle.text = currentAttraction.name //shoon 2019/08/01 debug purpose
-        holder.tvTitle.text = "itinerary_id:"+currentAttraction.itinerary_id.toString()+" attraction_id:"+currentAttraction.attraction_id.toString()+"\n"+currentAttraction.name //shoon 2019/08/01 debug purpose
+        holder.tvTitle.text = "position:"+position+" itinerary:"+currentAttraction.itinerary_id.toString()+" attraction:"+currentAttraction.attraction_id.toString()+"\n"+currentAttraction.name //shoon 2019/08/01 debug purpose
         holder.timeline.initLine(0)
         holder.tvDescription.text = currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
