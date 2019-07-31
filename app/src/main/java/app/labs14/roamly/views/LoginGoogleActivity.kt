@@ -47,7 +47,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
         notificationTest()
-        mockData()
+      //  mockData()
     }
 
     private fun debugMessages(){tv_debug.visibility = View.VISIBLE}

@@ -9,7 +9,7 @@ import androidx.room.*
     tableName = "itinerary_table")
 class Itinerary(var destinationName: String, var description: String) {
 
-    @ColumnInfo(name = "itinerary_id")
+    @ColumnInfo(name = "itin_id")
     @PrimaryKey(autoGenerate = true)
     var itinerary_id: Int = 0
 }

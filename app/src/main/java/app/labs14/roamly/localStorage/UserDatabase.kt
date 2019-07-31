@@ -11,7 +11,7 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 18)
+@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 19)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun itineraryDao(): ItineraryDao
@@ -28,7 +28,7 @@ abstract class UserDatabase : RoomDatabase() {
                         UserDatabase::class.java, "user_database"
                     )
                         .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
-                        .addCallback(roomCallback)
+                        //.addCallback(roomCallback)
                         .build()
                 }
             }

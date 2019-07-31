@@ -9,8 +9,8 @@ import androidx.room.*
     foreignKeys =
     [(ForeignKey(
         entity = Itinerary::class
-        , parentColumns = ["itinerary_id"]
-        , childColumns = ["attraction_id"]
+        , parentColumns = ["itin_id"]
+        , childColumns = ["itinerary_id"]
         , onUpdate = ForeignKey.CASCADE
         , onDelete = ForeignKey.CASCADE
     ))]

@@ -7,10 +7,10 @@ import app.labs14.roamly.models.Attraction
 @Dao
 interface AttractionDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(attraction:Attraction)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(attraction:Attraction)
 
     @Delete
