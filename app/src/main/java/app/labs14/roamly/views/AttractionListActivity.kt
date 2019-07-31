@@ -18,9 +18,8 @@ import app.labs14.roamly.adapters.AttractionListAdapter
 import app.labs14.roamly.models.*
 import app.labs14.roamly.utils.VectorDrawableUtils
 import app.labs14.roamly.viewModels.AttractionViewModel
-import app.labs14.roamly.viewModels.ItineraryViewModel
 import com.github.vipulasri.timelineview.TimelineView
-import kotlinx.android.synthetic.main.attraction_list_content.view.*
+import kotlinx.android.synthetic.main.attraction_list_content_horizontal.view.*
 import kotlinx.android.synthetic.main.itinerary_detail.*
 import java.util.ArrayList
 
@@ -32,6 +31,7 @@ class AttractionListActivity : AppCompatActivity() {
 
     var itineraryId:Long = 0
     private lateinit var mAttributes: TimelineAttributes
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.itinerary_detail)
@@ -47,8 +47,7 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.layoutManager = LinearLayoutManager(this)
         rv_attraction_list.setHasFixedSize(true)
 
-        var adapter = AttractionListAdapter(   mAttributes)
-
+        var adapter = AttractionListAdapter(mAttributes)
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
 
@@ -104,7 +103,7 @@ class AttractionListActivity : AppCompatActivity() {
             view = if (attribs.orientation == Orientation.HORIZONTAL) {
                 layoutInflater.inflate(R.layout.item_timeline_horizontal, parent, false)
             } else {
-                layoutInflater.inflate(R.layout.attraction_list_content, parent, false)
+                layoutInflater.inflate(R.layout.attraction_list_content_horizontal, parent, false)
             }
 
             return ViewHolder(view, viewType)

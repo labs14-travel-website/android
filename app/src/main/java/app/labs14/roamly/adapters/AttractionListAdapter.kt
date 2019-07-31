@@ -13,11 +13,11 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Orientation
 import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils
-import kotlinx.android.synthetic.main.attraction_list_content.view.*
+import kotlinx.android.synthetic.main.attraction_list_content_horizontal.view.*
 import java.util.*
 
 
-class AttractionListAdapter(private var mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
+class AttractionListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Attraction>() {
@@ -35,21 +35,22 @@ class AttractionListAdapter(private var mAttributes: TimelineAttributes) : andro
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content, parent, false)
+
         val  layoutInflater = LayoutInflater.from(parent.context)
 
         val view: View
         view = if (mAttributes.orientation == Orientation.HORIZONTAL) {
-            layoutInflater.inflate(R.layout.item_timeline_horizontal, parent, false)
+            layoutInflater.inflate(R.layout.attraction_list_content_horizontal, parent, false)
         } else {
-            layoutInflater.inflate(R.layout.attraction_list_content, parent, false)
+            layoutInflater.inflate(R.layout.attraction_list_content_vertical, parent, false)
         }
-        return AttractionHolder(itemView)
+        return AttractionHolder(view)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: AttractionHolder, position: Int) {
         val currentAttraction: Attraction = getItem(position)
+      //  val currentAttraction: Attraction = mFeedList[position]
 
 
         holder.itemView.setOnClickListener {
@@ -62,9 +63,9 @@ class AttractionListAdapter(private var mAttributes: TimelineAttributes) : andro
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
-                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_green_500)
+                    setMarker(holder, R.drawable.ic_marker_active, mAttributes.markerColor)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_blue_600))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.material_blue_600))
+                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(mAttributes.endLineColor))
                 }
             }
         }

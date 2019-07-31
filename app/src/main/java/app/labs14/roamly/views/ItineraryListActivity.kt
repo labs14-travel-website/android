@@ -57,7 +57,7 @@ class ItineraryListActivity : AppCompatActivity() {
         rv_itinerary_list.layoutManager = LinearLayoutManager(this)
         rv_itinerary_list.setHasFixedSize(true)
 
-        var adapter = ItineraryListAdapter()
+        var adapter = ItineraryListAdapter(mAttributes)
 
         rv_itinerary_list.adapter = adapter
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)

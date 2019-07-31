@@ -29,7 +29,7 @@
         android:layout_marginRight="6dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="app.labs14.roamly.views.ItineraryListActivity"
-        tools:listitem="@layout/itinerary_list_content" />
+        tools:listitem="@layout/itinerary_list_content_vertical" />
 
     <FrameLayout
         android:id="@+id/rv_itinerary_details2"
