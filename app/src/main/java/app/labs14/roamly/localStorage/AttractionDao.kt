@@ -6,7 +6,6 @@ import app.labs14.roamly.models.Attraction
 
 @Dao
 interface AttractionDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(attraction:Attraction)
 
@@ -22,6 +21,6 @@ interface AttractionDao {
     @Query("SELECT * FROM attraction_table")
     fun getAllAttractions(): LiveData<List<Attraction>>
 
-    @Query("SELECT * FROM attraction_table WHERE itinerary_id = :id")
+    @Query("SELECT * FROM attraction_table WHERE itin_id = :id")
     fun getAttractions(id: Int): LiveData<List<Attraction>>
 }

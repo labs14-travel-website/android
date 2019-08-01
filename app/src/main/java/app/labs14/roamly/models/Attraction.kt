@@ -5,18 +5,20 @@ import androidx.room.*
 //Brandon Lively - 07/28/2019
 
 @Entity(
-    tableName = "attraction_table",
-    foreignKeys =
+    tableName = "attraction_table"
+/*    foreignKeys =
     [(ForeignKey(
         entity = Itinerary::class
         , parentColumns = ["itin_id"]
-        , childColumns = ["itinerary_id"]
+        , childColumns = ["itin_id"]
         , onUpdate = ForeignKey.CASCADE
         , onDelete = ForeignKey.CASCADE
-    ))]
+    ))]*/
 )
 class Attraction(
-    val itinerary_id: Int,
+    @PrimaryKey
+    var attraction_id: Int,
+    var itin_id: Int,
     var name: String,
     var startTime: Long,
     var endTime: Long,
@@ -32,12 +34,13 @@ class Attraction(
     var transportLabel: String
 ) {
 
-    @ColumnInfo(name = "attraction_id")
-    @PrimaryKey(autoGenerate = true)
-    var attraction_id: Int = 0
+/*    @ColumnInfo(name = "attraction_id")
+    @PrimaryKey(autoGenerate = false)
+    var attraction_id: Int = 0*/
 
     constructor(
-        itinerary_id: Int,
+        attraction_id: Int,
+        itin_id: Int,
         name: String,
         startTime: Long,
         endTime: Long,
@@ -46,5 +49,13 @@ class Attraction(
         lng: String,
         address: String,
         phoneNum: String
-    ) : this(itinerary_id,name,startTime,endTime,0,0,description,lat,lng,address,phoneNum,0,0,"")
+    ) : this(attraction_id,itin_id,name,startTime,endTime,0,0,description,lat,lng,address,phoneNum,0,0,"")
+
+    constructor(
+        attraction_id: Int,
+        itin_id: Int,
+        name: String,
+        lat: String,
+        lng: String
+    ) : this(attraction_id,itin_id,name,3200000,3200000,0,0,"Description",lat,lng,"Address","Phone Number",0,0,"")
 }

@@ -3,6 +3,7 @@ package app.labs14.roamly.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,7 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
 
             override fun areContentsTheSame(oldItem: Itinerary, newItem: Itinerary): Boolean {
                 return oldItem.itinerary_id == newItem.itinerary_id &&
-                        oldItem.description == newItem.description &&
+                        oldItem.yearVisited == newItem.yearVisited &&
                         oldItem.destinationName == newItem.destinationName
             }
         }
@@ -36,8 +37,24 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
     override fun onBindViewHolder(holder: ItineraryHolder, position: Int) {
         val currentItinerary: Itinerary = getItem(position)
 
-        holder.tvDescription.text = currentItinerary.description
+        holder.tvYearVisted.text = currentItinerary.yearVisited
         holder.tvDestination.text = currentItinerary.destinationName
+
+        var imageResource : Int = R.drawable.stockitinimages1
+
+        when(position){
+            0 -> imageResource = R.drawable.stockitinimages1
+            1 -> imageResource = R.drawable.stockitinimages2
+            2 -> imageResource = R.drawable.stockitinimages3
+            3 -> imageResource = R.drawable.stockitinimages4
+            4 -> imageResource = R.drawable.stockitinimages5
+            5 -> imageResource = R.drawable.stockitinimages6
+            6 -> imageResource = R.drawable.stockitinimages7
+            7 -> imageResource = R.drawable.stockitinimages8
+            8 -> imageResource = R.drawable.stockitinimages9
+            9 -> imageResource = R.drawable.stockitinimages10
+        }
+        holder.ivBackgroundImage.setImageResource(imageResource)
     }
 
     fun getItineraryAt(position: Int): Itinerary {
@@ -54,8 +71,9 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
             }
         }
 
-        var tvDestination: TextView = itemView.content
-        var tvDescription: TextView = itemView.id_text
+        var tvDestination: TextView = itemView.tv_destination_name
+        var tvYearVisted: TextView = itemView.tv_year_visited
+        var ivBackgroundImage : ImageView = itemView.iv_itinerary_background
     }
 
     interface OnItemClickListener {

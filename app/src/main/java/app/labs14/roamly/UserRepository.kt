@@ -18,16 +18,26 @@ class UserRepository(application: Application) {
     private var allItineraries: LiveData<List<Itinerary>>
     private var allAttractions: LiveData<List<Attraction>>
 
+    private var isOnline = true
 
     init {
         val database: UserDatabase = UserDatabase.getInstance(
             application.applicationContext
         )!!
+
+        if(isOnline){
+
+            //TODO: get Data from RoamlyDao if valid,
+            // delete local data, set local data equal to data from RoamlyDao
+        }
+
+
         itineraryDao = database.itineraryDao()
         attractionDao = database.attractionDao()
 
         allItineraries = itineraryDao.getAllItineraries()
         allAttractions = attractionDao.getAllAttractions()
+
     }
 
 
