@@ -13,6 +13,7 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.utils.VectorDrawableUtils
 import kotlinx.android.synthetic.main.attraction_list_content.view.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
@@ -42,13 +43,13 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
         val currentAttraction: Attraction = getItem(position)
 
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.cv_attraction_background.setOnClickListener {
             when (it.ll_expandable.visibility) {
                 View.VISIBLE -> {
                     it.ll_expandable.visibility = View.GONE
                     setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
+                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.colorAttractionCardBackground))
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
@@ -59,8 +60,23 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
             }
         }
 
+        val etaHours = ((currentAttraction.transportEta) / 3600000)
+        val etaMinutes = ((currentAttraction.transportEta) %3600000)/60000
+        if(etaHours == 0L){
+            holder.tvTransportInfo.text = "ETA ${etaMinutes}min     ${currentAttraction.transportLabel}"
+        } else{
+            holder.tvTransportInfo.text = "ETA  ${etaHours}Hr  ${etaMinutes}min     ${currentAttraction.transportLabel}"
+        }
+
+
+        holder.itemView.cv_attraction_transport.setOnClickListener{
+            //TODO: pass coordinates off to google maps for navigation
+        }
+
         holder.timeline.initLine(0)
+        holder.timelineTravel.initLine(0)
         holder.tvDescription.text = currentAttraction.description
+        holder.timelineTravel.marker = holder.tvAddress.context.getDrawable(R.drawable.ic_directions_car_black_24dp)
         holder.tvAddress.text = currentAttraction.address
         holder.tvTitle.text = currentAttraction.name
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
@@ -92,7 +108,9 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
         var tvAddress = itemView.tv_attraction_address
         var tvPhoneNum = itemView.tv_phone_num
         var timeline = itemView.timeline
+        var timelineTravel = itemView.timeline2
         var cardColor = itemView.cv_attraction_background
+        var tvTransportInfo = itemView.tv_transport_info
 
     }
 

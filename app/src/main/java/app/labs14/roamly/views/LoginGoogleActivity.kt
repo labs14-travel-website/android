@@ -6,6 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
@@ -15,6 +16,7 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 import app.labs14.roamly.notifications.NotificationUtils
+import app.labs14.roamly.utils.BitmapConversion
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import com.google.android.gms.common.SignInButton
@@ -45,6 +47,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
         notificationTest()
+
       //mockData()
     }
 
@@ -116,28 +119,26 @@ class LoginGoogleActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-            val token = ""
-            if (account != null) {
-                val token = account.idToken
-            }
-
-            val headermap = hashMapOf<String,String>()
-            headermap["authorization"] = token
-
-            sign_in_button.visibility = View.GONE
-            var result = ""
-            Thread {
-                result = NetworkAdapter.httpRequest(
-                    "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
-                )
-            }.run { start() }
-           //TODO: Parse out user data from result.
-        } catch (e: ApiException) {
-            e.printStackTrace()
-            sign_in_button.visibility = View.VISIBLE
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) = try {
+        val account = completedTask.getResult(ApiException::class.java)
+        val token = ""
+        if (account != null) {
+            val token = account.idToken
         }
+
+        val headermap = hashMapOf<String,String>()
+        headermap["authorization"] = token
+
+        sign_in_button.visibility = View.GONE
+        var result = ""
+        Thread {
+            result = NetworkAdapter.httpRequest(
+                "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
+            )
+        }.run { start() }
+       //TODO: Parse out user data from result.
+    } catch (e: ApiException) {
+        e.printStackTrace()
+        sign_in_button.visibility = View.VISIBLE
     }
 }

@@ -1,15 +1,24 @@
 package app.labs14.roamly.adapters
 
+import android.content.Intent
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Itinerary
+import app.labs14.roamly.views.AttractionListActivity
+import app.labs14.roamly.views.ItineraryListActivity
+import kotlinx.android.synthetic.main.itinerary_list_content.*
 import kotlinx.android.synthetic.main.itinerary_list_content.view.*
+import kotlinx.android.synthetic.main.itinerary_list_content.view.iv_itinerary_background
+import kotlinx.android.synthetic.main.itinerary_list_content.view.tv_destination_name
 
 class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
 

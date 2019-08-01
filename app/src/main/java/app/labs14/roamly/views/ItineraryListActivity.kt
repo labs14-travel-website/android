@@ -2,7 +2,9 @@ package app.labs14.roamly.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.google.android.material.snackbar.Snackbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +15,7 @@ import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
 import kotlinx.android.synthetic.main.itinerary_list.*
+import kotlinx.android.synthetic.main.itinerary_list_content.*
 
 // Basil 7/24/2019
 /**
@@ -35,11 +38,8 @@ class ItineraryListActivity : AppCompatActivity() {
         if (rv_itinerary_details2 != null) {
             twoPane = true
         }
-
          setupRecyclerView()
     }
-
-
 
     private fun setupRecyclerView() {
         rv_itinerary_list.layoutManager = LinearLayoutManager(this)
@@ -56,9 +56,17 @@ class ItineraryListActivity : AppCompatActivity() {
 
         adapter.setOnItemClickListener(object : ItineraryListAdapter.OnItemClickListener {
             override fun onItemClick(itinerary: Itinerary) {
+
+
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
                 intent.putExtra("id",itinerary.itinerary_id)
                 intent.putExtra("title", itinerary.destinationName)
+/*
+                val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this@ItineraryListActivity, //2
+                        iv_itinerary_background, // 3
+                        "attraction_transition_image")*/
+
                 startActivity(intent)
             }
         })
