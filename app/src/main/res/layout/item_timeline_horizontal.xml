@@ -47,11 +47,9 @@
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:layout_marginTop = "10dp"
-        app:endLineColor = "@color/colorAccent"
         app:lineOrientation = "horizontal"
         app:lineStyle = "dash"
         app:lineWidth = "2dp"
-        app:markerSize = "20dp"
-        app:startLineColor = "@color/colorAccent" />
+        app:markerSize = "20dp" />
 
 </LinearLayout>
