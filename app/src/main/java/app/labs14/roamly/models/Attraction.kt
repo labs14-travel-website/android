@@ -4,17 +4,7 @@ import androidx.room.*
 
 //Brandon Lively - 07/28/2019
 
-@Entity(
-    tableName = "attraction_table"
-/*    foreignKeys =
-    [(ForeignKey(
-        entity = Itinerary::class
-        , parentColumns = ["itin_id"]
-        , childColumns = ["itin_id"]
-        , onUpdate = ForeignKey.CASCADE
-        , onDelete = ForeignKey.CASCADE
-    ))]*/
-)
+@Entity(tableName = "attraction_table")
 class Attraction(
     @PrimaryKey
     var attraction_id: Int,
@@ -33,11 +23,6 @@ class Attraction(
     var transportEta: Long,
     var transportLabel: String
 ) {
-
-/*    @ColumnInfo(name = "attraction_id")
-    @PrimaryKey(autoGenerate = false)
-    var attraction_id: Int = 0*/
-
     constructor(
         attraction_id: Int,
         itin_id: Int,

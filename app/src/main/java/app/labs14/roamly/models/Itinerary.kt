@@ -11,9 +11,8 @@ import app.labs14.roamly.utils.Utils
 
 //Brandon Lively - 07/28/2019
 
-@Entity(
-    tableName = "itinerary_table")
-class Itinerary(@PrimaryKey var itinerary_id:Int, var destinationName: String, var yearVisited: String) {
+@Entity(tableName = "itinerary_table")
+class Itinerary(@PrimaryKey var itinerary_id:Int, var destinationName: String, var timeVisited: Long) {
 
-    constructor(itinerary_id: Int):this(itinerary_id,"Destination", "Jan 2020")
+    constructor(itinerary_id: Int):this(itinerary_id,"Destination", 1564689933)
 }

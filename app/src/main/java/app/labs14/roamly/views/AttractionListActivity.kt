@@ -26,6 +26,7 @@ class AttractionListActivity : AppCompatActivity() {
 
         var bundle: Bundle? = intent.extras
         itineraryId = bundle!!.getInt("id", 0)
+
         var title : TextView = tv_attraction_title
         title.text = bundle.getString("title","Title")
 

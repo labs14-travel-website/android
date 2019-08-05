@@ -18,14 +18,7 @@ import kotlinx.android.synthetic.main.itinerary_list.*
 import kotlinx.android.synthetic.main.itinerary_list_content.*
 
 // Basil 7/24/2019
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [AttractionListActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
+
 class ItineraryListActivity : AppCompatActivity() {
 
     private var twoPane: Boolean = false
@@ -57,15 +50,9 @@ class ItineraryListActivity : AppCompatActivity() {
         adapter.setOnItemClickListener(object : ItineraryListAdapter.OnItemClickListener {
             override fun onItemClick(itinerary: Itinerary) {
 
-
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
                 intent.putExtra("id",itinerary.itinerary_id)
                 intent.putExtra("title", itinerary.destinationName)
-/*
-                val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    this@ItineraryListActivity, //2
-                        iv_itinerary_background, // 3
-                        "attraction_transition_image")*/
 
                 startActivity(intent)
             }

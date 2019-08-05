@@ -5,7 +5,4 @@ import androidx.room.*
 //Brandon Lively - 07/28/2019
 
 class User(
-    var name: String = ""
-) {
-    var Itineraries = listOf<Itinerary>()
-}
+    var name: String = "")

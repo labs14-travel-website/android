@@ -42,6 +42,11 @@ public class NetworkAdapter {
         return httpRequest(urlString, requestMethod, null, headerProperties);
     }
 
+
+    public static String httpRequest(String urlString, String requestMethod, JSONObject requestBody) {
+        return httpRequest(urlString, requestMethod, requestBody, null);
+    }
+
     public static String httpRequest(String urlString, String requestMethod, JSONObject requestBody, Map<String, String> headerProperties) {
         String             result      = "";
         InputStream        inputStream = null;
@@ -87,7 +92,6 @@ public class NetworkAdapter {
                     result = builder.toString();
                 }
             }
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -102,7 +106,6 @@ public class NetworkAdapter {
                     e.printStackTrace();
                 }
             }
-
             if (connection != null) {
                 connection.disconnect();
             }

@@ -16,18 +16,6 @@
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"></LinearLayout>
 
-    <TextView
-        android:id = "@+id/tv_debug"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:lines = "5"
-        android:text = "Debug info\n"
-        android:textColor = "#0a0"
-        android:textSize = "12sp"
-        android:visibility = "gone"
-        app:layout_constraintLeft_toLeftOf = "parent"
-        app:layout_constraintTop_toTopOf = "parent" />
-
     <com.google.android.gms.common.SignInButton
         android:id = "@+id/sign_in_button"
         android:layout_width = "wrap_content"
@@ -42,6 +30,7 @@
         android:layout_width = "wrap_content"
         android:layout_height = "wrap_content"
         android:text = "Offline Login"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf = "parent"
         app:layout_constraintLeft_toLeftOf = "parent"
         app:layout_constraintRight_toRightOf = "parent"

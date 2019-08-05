@@ -1,24 +1,19 @@
 package app.labs14.roamly.adapters
 
-import android.content.Intent
-import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
+import app.labs14.roamly.data.Constants
 import app.labs14.roamly.models.Itinerary
-import app.labs14.roamly.views.AttractionListActivity
-import app.labs14.roamly.views.ItineraryListActivity
-import kotlinx.android.synthetic.main.itinerary_list_content.*
 import kotlinx.android.synthetic.main.itinerary_list_content.view.*
 import kotlinx.android.synthetic.main.itinerary_list_content.view.iv_itinerary_background
 import kotlinx.android.synthetic.main.itinerary_list_content.view.tv_destination_name
+import java.util.*
 
 class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
 
@@ -30,7 +25,7 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
 
             override fun areContentsTheSame(oldItem: Itinerary, newItem: Itinerary): Boolean {
                 return oldItem.itinerary_id == newItem.itinerary_id &&
-                        oldItem.yearVisited == newItem.yearVisited &&
+                        oldItem.timeVisited == newItem.timeVisited &&
                         oldItem.destinationName == newItem.destinationName
             }
         }
@@ -46,12 +41,12 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
     override fun onBindViewHolder(holder: ItineraryHolder, position: Int) {
         val currentItinerary: Itinerary = getItem(position)
 
-        holder.tvYearVisted.text = currentItinerary.yearVisited
+        holder.tvYearVisted.text = Constants.itineraryCardFormat.format(Date(currentItinerary.timeVisited * 1000L))
         holder.tvDestination.text = currentItinerary.destinationName
 
         var imageResource : Int = R.drawable.stockitinimages1
 
-        when(position){
+        when(position%10){
             0 -> imageResource = R.drawable.stockitinimages1
             1 -> imageResource = R.drawable.stockitinimages2
             2 -> imageResource = R.drawable.stockitinimages3

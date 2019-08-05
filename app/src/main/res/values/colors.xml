@@ -5,6 +5,7 @@
     <!--<color name="colorAccent">#D81B60</color>-->
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#CCCCCC</color>
+    <color name="colorAccent">#007EFF</color>
     <color name="colorAttractionCardBackground">#353030</color>
 
     <color name="colorBlack">#000000</color>

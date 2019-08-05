@@ -11,7 +11,7 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 25)
+@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 29)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun itineraryDao(): ItineraryDao
@@ -54,16 +54,16 @@ abstract class UserDatabase : RoomDatabase() {
         private val attractionDao = db?.attractionDao()
 
         override fun doInBackground(vararg p0: Unit?) {
-            itineraryDao?.insert(Itinerary(1,"Thailand", "Aug 2020"))
-            itineraryDao?.insert(Itinerary(2,"Bali", "Jan 2019"))
-            itineraryDao?.insert(Itinerary(3,"Vegas", "Mar 2017"))
-            itineraryDao?.insert(Itinerary(4,"Fuji", "June 2016"))
-            itineraryDao?.insert(Itinerary(5,"San Francisco", "Mar 2015"))
-            itineraryDao?.insert(Itinerary(6,"Tunisia", "May 2014"))
-            itineraryDao?.insert(Itinerary(7,"Ghana", "July 2013"))
-            itineraryDao?.insert(Itinerary(8,"Antarctica", "Oct 2010"))
-            itineraryDao?.insert(Itinerary(9,"Patagonia", "Dec 2005"))
-            itineraryDao?.insert(Itinerary(10,"Brooklyn", "Apr 2003"))
+            itineraryDao?.insert(Itinerary(1,"Thailand", 1596312333))
+            itineraryDao?.insert(Itinerary(2,"Bali", 1546373133))
+            itineraryDao?.insert(Itinerary(3,"Vegas", 1488398733))
+            itineraryDao?.insert(Itinerary(4,"Fuji", 1464811533))
+            itineraryDao?.insert(Itinerary(5,"San Francisco", 1425240333))
+            itineraryDao?.insert(Itinerary(6,"Tunisia", 1398974733))
+            itineraryDao?.insert(Itinerary(7,"Ghana", 1370117133))
+            itineraryDao?.insert(Itinerary(8,"Antarctica", 1285963533))
+            itineraryDao?.insert(Itinerary(9,"Patagonia", 1133467533))
+            itineraryDao?.insert(Itinerary(10,"Brooklyn", 1049227533))
 
             attractionDao?.insert(Attraction(1,1,"Temple Hopping", 1564486657,1564496100,25,25,"See the exquisitely preserved temples","13.736717", "100.523186", "Thailand", "(477) 697-6290",5,1956448,"Tuk-tuk"))
             attractionDao?.insert(Attraction(2,1,"Yoga Teacher Training", 1564486657,1564496100,25,25,"Join an advanced yoga seminar","13.736717", "100.523186", "Thailand", "(515) 696-1405",5,1859950,"Tuk-tuk"))

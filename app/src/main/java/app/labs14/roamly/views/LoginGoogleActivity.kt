@@ -22,7 +22,9 @@ import app.labs14.roamly.viewModels.ItineraryViewModel
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
+import org.json.JSONObject
 import java.util.*
+import kotlin.concurrent.thread
 
 
 const val RC_SIGN_IN = 123
@@ -33,25 +35,25 @@ class LoginGoogleActivity : AppCompatActivity() {
     private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
     private var mNotified = false
 
-
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
-
+    var response = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
 
         initViewModels()
-        debugMessages()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-        notificationTest()
-
-      //mockData()
+        networkTest()
+        //notificationTest()
     }
 
-    private fun debugMessages(){tv_debug.visibility = View.VISIBLE}
+
+    fun networkTest(){
+        //thread { response =  NetworkAdapter.httpRequest("https://roamly-staging.herokuapp.com/city/image?q=New+York") }
+    }
 
     private fun notificationTest(){
         if (!mNotified) {
@@ -59,35 +61,9 @@ class LoginGoogleActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadUserData(){
-
-        //TODO: if internet connection isn't available
-        // or user settings is set to offline getLocalData
-
-    }
-
     private fun initViewModels(){
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
-    }
-
-    private fun updateAttraction(updateAttraction:List<Attraction>,pos:Int){
-    }
-
-    private fun updateItinerary(updateItinerary:List<Itinerary>){
-    }
-
-    private fun updateUser(){
-
-    }
-
-    private fun mockData(){
-    }
-
-    private fun getLocalUserData(){
-    }
-
-    private fun getServerUserData(){
     }
 
     private fun googleLoginInit(){
