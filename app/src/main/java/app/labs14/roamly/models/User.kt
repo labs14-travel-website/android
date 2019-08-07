@@ -1,8 +1,10 @@
 package app.labs14.roamly.models
 
-import androidx.room.*
 
-//Brandon Lively - 07/28/2019
-
+//shoon 2019/08/07
 class User(
-    var name: String = "")
+    var id:String,
+    var name: String = "",
+    var email: String = "",
+
+    var itineraries: List<Itinerary> )

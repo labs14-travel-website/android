@@ -1,14 +1,8 @@
 apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-kapt'
-
+apply plugin: 'com.apollographql.android'   //shoon 2019/08/07 apollo plugsin has to be here
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
-apply plugin: 'com.apollographql.android'
 
 android {
     compileSdkVersion 28
