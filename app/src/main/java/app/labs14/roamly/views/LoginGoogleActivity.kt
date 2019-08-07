@@ -19,9 +19,14 @@ import app.labs14.roamly.notifications.NotificationUtils
 import app.labs14.roamly.utils.BitmapConversion
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
+import com.apollographql.apollo.ApolloCall
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.exception.ApolloException
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
+import okhttp3.OkHttpClient
 import org.json.JSONObject
 import java.util.*
 import kotlin.concurrent.thread
@@ -39,6 +44,22 @@ class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
     var response = ""
+
+    //Apollo prep shoon 2019/08/07
+    companion object {
+        private const val BASE_URL = "https://roamly-staging.herokuapp.com/gql"
+        private const val ROAMLY_ACCESS_TOKENS = ""
+    }
+
+    val okHttpClient = OkHttpClient.Builder()
+        .authenticator { _, response ->
+            response.request().newBuilder().addHeader("Authorization", "Bearer 0").build()
+        }.build()
+
+    val apolloClient = ApolloClient.builder()
+        .serverUrl(BASE_URL)
+        .build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
@@ -47,7 +68,27 @@ class LoginGoogleActivity : AppCompatActivity() {
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
         networkTest()
+        setupApollo()
         //notificationTest()
+    }
+
+    private fun setupApollo(){
+
+        val query = AllInfoQuery.builder().build()
+
+
+
+         apolloClient.query(query).enqueue(object : ApolloCall.Callback<AllInfoQuery.Data>() {
+                 override fun onFailure(e: ApolloException) {
+                     print(e.toString())
+                 }
+
+                 override fun onResponse(response: Response<AllInfoQuery.Data>) {
+                     val users = response.data()?.users()
+
+                     print(users?.get(0))
+                 }
+             })
     }
 
 

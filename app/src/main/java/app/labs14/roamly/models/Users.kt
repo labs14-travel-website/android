@@ -5,4 +5,4 @@ import androidx.room.*
 //Brandon Lively - 07/28/2019
 
 class Users(
-    var name: String = "")
+    var user: List<User>)
