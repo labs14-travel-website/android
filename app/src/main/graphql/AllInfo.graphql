@@ -7,12 +7,14 @@ query AllInfo{
       attractions{
         id
         phone
+        lat
+        lng
+        address
         price
         placeId
         numRatings
         description
       }
-      
     }
   }
 }

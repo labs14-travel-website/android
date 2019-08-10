@@ -1,4 +1,4 @@
-package app.labs14.roamly.views
+package app.labs14.roamly. views
 
 import android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,6 +15,7 @@ import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
+import app.labs14.roamly.models.Users
 import app.labs14.roamly.notifications.NotificationUtils
 import app.labs14.roamly.utils.BitmapConversion
 import app.labs14.roamly.viewModels.AttractionViewModel
@@ -28,7 +29,9 @@ import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 import okhttp3.OkHttpClient
 import org.json.JSONObject
+import java.lang.ArithmeticException
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 
@@ -44,6 +47,8 @@ class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
     var response = ""
+
+
 
     //Apollo prep shoon 2019/08/07
     companion object {
@@ -72,21 +77,27 @@ class LoginGoogleActivity : AppCompatActivity() {
         //notificationTest()
     }
 
+    var users: Users?= Users(ArrayList<User>(1))
+    //Apollo prep shoon 2019/08/07
     private fun setupApollo(){
-
         val query = AllInfoQuery.builder().build()
-
-
 
          apolloClient.query(query).enqueue(object : ApolloCall.Callback<AllInfoQuery.Data>() {
                  override fun onFailure(e: ApolloException) {
                      print(e.toString())
                  }
-
                  override fun onResponse(response: Response<AllInfoQuery.Data>) {
-                     val users = response.data()?.users()
 
-                     print(users?.get(0))
+                     var allusers = response.data()?.users()
+                    tv_debug.text= /*allusers?.size.toString()+allusers?.get(1).toString()+*/"  ID="+ allusers?.get(0)?.id().toString()
+
+
+                     var tempItineraries: MutableList<Itinerary> = ArrayList<Itinerary>(10)
+
+
+                     var tempUser:User=User(
+                         allusers?.get(0)?.id().toString(),allusers?.get(0)?.name().toString(),allusers?.get(0)?.name().toString(),tempItineraries)
+                     users?.user?.add(tempUser)
                  }
              })
     }

@@ -58,7 +58,4 @@ class ItineraryListActivity : AppCompatActivity() {
             }
         })
     }
-
-
-
 }
