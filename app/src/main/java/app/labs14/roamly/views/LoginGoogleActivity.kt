@@ -92,7 +92,7 @@ class LoginGoogleActivity : AppCompatActivity() {
             lineDashGap = Utils.dpToPx(2f, this)
         )
         btn_option.setOnClickListener{viewOption()}
-        mockData()
+       // mockData()
         //notificationTest()
     }
     private fun viewOption(){
@@ -222,15 +222,13 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun mockData(){
-
         itineraryViewModel.deleteAllItineraries()
-
         itineraryViewModel.insert(Itinerary(1,"Bali", 1564486657))
 
         itineraryViewModel.insert(Itinerary(2,"Vegas", 1564485950))
 //        itineraryViewModel.getAllItineraries()
-        attractionViewModel.insert(Attraction(1,1,"Ocean Snorkeling", 1564486657,1564496100,25,25,"Get close to seastars and manatees","-8.409518", "115.188919", "Bali, Indonesia", "(525) 264-1082",1,1564485950,"Airplane"))
-        attractionViewModel.insert(Attraction(1,2,"Jungle Treking", 1564486657,1564496100,25,25,"Get lost in the green","-8.409518", "115.188919", "Bali, Indonesia", "(406) 703-6279",1,1564485950,"Airplane"))
+        attractionViewModel.insert(Attraction(3,1,"Ocean Snorkeling", 1564486657,1564496100,25,25,"Get close to seastars and manatees","-8.409518", "115.188919", "Bali, Indonesia", "(525) 264-1082",1,1564485950,"Airplane"))
+        attractionViewModel.insert(Attraction(4,2,"Jungle Treking", 1564486657,1564496100,25,25,"Get lost in the green","-8.409518", "115.188919", "Bali, Indonesia", "(406) 703-6279",1,1564485950,"Airplane"))
 
 
 

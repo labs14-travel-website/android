@@ -59,8 +59,8 @@ class ItineraryListActivity : AppCompatActivity() {
             override fun onItemClick(itinerary: Itinerary) {
 
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
-                intent.putExtra("id",itinerary.itinerary_id)
-                intent.putExtra("title", itinerary.destinationName)
+       //         intent.putExtra("id",itinerary.itinerary_id)
+       //         intent.putExtra("title", itinerary.destinationName)
 
                 startActivity(intent)
             }

@@ -150,6 +150,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
+
         this.listener = listener
     }
 

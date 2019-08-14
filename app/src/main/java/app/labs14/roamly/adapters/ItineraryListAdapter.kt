@@ -40,7 +40,7 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
         itemView = if (mAttributes.orientation == Orientation.HORIZONTAL) {
             layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
         } else {
-            layoutInflater.inflate(R.layout.itinerary_list_content_horizontal, parent, false)
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
         }
         return ItineraryHolder(itemView)
     }
