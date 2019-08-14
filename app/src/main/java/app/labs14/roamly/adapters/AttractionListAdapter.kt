@@ -13,14 +13,16 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import kotlinx.android.synthetic.main.attraction_list_content.view.*
+import kotlinx.android.synthetic.main.attraction_list_content_vertical.view.*
+
 import java.util.*
 
 
-class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
+class AttractionListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
 
     lateinit var nextAttraction: Attraction
 
@@ -40,7 +42,7 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content, parent, false)
+        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content_vertical, parent, false)
         return AttractionHolder(itemView)
     }
 

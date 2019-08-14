@@ -19,6 +19,7 @@ class AttractionListActivity : AppCompatActivity() {
     private lateinit var attractionViewModel: AttractionViewModel
 
     var itineraryId:Int = 0
+    private lateinit var mAttributes: TimelineAttributes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.layoutManager = LinearLayoutManager(this)
         rv_attraction_list.setHasFixedSize(true)
 
-        var adapter = AttractionListAdapter()
+        var adapter = AttractionListAdapter(mAttributes)
 
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)

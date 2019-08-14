@@ -1,6 +1,8 @@
 package app.labs14.roamly.models
 
+import android.os.Parcelable
 import androidx.room.Entity
+import kotlinx.android.parcel.Parcelize
 
 
 //shoon 2019/08/07

@@ -9,24 +9,32 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.adapters.ItineraryListAdapter
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Itinerary
+import app.labs14.roamly.models.TimelineAttributes
+import app.labs14.roamly.models.Users
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
 import kotlinx.android.synthetic.main.itinerary_list.*
-import kotlinx.android.synthetic.main.itinerary_list_content.*
+
 
 // Basil 7/24/2019
 
 class ItineraryListActivity : AppCompatActivity() {
-
+    private lateinit var mAttributes: TimelineAttributes
     private var twoPane: Boolean = false
     private lateinit var itineraryViewModel: ItineraryViewModel
+    private lateinit var users: Users
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itinerary_list)
+
+        var bundle: Bundle? = intent.extras
+        mAttributes = bundle!!.getParcelable("attributes")
+    //    users = bundle!!.getParcelable("users")
 
         if (rv_itinerary_details2 != null) {
             twoPane = true
@@ -38,7 +46,7 @@ class ItineraryListActivity : AppCompatActivity() {
         rv_itinerary_list.layoutManager = LinearLayoutManager(this)
         rv_itinerary_list.setHasFixedSize(true)
 
-        var adapter = ItineraryListAdapter()
+        var adapter = ItineraryListAdapter(mAttributes)
 
         rv_itinerary_list.adapter = adapter
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)

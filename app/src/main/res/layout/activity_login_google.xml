@@ -22,6 +22,18 @@
         app:layout_constraintLeft_toLeftOf = "parent"
         app:layout_constraintTop_toTopOf = "parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="@dimen/bottom_padding_recycler_view"
+        android:clipToPadding="false"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     <com.google.android.gms.common.SignInButton
         android:id = "@+id/sign_in_button"
         android:layout_width = "wrap_content"

@@ -17,6 +17,7 @@
     <string name="elevation">Size</string>
     <string name="size">Size</string>
     <string name="color">Color</string>
+    <string name="background">Background</string>
     <string name="marker_drawable_message">You can also change the marker drawable in attributes.</string>
     <string name="marker_in_center">In center</string>
     <string name="line">Line</string>

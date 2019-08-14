@@ -9,21 +9,24 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.data.NetworkAdapter
 import app.labs14.roamly.R
-import app.labs14.roamly.models.Attraction
-import app.labs14.roamly.models.Itinerary
-import app.labs14.roamly.models.User
-import app.labs14.roamly.models.Users
+import app.labs14.roamly.adapters.AttractionListAdapter
+import app.labs14.roamly.models.*
 import app.labs14.roamly.notifications.NotificationUtils
 import app.labs14.roamly.utils.BitmapConversion
+import app.labs14.roamly.utils.Utils
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.github.vipulasri.timelineview.TimelineView
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
@@ -38,11 +41,12 @@ import kotlin.concurrent.thread
 const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
-
+    private lateinit var mAdapter: AttractionListAdapter
+    private lateinit var mAttributes: TimelineAttributes
     //Test Notification
     private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
     private var mNotified = false
-
+ //   private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
@@ -74,7 +78,44 @@ class LoginGoogleActivity : AppCompatActivity() {
         btn_offline.setOnClickListener { offlineSignOn()}
         networkTest()
         setupApollo()
+        //default values
+        mAttributes = TimelineAttributes(
+            markerSize = Utils.dpToPx(20f, this),
+            markerColor = ContextCompat.getColor(this, R.color.material_grey_500),
+            markerInCenter = true,
+            linePadding = Utils.dpToPx(2f, this),
+            startLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            endLineColor = ContextCompat.getColor(this, R.color.colorAccent),
+            lineStyle = TimelineView.LineStyle.NORMAL,
+            lineWidth = Utils.dpToPx(2f, this),
+            lineDashWidth = Utils.dpToPx(4f, this),
+            lineDashGap = Utils.dpToPx(2f, this)
+        )
+        btn_option.setOnClickListener{viewOption()}
+        mockData()
         //notificationTest()
+    }
+    private fun viewOption(){
+        TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {
+            override fun onAttributesChanged(attributes: TimelineAttributes) {
+                mAttributes = attributes
+                initAdapter()
+            }
+        })
+    }
+
+    private fun initAdapter() {
+
+        val mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        } else {
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        }
+
+        recyclerView.layoutManager = mLayoutManager
+
+        mAdapter = AttractionListAdapter( mAttributes)
+        recyclerView.adapter = mAdapter
     }
 
     var users: Users?= Users(ArrayList<User>(1))
@@ -83,23 +124,29 @@ class LoginGoogleActivity : AppCompatActivity() {
         val query = AllInfoQuery.builder().build()
 
          apolloClient.query(query).enqueue(object : ApolloCall.Callback<AllInfoQuery.Data>() {
-                 override fun onFailure(e: ApolloException) {
-                     print(e.toString())
-                 }
-                 override fun onResponse(response: Response<AllInfoQuery.Data>) {
+             override fun onFailure(e: ApolloException) {
+                 print(e.toString())
+             }
 
+             override fun onResponse(response: Response<AllInfoQuery.Data>) {
+
+                 var allusers = response.data()?.users()
+                tv_debug.text= /*allusers?.size.toString()+allusers?.get(1).toString()+*/"  ID="+ allusers?.get(0)?.id().toString()
+
+
+                    var tempItineraries: MutableList<Itinerary> = ArrayList<Itinerary>(10)
+                 for(i in 0..(allusers?.size ?: 1)
+                     -1){
+
+                    var tempUser:User=User(
+                        allusers?.get(i)?.id().toString(),allusers?.get(i)?.name().toString(),allusers?.get(i)?.name().toString(),tempItineraries)
+                    users?.user?.add(tempUser)
                      var allusers = response.data()?.users()
-                    tv_debug.text= /*allusers?.size.toString()+allusers?.get(1).toString()+*/"  ID="+ allusers?.get(0)?.id().toString()
+                     tv_debug.text= "name="+ allusers?.get(i)?.name().toString()
+                }
 
-
-                     var tempItineraries: MutableList<Itinerary> = ArrayList<Itinerary>(10)
-
-
-                     var tempUser:User=User(
-                         allusers?.get(0)?.id().toString(),allusers?.get(0)?.name().toString(),allusers?.get(0)?.name().toString(),tempItineraries)
-                     users?.user?.add(tempUser)
-                 }
-             })
+             }
+         })
     }
 
 
@@ -144,6 +191,10 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
+
+        intent.putExtra("attributes",mAttributes)
+
+//        intent.putExtra("users",users)
         startActivity(intent)
     }
 
@@ -168,5 +219,20 @@ class LoginGoogleActivity : AppCompatActivity() {
     } catch (e: ApiException) {
         e.printStackTrace()
         sign_in_button.visibility = View.VISIBLE
+    }
+
+    private fun mockData(){
+
+        itineraryViewModel.deleteAllItineraries()
+
+        itineraryViewModel.insert(Itinerary(1,"Bali", 1564486657))
+
+        itineraryViewModel.insert(Itinerary(2,"Vegas", 1564485950))
+//        itineraryViewModel.getAllItineraries()
+        attractionViewModel.insert(Attraction(1,1,"Ocean Snorkeling", 1564486657,1564496100,25,25,"Get close to seastars and manatees","-8.409518", "115.188919", "Bali, Indonesia", "(525) 264-1082",1,1564485950,"Airplane"))
+        attractionViewModel.insert(Attraction(1,2,"Jungle Treking", 1564486657,1564496100,25,25,"Get lost in the green","-8.409518", "115.188919", "Bali, Indonesia", "(406) 703-6279",1,1564485950,"Airplane"))
+
+
+
     }
 }

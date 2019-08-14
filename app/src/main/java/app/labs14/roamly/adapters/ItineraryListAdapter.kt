@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
 import app.labs14.roamly.data.Constants
 import app.labs14.roamly.models.Itinerary
-import kotlinx.android.synthetic.main.itinerary_list_content.view.*
-import kotlinx.android.synthetic.main.itinerary_list_content.view.iv_itinerary_background
-import kotlinx.android.synthetic.main.itinerary_list_content.view.tv_destination_name
+import app.labs14.roamly.models.Orientation
+import app.labs14.roamly.models.TimelineAttributes
+import kotlinx.android.synthetic.main.itinerary_list_content_vertical.view.*
+
 import java.util.*
 
-class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
+class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Itinerary>() {
@@ -34,7 +35,13 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItineraryHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.itinerary_list_content, parent, false)
+        val  layoutInflater = LayoutInflater.from(parent.context)
+        val itemView: View
+        itemView = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.itinerary_list_content_horizontal, parent, false)
+        }
         return ItineraryHolder(itemView)
     }
 

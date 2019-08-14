@@ -80,5 +80,16 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
 
+    implementation "androidx.core:core-ktx:1.0.2"
 
+    implementation ('com.thebluealliance:spectrum:0.7.1') {
+        exclude group: 'com.android.support'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
+    implementation ('org.adw.library:discrete-seekbar:1.0.1') {
+        exclude group: 'com.android.support'
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
 }
