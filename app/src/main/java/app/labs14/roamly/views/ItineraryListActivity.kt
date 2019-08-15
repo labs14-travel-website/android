@@ -40,6 +40,14 @@ class ItineraryListActivity : AppCompatActivity() {
             twoPane = true
         }
          setupRecyclerView()
+        button_all_attraction.setOnClickListener {  showAllItinerary()}
+    }
+
+    private fun showAllItinerary(){
+        var intent = Intent(baseContext, AllAttractionListActivity::class.java)
+
+
+        startActivity(intent)
     }
 
     private fun setupRecyclerView() {
@@ -59,8 +67,9 @@ class ItineraryListActivity : AppCompatActivity() {
             override fun onItemClick(itinerary: Itinerary) {
 
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
-       //         intent.putExtra("id",itinerary.itinerary_id)
-       //         intent.putExtra("title", itinerary.destinationName)
+                intent.putExtra("id",itinerary.itinerary_id)
+                intent.putExtra("title", itinerary.destinationName)
+                intent.putExtra("attributes", mAttributes)
 
                 startActivity(intent)
             }

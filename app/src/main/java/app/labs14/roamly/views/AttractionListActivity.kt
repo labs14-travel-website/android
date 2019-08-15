@@ -30,6 +30,7 @@ class AttractionListActivity : AppCompatActivity() {
 
         var title : TextView = tv_attraction_title
         title.text = bundle.getString("title","Title")
+        mAttributes = bundle!!.getParcelable("attributes")
 
         initRecyclerView()
     }
