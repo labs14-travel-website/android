@@ -37,6 +37,7 @@ class AllAttractionListActivity : AppCompatActivity() {
         setContentView(R.layout.itinerary_detail)
 
         var bundle: Bundle? = intent.extras
+        toolbar.title = bundle!!.getString("title")
         mAttributes = bundle!!.getParcelable("attributes")
 
         initRecyclerView()

@@ -31,7 +31,7 @@ class ItineraryListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_itinerary_list)
-
+        toolbar.title = title
         var bundle: Bundle? = intent.extras
         mAttributes = bundle!!.getParcelable("attributes")
     //    users = bundle!!.getParcelable("users")
@@ -45,8 +45,8 @@ class ItineraryListActivity : AppCompatActivity() {
 
     private fun showAllItinerary(){
         var intent = Intent(baseContext, AllAttractionListActivity::class.java)
-
-
+        intent.putExtra("title", "All attractions")
+        intent.putExtra("attributes",mAttributes)
         startActivity(intent)
     }
 
