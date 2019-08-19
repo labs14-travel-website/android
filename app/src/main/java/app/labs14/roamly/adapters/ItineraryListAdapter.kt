@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Itinerary
-import kotlinx.android.synthetic.main.itinerary_list_content.view.*
+import app.labs14.roamly.models.Orientation
+import app.labs14.roamly.models.TimelineAttributes
+import kotlinx.android.synthetic.main.itinerary_list_content_vertical.view.*
 
-class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
+class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Itinerary, ItineraryListAdapter.ItineraryHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Itinerary>() {
@@ -29,14 +31,24 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItineraryHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.itinerary_list_content, parent, false)
-        return ItineraryHolder(itemView)
+
+
+        val  layoutInflater = LayoutInflater.from(parent.context)
+        val view: View
+        view = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
+        }
+        return ItineraryHolder(view)
     }
 
     override fun onBindViewHolder(holder: ItineraryHolder, position: Int) {
+
         val currentItinerary: Itinerary = getItem(position)
 
-        holder.tvDescription.text = currentItinerary.description
+      //  holder.tvDescription.text = currentItinerary.description //shoon 2019/08/01
+        holder.tvDescription.text = currentItinerary.itinerary_id.toString()+" "+currentItinerary.description //shoon 2019/08/01
         holder.tvDestination.text = currentItinerary.destinationName
     }
 
@@ -47,6 +59,10 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
     inner class ItineraryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
+
+                tvDescription.setBackgroundColor(mAttributes.endLineColor) //fOR TESTING
+
+
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener?.onItemClick(getItem(position))
@@ -56,6 +72,7 @@ class ItineraryListAdapter : androidx.recyclerview.widget.ListAdapter<Itinerary,
 
         var tvDestination: TextView = itemView.content
         var tvDescription: TextView = itemView.id_text
+
     }
 
     interface OnItemClickListener {

@@ -10,12 +10,14 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.Orientation
+import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils
-import kotlinx.android.synthetic.main.attraction_list_content.view.*
+import kotlinx.android.synthetic.main.attraction_list_content_horizontal.view.*
 import java.util.*
 
 
-class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
+class AttractionListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Attraction>() {
@@ -33,13 +35,22 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content, parent, false)
-        return AttractionHolder(itemView)
+        //shoon 2019/08/01
+        val  layoutInflater = LayoutInflater.from(parent.context)
+
+        val view: View
+        view = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.attraction_list_content_horizontal, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.attraction_list_content_vertical, parent, false)
+        }
+        return AttractionHolder(view)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: AttractionHolder, position: Int) {
         val currentAttraction: Attraction = getItem(position)
+      //  val currentAttraction: Attraction = mFeedList[position]
 
 
         holder.itemView.setOnClickListener {
@@ -48,21 +59,22 @@ class AttractionListAdapter : androidx.recyclerview.widget.ListAdapter<Attractio
                     it.ll_expandable.visibility = View.GONE
                     setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.material_purple_300))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.endLineColor)
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
-                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_green_500)
+                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(holder.timeline.context.getColor(R.color.material_blue_600))
-                    holder.cardColor.setCardBackgroundColor(holder.timeline.context.getColor(R.color.material_blue_600))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.endLineColor)
                 }
             }
         }
-
+        //Switch holder.tvTitle.text = currentAttraction.name //shoon 2019/08/01 debug purpose
+        holder.tvTitle.text = "position:"+position+" itinerary:"+currentAttraction.itinerary_id.toString()+" attraction:"+currentAttraction.attraction_id.toString()+"\n"+currentAttraction.name //shoon 2019/08/01 debug purpose
         holder.timeline.initLine(0)
         holder.tvDescription.text = currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
-        holder.tvTitle.text = currentAttraction.name
+
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
         holder.tvEndTime.text = Date(currentAttraction.endTime).toString()
         holder.tvPhoneNum.text = currentAttraction.phoneNum

@@ -25,7 +25,7 @@ import java.util.ArrayList
 
 // Basil 7/24/2019
 
-class AttractionListActivity : AppCompatActivity() {
+class AllAttractionListActivity : AppCompatActivity() {
 
     private lateinit var attractionViewModel: AttractionViewModel
 
@@ -51,7 +51,7 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
 
-        attractionViewModel.getAttractionById(itineraryId).observe(this, Observer<List<Attraction>> {
+        attractionViewModel.getAllAttraction().observe(this, Observer<List<Attraction>> {
             adapter.submitList(it)
         })
 
@@ -85,7 +85,7 @@ class AttractionListActivity : AppCompatActivity() {
                         .commit()
                 } else {*/
                 Log.i("EXPAND", " Item $v clicked")
-                val intent = Intent(v.context, AttractionListActivity::class.java).apply {
+                val intent = Intent(v.context, AllAttractionListActivity::class.java).apply {
                     putExtra("item_id", item.toString())
                 }
                 v.context.startActivity(intent)

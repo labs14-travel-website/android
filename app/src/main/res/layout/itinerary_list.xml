@@ -12,4 +12,4 @@
     android:layout_marginRight = "6dp"
     app:layoutManager = "LinearLayoutManager"
     tools:context = ".views.ItineraryListActivity"
-    tools:listitem = "@layout/itinerary_list_content" />
+    tools:listitem = "@layout/itinerary_list_content_vertical" />
