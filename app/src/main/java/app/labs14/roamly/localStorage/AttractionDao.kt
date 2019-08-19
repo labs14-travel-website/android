@@ -6,11 +6,10 @@ import app.labs14.roamly.models.Attraction
 
 @Dao
 interface AttractionDao {
-
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(attraction:Attraction)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(attraction:Attraction)
 
     @Delete
@@ -22,6 +21,6 @@ interface AttractionDao {
     @Query("SELECT * FROM attraction_table")
     fun getAllAttractions(): LiveData<List<Attraction>>
 
-    @Query("SELECT * FROM attraction_table WHERE itinerary_id = :id")
-    fun getAttractions(id: Long): LiveData<List<Attraction>>
+    @Query("SELECT * FROM attraction_table WHERE itin_id = :id")
+    fun getAttractions(id: Int): LiveData<List<Attraction>>
 }

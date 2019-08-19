@@ -18,7 +18,7 @@ import app.labs14.roamly.utils.RoundedCornerBottomSheet
 import com.github.vipulasri.timelineview.TimelineView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.thebluealliance.spectrum.SpectrumDialog
-import kotlinx.android.synthetic.main.bottom_sheet_options.*
+import kotlinx.android.synthetic.main.options_appearance_vertical.*
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -65,7 +65,9 @@ class TimelineAttributesBottomSheet: RoundedCornerBottomSheet() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme)
-        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.bottom_sheet_options, container, false)
+
+        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.options_appearance_vertical, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

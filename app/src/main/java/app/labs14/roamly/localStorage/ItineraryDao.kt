@@ -7,10 +7,10 @@ import app.labs14.roamly.models.Itinerary
 @Dao
 interface ItineraryDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(itinerary:Itinerary)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(itinerary:Itinerary)
 
     @Delete

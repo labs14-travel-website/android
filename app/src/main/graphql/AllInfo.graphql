@@ -1,0 +1,21 @@
+query AllInfo{
+  users {
+    id
+    name
+    itineraries {
+      id
+      attractions{
+        id
+        phone
+        lat
+        lng
+        address
+        price
+        placeId
+        numRatings
+        description
+      }
+    }
+  }
+}
+

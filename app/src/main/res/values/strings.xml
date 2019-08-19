@@ -17,6 +17,7 @@
     <string name="elevation">Size</string>
     <string name="size">Size</string>
     <string name="color">Color</string>
+    <string name="background">Background</string>
     <string name="marker_drawable_message">You can also change the marker drawable in attributes.</string>
     <string name="marker_in_center">In center</string>
     <string name="line">Line</string>
@@ -32,6 +33,10 @@
     <string name="example">Example</string>
     <string name="activity_example_label">Example</string>
     <string name="apply">Apply</string>
+
+
+    <string name="notification">New Notification</string>
+    <string name="notification_channel_description">This is a sample notification channel for demonstration purpose.</string>
 
     <string-array name="line_type">
         <item>Normal</item>
