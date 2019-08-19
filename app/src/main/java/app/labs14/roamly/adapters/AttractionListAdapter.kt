@@ -13,18 +13,20 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
+
 import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.attraction_list_content_vertical.view.*
 
+
 import java.util.*
 
 
 class AttractionListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
-
     lateinit var nextAttraction: Attraction
+
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Attraction>() {
@@ -42,14 +44,24 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttractionHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.attraction_list_content_vertical, parent, false)
-        return AttractionHolder(itemView)
+
+        //shoon 2019/08/01
+        val  layoutInflater = LayoutInflater.from(parent.context)
+
+        val view: View
+        view = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.attraction_list_content_horizontal, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.attraction_list_content_vertical, parent, false)
+        }
+        return AttractionHolder(view)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: AttractionHolder, position: Int) {
         val currentAttraction: Attraction = getItem(position)
         var context = holder.tvAddress.context
+
 
         holder.itemView.tv_transport_info.setOnClickListener{
 
@@ -64,6 +76,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
                 View.VISIBLE -> {
                     it.ll_expandable.visibility = View.GONE
                     setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
+
                     //it.cv_attraction_background.setBackgroundColor(context
                     //.getColor(R.color.material_purple_300))
                     holder.cardColor.setCardBackgroundColor(context.getColor(R.color.colorAttractionCardBackground))
@@ -106,11 +119,12 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         holder.itemView.cv_attraction_transport.setOnClickListener {
             //TODO: pass coordinates off to google maps for navigation
         }
+
         holder.timeline.initLine(0)
         holder.timelineTravel.initLine(0)
         holder.tvDescription.text = currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
-        holder.tvTitle.text = currentAttraction.name
+
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
         holder.tvEndTime.text = Date(currentAttraction.endTime).toString()
         holder.tvPhoneNum.text = currentAttraction.phoneNum

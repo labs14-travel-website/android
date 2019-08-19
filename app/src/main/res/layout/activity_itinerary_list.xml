@@ -25,6 +25,7 @@
                 android:layout_height = "wrap_content"
                 android:text = "All attraction" />
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout

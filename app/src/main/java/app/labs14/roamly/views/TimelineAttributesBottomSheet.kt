@@ -65,7 +65,9 @@ class TimelineAttributesBottomSheet: RoundedCornerBottomSheet() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme)
+
         return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.options_appearance_vertical, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

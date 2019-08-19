@@ -82,6 +82,7 @@ dependencies {
 
     implementation "androidx.core:core-ktx:1.0.2"
 
+
     implementation ('com.thebluealliance:spectrum:0.7.1') {
         exclude group: 'com.android.support'
         exclude module: 'appcompat-v7'

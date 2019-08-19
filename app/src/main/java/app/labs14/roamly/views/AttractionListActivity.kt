@@ -10,7 +10,9 @@ import app.labs14.roamly.R
 import app.labs14.roamly.adapters.AttractionListAdapter
 import app.labs14.roamly.models.*
 import app.labs14.roamly.viewModels.AttractionViewModel
+
 import kotlinx.android.synthetic.main.activity_attraction_list.*
+
 
 // Basil 7/24/2019
 
@@ -18,7 +20,8 @@ class AttractionListActivity : AppCompatActivity() {
 
     private lateinit var attractionViewModel: AttractionViewModel
 
-    var itineraryId:Int = 0
+    var itineraryId:Long = 0
+
     private lateinit var mAttributes: TimelineAttributes
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +29,9 @@ class AttractionListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_attraction_list)
 
         var bundle: Bundle? = intent.extras
-        itineraryId = bundle!!.getInt("id", 0)
+
+       itineraryId = bundle!!.getLong("id")
+
 
         var title : TextView = tv_attraction_title
         title.text = bundle.getString("title","Title")

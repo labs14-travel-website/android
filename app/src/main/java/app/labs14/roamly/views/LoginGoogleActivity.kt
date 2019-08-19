@@ -42,6 +42,7 @@ const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var mAdapter: AttractionListAdapter
+
     private lateinit var mAttributes: TimelineAttributes
     //Test Notification
     private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
@@ -76,8 +77,10 @@ class LoginGoogleActivity : AppCompatActivity() {
         initViewModels()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
+
         networkTest()
         setupApollo()
+
         //default values
         mAttributes = TimelineAttributes(
             markerSize = Utils.dpToPx(20f, this),
@@ -91,6 +94,7 @@ class LoginGoogleActivity : AppCompatActivity() {
             lineDashWidth = Utils.dpToPx(4f, this),
             lineDashGap = Utils.dpToPx(2f, this)
         )
+
         btn_option.setOnClickListener{viewOption()}
         //mockData()
         //notificationTest()
@@ -102,6 +106,7 @@ class LoginGoogleActivity : AppCompatActivity() {
                 initAdapter()
             }
         })
+
     }
 
     private fun initAdapter() {
@@ -150,6 +155,7 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
 
+
     fun networkTest(){
         //thread { response =  NetworkAdapter.httpRequest("https://roamly-staging.herokuapp.com/city/image?q=New+York") }
     }
@@ -158,6 +164,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         if (!mNotified) {
             NotificationUtils().setNotification(mNotificationTime, this)
         }
+
     }
 
     private fun initViewModels(){
@@ -191,18 +198,36 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
-
         intent.putExtra("attributes",mAttributes)
-
-//        intent.putExtra("users",users)
         startActivity(intent)
     }
+
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) = try {
         val account = completedTask.getResult(ApiException::class.java)
         val token = ""
         if (account != null) {
             val token = account.idToken
+
+
+
+            }
+
+            val headermap = hashMapOf<String,String>()
+            headermap["authorization"] = token
+
+            sign_in_button.visibility = View.GONE
+            var result = ""
+            Thread {
+                result = NetworkAdapter.httpRequest(
+                    "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
+                )
+            }.run { start() }
+           //TODO: Parse out user data from result.
+        } catch (e: ApiException) {
+            e.printStackTrace()
+            sign_in_button.visibility = View.VISIBLE
+
         }
 
         val headermap = hashMapOf<String,String>()
@@ -295,4 +320,18 @@ class LoginGoogleActivity : AppCompatActivity() {
         attractionViewModel.insert(Attraction(38,10,"Outdoor Basketball Game", 1572739200,1572748451,25,25,"Watch amazing feats of skill","40.650002", "-73.949997", "Brooklyn, New York", "(872) 886-7323",7,1572738653,"Car"))
 
     }
+    private fun initAdapter() {
+
+        mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        } else {
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        }
+
+        recyclerView.layoutManager = mLayoutManager
+
+        mAdapter = AttractionListAdapter( mAttributes)
+        recyclerView.adapter = mAdapter
+    }
+
 }
