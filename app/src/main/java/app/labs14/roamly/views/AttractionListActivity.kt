@@ -30,9 +30,8 @@ class AttractionListActivity : AppCompatActivity() {
 
         var bundle: Bundle? = intent.extras
 
-
         var title : TextView = tv_attraction_title
-        toolbar.title = bundle!!.getString("title")
+        title.text = bundle!!.getString("title","Title")
         mAttributes = bundle!!.getParcelable("attributes")
 
         initRecyclerView()

@@ -218,9 +218,12 @@ class LoginGoogleActivity : AppCompatActivity() {
             val personEmail = account.getEmail()
             val personId = account.getId()
             val personPhoto = account.getPhotoUrl()
-            tv_debug.text = personName + "," + personGivenName + "," + personFamilyName + "," + personEmail + "," + personId + personPhoto
-
+            val scope = account.requestedScopes
+            val requestedscope =account.requestedScopes
             val token= account.idToken.toString()
+            tv_debug.text = personName + "," + personGivenName + "," + personFamilyName + "," + personEmail + "," + personId + "," + personPhoto+ "," + scope+ "," +requestedscope+ "," +token
+
+
             val headermap = hashMapOf<String, String>()
             headermap["authorization"]=token
             sign_in_button.visibility = View.GONE
