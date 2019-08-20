@@ -1,6 +1,6 @@
 package app.labs14.roamly. views
 
-import android.os.Bundle
+import  android.os.Bundle
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -31,23 +31,20 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
 import okhttp3.OkHttpClient
-import org.json.JSONObject
-import java.lang.ArithmeticException
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
+
 
 
 const val RC_SIGN_IN = 123
 
 class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var mAdapter: AttractionListAdapter
-
     private lateinit var mAttributes: TimelineAttributes
     //Test Notification
     private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
     private var mNotified = false
- //   private lateinit var mLayoutManager: LinearLayoutManager
+    //   private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
     lateinit var currentUser:User
@@ -77,10 +74,8 @@ class LoginGoogleActivity : AppCompatActivity() {
         initViewModels()
         googleLoginInit()
         btn_offline.setOnClickListener { offlineSignOn()}
-
         networkTest()
         setupApollo()
-
         //default values
         mAttributes = TimelineAttributes(
             markerSize = Utils.dpToPx(20f, this),
@@ -94,9 +89,8 @@ class LoginGoogleActivity : AppCompatActivity() {
             lineDashWidth = Utils.dpToPx(4f, this),
             lineDashGap = Utils.dpToPx(2f, this)
         )
-
         btn_option.setOnClickListener{viewOption()}
-        //mockData()
+        //     mockData()
         //notificationTest()
     }
     private fun viewOption(){
@@ -106,7 +100,6 @@ class LoginGoogleActivity : AppCompatActivity() {
                 initAdapter()
             }
         })
-
     }
 
     private fun initAdapter() {
@@ -117,10 +110,6 @@ class LoginGoogleActivity : AppCompatActivity() {
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         }
 
-        recyclerView.layoutManager = mLayoutManager
-
-        mAdapter = AttractionListAdapter( mAttributes)
-        recyclerView.adapter = mAdapter
     }
 
     var users: Users?= Users(ArrayList<User>(1))
@@ -128,32 +117,47 @@ class LoginGoogleActivity : AppCompatActivity() {
     private fun setupApollo(){
         val query = AllInfoQuery.builder().build()
 
-         apolloClient.query(query).enqueue(object : ApolloCall.Callback<AllInfoQuery.Data>() {
-             override fun onFailure(e: ApolloException) {
-                 print(e.toString())
-             }
+        apolloClient.query(query).enqueue(object : ApolloCall.Callback<AllInfoQuery.Data>() {
+            override fun onFailure(e: ApolloException) {
+                print(e.toString())
+            }
 
-             override fun onResponse(response: Response<AllInfoQuery.Data>) {
+            override fun onResponse(response: Response<AllInfoQuery.Data>) {
 
-                 var allusers = response.data()?.users()
-                tv_debug.text= /*allusers?.size.toString()+allusers?.get(1).toString()+*/"  ID="+ allusers?.get(0)?.id().toString()
+                var allusers = response.data()?.users()
+                //   tv_debug.append( allusers?.size.toString()+allusers?.get(1).toString()+"  ID="+ allusers?.get(0)?.id().toString())
 
 
-                    var tempItineraries: MutableList<Itinerary> = ArrayList<Itinerary>(10)
-                 for(i in 0..(allusers?.size ?: 1)
-                     -1){
+                //                itineraryViewModel.deleteAllItineraries()
 
+                var tempItineraries: MutableList<Itinerary> = ArrayList<Itinerary>(10)
+                for(i in 0..(allusers?.size ?: 1)
+                        -1){
+                    var numberOfItinerary=allusers?.get(i)?.itineraries()?.size!!
+                    tv_debug.append(numberOfItinerary.toString())
+                    if(numberOfItinerary > 0){
+                        for(j in 0..numberOfItinerary-1){
+
+                            tv_debug.append(allusers.get(i).itineraries()!!.get(j)?.id().toString())
+                            val sizeOfAtraction=allusers.get(i).itineraries()!!.get(j)?.attractions()?.size
+                            tv_debug.append("sizeOfAtraction="+sizeOfAtraction.toString())
+                        }
+                    }
                     var tempUser:User=User(
                         allusers?.get(i)?.id().toString(),allusers?.get(i)?.name().toString(),allusers?.get(i)?.name().toString(),tempItineraries)
                     users?.user?.add(tempUser)
-                     var allusers = response.data()?.users()
-                     tv_debug.text= "name="+ allusers?.get(i)?.name().toString()
+                    tv_debug.append('\n'+i.toString()+" "+tempUser.name+" ")
+                    if(tempUser.itineraries.size>0){
+                        tv_debug.append(tempUser.itineraries.size.toString())
+                    }else{
+                        tv_debug.append("No itinerary")
+                    }
+                    // tv_debug.append(tempUser.name/*allusers?.get(i)?.name().toString()+ allusers?.get(i)?.itineraries()?.get(0)?.id().toString()+ allusers?.get(i)?.itineraries()?.get(0)?.attractions()?.get(0)?.id().toString()+ allusers?.get(i)?.itineraries()?.get(0)?.attractions()?.get(0)?.description()+ allusers?.get(i)?.itineraries()?.get(0)?.attractions()?.get(0)?.address()+ allusers?.get(i)?.itineraries()?.get(0)?.attractions()?.get(0)?.phone()+ allusers?.get(i)?.itineraries()?.get(0)?.attractions()?.get(0)?.placeId().toString()*/)
+
                 }
-
-             }
-         })
+            }
+        })
     }
-
 
 
     fun networkTest(){
@@ -164,7 +168,6 @@ class LoginGoogleActivity : AppCompatActivity() {
         if (!mNotified) {
             NotificationUtils().setNotification(mNotificationTime, this)
         }
-
     }
 
     private fun initViewModels(){
@@ -198,24 +201,28 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun offlineSignOn(){
         val intent = Intent(this, ItineraryListActivity::class.java)
+
         intent.putExtra("attributes",mAttributes)
+
+//        intent.putExtra("users",users)
         startActivity(intent)
     }
 
-
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) = try {
         val account = completedTask.getResult(ApiException::class.java)
-        val token = ""
         if (account != null) {
-            val token = account.idToken
 
+            val personName = account.getDisplayName()
+            val personGivenName = account.getGivenName()
+            val personFamilyName = account.getFamilyName()
+            val personEmail = account.getEmail()
+            val personId = account.getId()
+            val personPhoto = account.getPhotoUrl()
+            tv_debug.text = personName + "," + personGivenName + "," + personFamilyName + "," + personEmail + "," + personId + personPhoto
 
-
-            }
-
-            val headermap = hashMapOf<String,String>()
-            headermap["authorization"] = token
-
+            val token= account.idToken.toString()
+            val headermap = hashMapOf<String, String>()
+            headermap["authorization"]=token
             sign_in_button.visibility = View.GONE
             var result = ""
             Thread {
@@ -223,28 +230,19 @@ class LoginGoogleActivity : AppCompatActivity() {
                     "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
                 )
             }.run { start() }
-           //TODO: Parse out user data from result.
-        } catch (e: ApiException) {
-            e.printStackTrace()
-            sign_in_button.visibility = View.VISIBLE
+        }else{
 
         }
-
-        val headermap = hashMapOf<String,String>()
-        headermap["authorization"] = token
-
-        sign_in_button.visibility = View.GONE
-        var result = ""
-        Thread {
-            result = NetworkAdapter.httpRequest(
-                "https://roamly-staging.herokuapp.com/api/auth", NetworkAdapter.POST, headermap
-            )
-        }.run { start() }
-       //TODO: Parse out user data from result.
-    } catch (e: ApiException) {
+    }catch(e: ApiException) {
         e.printStackTrace()
         sign_in_button.visibility = View.VISIBLE
     }
+
+
+
+
+
+
 
     private fun mockData(){
 
@@ -269,7 +267,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         itineraryViewModel.insert(Itinerary(9,"Patagonia", 1564486657))
 
         itineraryViewModel.insert(Itinerary(10,"Brooklyn", 1564486657))
-       // itineraryViewModel.getAllItineraries()
+        // itineraryViewModel.getAllItineraries()
         attractionViewModel.insert(Attraction(11,1,"Ocean Snorkeling", 1564486657,1564496100,25,25,"Get close to seastars and manatees","-8.409518", "115.188919", "Bali, Indonesia", "(525) 264-1082",1,1564485950,"Airplane"))
         attractionViewModel.insert(Attraction(12,9,"Jungle Treking", 1564486657,1564496100,25,25,"Get lost in the green","-8.409518", "115.188919", "Bali, Indonesia", "(406) 703-6279",1,1564485950,"Airplane"))
 
@@ -320,18 +318,4 @@ class LoginGoogleActivity : AppCompatActivity() {
         attractionViewModel.insert(Attraction(38,10,"Outdoor Basketball Game", 1572739200,1572748451,25,25,"Watch amazing feats of skill","40.650002", "-73.949997", "Brooklyn, New York", "(872) 886-7323",7,1572738653,"Car"))
 
     }
-    private fun initAdapter() {
-
-        mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
-            LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        } else {
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        }
-
-        recyclerView.layoutManager = mLayoutManager
-
-        mAdapter = AttractionListAdapter( mAttributes)
-        recyclerView.adapter = mAdapter
-    }
-
 }

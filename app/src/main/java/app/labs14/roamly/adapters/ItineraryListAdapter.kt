@@ -83,7 +83,7 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
         init {
             itemView.setOnClickListener {
 
-                tvDescription.setBackgroundColor(mAttributes.endLineColor) //fOR TESTING
+             //   tvDescription.setBackgroundColor(mAttributes.endLineColor) //fOR TESTING
 
 
                 val position = adapterPosition
