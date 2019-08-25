@@ -112,12 +112,6 @@ class AllAttractionListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
 
-            /*holder.tlDate.text = item.date
-            holder.tlTitle.text = item.message
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }*/
 
 
             when {
@@ -132,13 +126,6 @@ class AllAttractionListActivity : AppCompatActivity() {
                 }
             }
 
-            /*if (item.date.isNotEmpty()) {
-                holder.tlDate.visibility = View.VISIBLE
-                holder.tlDate.text = DateTimeUtils.parseDateTime(item.date, "yyyy-MM-dd HH:mm", "hh:mm a, dd-MMM-yyyy")
-            } else
-                holder.tlDate.visibility = View.GONE
-            holder.tlTitle.text = item.message*/
-
         }
 
         override fun getItemCount() = values.size
@@ -150,62 +137,6 @@ class AllAttractionListActivity : AppCompatActivity() {
             internal var adapter: ExpandableListAdapter? = null
             internal var titleList: List<String>? = null
 
-            val data: HashMap<String, List<String>>
-                get() {
-                    val listData = HashMap<String, List<String>>()
-
-                    val starting = ArrayList<String>()
-                    starting.add("San Fransisco, CA")
-                    starting.add("Personal Car")
-
-                    val museum = ArrayList<String>()
-                    museum.add("Golden Gate Ruins")
-                    museum.add("142 Golden Gate Way")
-                    museum.add("9:30 am")
-
-                    val lunch = ArrayList<String>()
-                    lunch.add("Joni's Slop Shop")
-                    lunch.add("5543 Main Street")
-                    lunch.add("12:00 pm")
-
-                    val swimming = ArrayList<String>()
-                    swimming.add("Beach, Atlantic Ocean")
-                    swimming.add("Anywhere along coastal route 1")
-                    swimming.add("2:30 pm")
-
-                    listData["Starting"] = starting
-                    listData["Museum"] = museum
-                    listData["Lunch"] = lunch
-                    listData["Swimming"] = swimming
-
-                    return listData
-                }
-/*
-
-
-            init {
-
-                if (expandableListView != null) {
-                    val listData = data
-                    titleList = ArrayList(listData.keys)
-                    adapter = CustomExpandableListAdapter(view.context, titleList as ArrayList<String>, listData)
-                    expandableListView!!.setAdapter(adapter)
-
-                    expandableListView!!.setOnGroupExpandListener { groupPosition ->
-                        Toast.makeText(view.context, (titleList as ArrayList<String>)[groupPosition] + " List Expanded.", Toast.LENGTH_SHORT).show()
-                    }
-
-                    expandableListView!!.setOnGroupCollapseListener { groupPosition ->
-                        Toast.makeText(view.context, (titleList as ArrayList<String>)[groupPosition] + " List Collapsed.", Toast.LENGTH_SHORT).show()
-                    }
-
-                    expandableListView!!.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-                        Toast.makeText(view.context, "Clicked: " + (titleList as ArrayList<String>)[groupPosition] + " -> " + listData[(titleList as ArrayList<String>)[groupPosition]]!!.get(childPosition), Toast.LENGTH_SHORT).show()
-                        false
-                    }
-                }
-            }
-*/
 
             /*val tlDate: TextView = view.text_timeline_date
             val tlTitle: TextView = view.text_timeline_title*/

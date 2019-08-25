@@ -27,9 +27,11 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.github.vipulasri.timelineview.TimelineView
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import kotlinx.android.synthetic.main.activity_login_google.*
+import kotlinx.android.synthetic.main.itinerary_list_content_horizontal.*
 import okhttp3.OkHttpClient
 import java.util.*
 import kotlin.collections.ArrayList
@@ -176,17 +178,45 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun googleLoginInit(){
+        val serverClientId=getString(R.string.serverClientId)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestId()
+            .requestProfile()
             .requestEmail()
+          /*  .requestServerAuthCode(serverClientId)*/ //offline access //2019/08/25 Shoon
+            .requestIdToken(serverClientId)
             .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         sign_in_button.visibility = View.VISIBLE
         sign_in_button.setSize(SignInButton.SIZE_STANDARD)
         sign_in_button.setOnClickListener{
+
+
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
+    }
+
+    private fun googleLoginRequestToken(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestId()
+            .requestProfile()
+            .requestEmail()
+
+            .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        sign_in_button.visibility = View.VISIBLE
+        sign_in_button.setSize(SignInButton.SIZE_STANDARD)
+        sign_in_button.setOnClickListener{
+
+
+            val signInIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
+
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -208,20 +238,23 @@ class LoginGoogleActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    val RC_GET_AUTH_CODE = 9003
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) = try {
         val account = completedTask.getResult(ApiException::class.java)
         if (account != null) {
-
+            //2019/08/20 shoon google login debug
             val personName = account.getDisplayName()
             val personGivenName = account.getGivenName()
             val personFamilyName = account.getFamilyName()
             val personEmail = account.getEmail()
             val personId = account.getId()
+
             val personPhoto = account.getPhotoUrl()
-            val scope = account.requestedScopes
+            val scope = account.grantedScopes
             val requestedscope =account.requestedScopes
+            val code=account.serverAuthCode
             val token= account.idToken.toString()
-            tv_debug.text = personName + "," + personGivenName + "," + personFamilyName + "," + personEmail + "," + personId + "," + personPhoto+ "," + scope+ "," +requestedscope+ "," +token
+            tv_debug.text = code+ "," +personName + "," + personGivenName + "," + personFamilyName + "," + personEmail + "," + personId + "," + personPhoto+ "," + scope+ "," +"requestedscope="+requestedscope+ "," +token
 
 
             val headermap = hashMapOf<String, String>()
@@ -240,8 +273,6 @@ class LoginGoogleActivity : AppCompatActivity() {
         e.printStackTrace()
         sign_in_button.visibility = View.VISIBLE
     }
-
-
 
 
 
