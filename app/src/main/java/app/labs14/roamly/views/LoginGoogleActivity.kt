@@ -178,7 +178,7 @@ class LoginGoogleActivity : AppCompatActivity() {
     }
 
     private fun googleLoginInit(){
-        val serverClientId=getString(R.string.serverClientId)
+        val serverClientId=getString(R.string.serverClientId) //2019/08/25 Shoon R.string.serverClientId has to be added.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestId()
             .requestProfile()
