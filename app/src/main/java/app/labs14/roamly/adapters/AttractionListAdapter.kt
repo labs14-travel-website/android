@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Attraction
+import app.labs14.roamly.models.Orientation
 
 import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.utils.VectorDrawableUtils

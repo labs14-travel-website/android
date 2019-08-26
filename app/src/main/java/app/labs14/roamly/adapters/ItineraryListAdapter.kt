@@ -35,27 +35,20 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItineraryHolder {
-
-      val  layoutInflater = LayoutInflater.from(parent.context)
-      val itemView: View
-      itemView = if (mAttributes.orientation == Orientation.HORIZONTAL) {
-
-          layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
-      } else {
-          layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
-      }
-
-      return ItineraryHolder(itemView)
-
+        val  layoutInflater = LayoutInflater.from(parent.context)
+        val itemView: View
+        itemView = if (mAttributes.orientation == Orientation.HORIZONTAL) {
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
+        } else {
+            layoutInflater.inflate(R.layout.itinerary_list_content_vertical, parent, false)
+        }
+        return ItineraryHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ItineraryHolder, position: Int) {
-
         val currentItinerary: Itinerary = getItem(position)
 
-
         holder.tvYearVisted.text = Constants.itineraryCardFormat.format(Date(currentItinerary.timeVisited * 1000L))
-
         holder.tvDestination.text = currentItinerary.destinationName
 
         var imageResource : Int = R.drawable.stockitinimages1
@@ -82,10 +75,6 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
     inner class ItineraryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
-
-                tvDescription.setBackgroundColor(mAttributes.endLineColor) //fOR TESTING
-
-
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener?.onItemClick(getItem(position))
@@ -96,7 +85,6 @@ class ItineraryListAdapter(private val mAttributes: TimelineAttributes) : androi
         var tvDestination: TextView = itemView.tv_destination_name
         var tvYearVisted: TextView = itemView.tv_year_visited
         var ivBackgroundImage : ImageView = itemView.iv_itinerary_background
-
     }
 
     interface OnItemClickListener {

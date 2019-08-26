@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-          package="app.labs14.roamly">
+    package="app.labs14.roamly">
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +24,7 @@
             android:theme = "@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.AllAttractionListActivity"
-            android:label="@string/title_itinerary_detail"
+            android:label="All itineraries"
             android:parentActivityName=".views.ItineraryListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -39,15 +40,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="app.labs14.roamly.views.ItineraryListActivity" />
         </activity>
-        <activity
-            android:name=".views.AllAttractionListActivity"
-            android:label="@string/title_itinerary_detail"
-            android:parentActivityName=".views.ItineraryListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="app.labs14.roamly.views.ItineraryListActivity" />
-        </activity>
         <activity android:name=".views.LoginGoogleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -56,14 +48,22 @@
             </intent-filter>
         </activity>
 
-
-        <receiver
-            android:name=".notifications.AlarmReceiver"
-            android:enabled="true" />
-
-        <service
+         <service
             android:name=".notifications.NotificationService"
             android:enabled="true" />
+        <activity
+            android:name=".notifications.ResultActivity"
+            android:excludeFromRecents="true"
+            android:label="@string/notification"
+            android:launchMode="singleTask"
+            android:taskAffinity="" />
+        <receiver android:name=".notifications.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

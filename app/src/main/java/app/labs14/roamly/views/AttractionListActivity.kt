@@ -12,6 +12,8 @@ import app.labs14.roamly.models.*
 import app.labs14.roamly.viewModels.AttractionViewModel
 
 import kotlinx.android.synthetic.main.activity_attraction_list.*
+import kotlinx.android.synthetic.main.activity_attraction_list.rv_attraction_list
+import kotlinx.android.synthetic.main.itinerary_detail.*
 
 
 // Basil 7/24/2019
@@ -19,8 +21,6 @@ import kotlinx.android.synthetic.main.activity_attraction_list.*
 class AttractionListActivity : AppCompatActivity() {
 
     private lateinit var attractionViewModel: AttractionViewModel
-
-    var itineraryId:Long = 0
 
     private lateinit var mAttributes: TimelineAttributes
 
@@ -30,11 +30,8 @@ class AttractionListActivity : AppCompatActivity() {
 
         var bundle: Bundle? = intent.extras
 
-       itineraryId = bundle!!.getLong("id")
-
-
         var title : TextView = tv_attraction_title
-        title.text = bundle.getString("title","Title")
+        title.text = bundle!!.getString("title","Title")
         mAttributes = bundle!!.getParcelable("attributes")
 
         initRecyclerView()
@@ -49,7 +46,7 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
 
-        attractionViewModel.getAttractionById(itineraryId).observe(this, Observer<List<Attraction>> {
+        attractionViewModel.getAllAttraction().observe(this, Observer<List<Attraction>> {
             adapter.submitList(it)
         })
 

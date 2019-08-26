@@ -17,8 +17,6 @@ import app.labs14.roamly.models.TimelineAttributes
 import app.labs14.roamly.models.Users
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import kotlinx.android.synthetic.main.activity_itinerary_list.*
-import kotlinx.android.synthetic.main.activity_itinerary_list.toolbar
-import kotlinx.android.synthetic.main.itinerary_detail.*
 import kotlinx.android.synthetic.main.itinerary_list.*
 
 
@@ -36,19 +34,12 @@ class ItineraryListActivity : AppCompatActivity() {
         toolbar.title = title
         var bundle: Bundle? = intent.extras
         mAttributes = bundle!!.getParcelable("attributes")
-
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
+        //    users = bundle!!.getParcelable("users")
 
         if (rv_itinerary_details2 != null) {
             twoPane = true
         }
-         setupRecyclerView()
-
+        setupRecyclerView()
         button_all_attraction.setOnClickListener {  showAllItinerary()}
     }
 
@@ -57,8 +48,6 @@ class ItineraryListActivity : AppCompatActivity() {
         intent.putExtra("title", "All attractions")
         intent.putExtra("attributes",mAttributes)
         startActivity(intent)
-
-
     }
 
     private fun setupRecyclerView() {
@@ -80,12 +69,10 @@ class ItineraryListActivity : AppCompatActivity() {
                 var intent = Intent(baseContext, AttractionListActivity::class.java)
                 intent.putExtra("id",itinerary.itinerary_id)
                 intent.putExtra("title", itinerary.destinationName)
-
                 intent.putExtra("attributes", mAttributes)
 
                 startActivity(intent)
             }
         })
-
     }
 }
