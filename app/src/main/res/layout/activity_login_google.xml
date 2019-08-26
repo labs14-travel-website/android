@@ -51,5 +51,31 @@
         android:backgroundTint="@color/colorAccent" />
 
 
+    //shoon 2019/08/26
+
+    <EditText
+        android:id="@+id/input_timer"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content" />
+
+    <Button
+        android:id = "@+id/btn_timer"
+        android:inputType="numberDecimal"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:text = "Timer test"
+        android:backgroundTint="@color/colorAccent" />
+
+    <EditText
+        android:id="@+id/input_timedate"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content" />
+
+    <Button
+        android:id = "@+id/btn_timedate"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:text = "Time and date test"
+        android:backgroundTint="@color/colorAccent" />
 
 </LinearLayout>

@@ -43,8 +43,7 @@ const val RC_SIGN_IN = 123
 class LoginGoogleActivity : AppCompatActivity() {
     private lateinit var mAdapter: AttractionListAdapter
     private lateinit var mAttributes: TimelineAttributes
-    //Test Notification
-    private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
+
     private var mNotified = false
     //   private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var itineraryViewModel: ItineraryViewModel
@@ -93,7 +92,10 @@ class LoginGoogleActivity : AppCompatActivity() {
         )
         btn_option.setOnClickListener{viewOption()}
         //     mockData()
-        //notificationTest()
+
+        btn_timer.setOnClickListener { notificationTimer( Calendar.getInstance().timeInMillis + 1000*input_timer.text.toString().toInt()) }
+
+        btn_timedate.setOnClickListener { notificationTimer( Calendar.getInstance().timeInMillis + 5000) }
     }
     private fun viewOption(){
         TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {
@@ -104,6 +106,20 @@ class LoginGoogleActivity : AppCompatActivity() {
         })
     }
 
+
+    private fun notificationTimer(mNotificationTime:Long){
+
+        if (!mNotified) {
+            NotificationUtils().setNotification(mNotificationTime, this)
+        }
+    }
+
+    private fun notificationTimeAndDate(mNotificationTime:Long){
+
+        if (!mNotified) {
+            NotificationUtils().setNotification(mNotificationTime, this)
+        }
+    }
     private fun initAdapter() {
 
         val mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {
@@ -166,11 +182,7 @@ class LoginGoogleActivity : AppCompatActivity() {
         //thread { response =  NetworkAdapter.httpRequest("https://roamly-staging.herokuapp.com/city/image?q=New+York") }
     }
 
-    private fun notificationTest(){
-        if (!mNotified) {
-            NotificationUtils().setNotification(mNotificationTime, this)
-        }
-    }
+
 
     private fun initViewModels(){
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
