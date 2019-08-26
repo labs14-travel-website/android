@@ -95,7 +95,7 @@ class LoginGoogleActivity : AppCompatActivity() {
 
         btn_timer.setOnClickListener { notificationTimer( Calendar.getInstance().timeInMillis + 1000*input_timer.text.toString().toInt()) }
 
-        btn_timedate.setOnClickListener { notificationTimer( Calendar.getInstance().timeInMillis + 5000) }
+        btn_timedate.setOnClickListener { notificationTimeAndDate( Calendar.getInstance().timeInMillis + 5000) }
     }
     private fun viewOption(){
         TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {

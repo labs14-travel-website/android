@@ -27,6 +27,18 @@
             android:visibility = "visible" />
     </ScrollView>
 
+    <ScrollView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content">
+
+
+
 
     <com.google.android.gms.common.SignInButton
         android:id = "@+id/sign_in_button"
@@ -51,16 +63,16 @@
         android:backgroundTint="@color/colorAccent" />
 
 
-    //shoon 2019/08/26
+    //shoon 2019/08/26 tests of timer and schedule
 
     <EditText
         android:id="@+id/input_timer"
+        android:inputType="number"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content" />
 
     <Button
         android:id = "@+id/btn_timer"
-        android:inputType="numberDecimal"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:text = "Timer test"
@@ -68,6 +80,7 @@
 
     <EditText
         android:id="@+id/input_timedate"
+        android:inputType="numberDecimal"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content" />
 
@@ -77,5 +90,8 @@
         android:layout_height = "wrap_content"
         android:text = "Time and date test"
         android:backgroundTint="@color/colorAccent" />
+    </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
