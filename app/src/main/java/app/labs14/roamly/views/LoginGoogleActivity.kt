@@ -79,8 +79,10 @@ class LoginGoogleActivity : AppCompatActivity() {
         setupApollo()
         //default values
         mAttributes = TimelineAttributes(
+            bgRegular=ContextCompat.getColor(this,R.color.colorAttractionCardBackground),
+            bgExpanded=ContextCompat.getColor(this,R.color.material_blue_600),
             markerSize = Utils.dpToPx(20f, this),
-            markerColor = ContextCompat.getColor(this, R.color.material_grey_500),
+            markerColor = ContextCompat.getColor(this,R.color.material_grey_500),
             markerInCenter = true,
             linePadding = Utils.dpToPx(2f, this),
             startLineColor = ContextCompat.getColor(this, R.color.colorAccent),
@@ -92,10 +94,11 @@ class LoginGoogleActivity : AppCompatActivity() {
         )
         btn_option.setOnClickListener{viewOption()}
         //     mockData()
-
+        //Shoon 2019/08/26 testing notification
         btn_timer.setOnClickListener { notificationTimer( Calendar.getInstance().timeInMillis + 1000*input_timer.text.toString().toInt()) }
-
-        btn_timedate.setOnClickListener { notificationTimeAndDate( Calendar.getInstance().timeInMillis + 5000) }
+        input_timedate.setText(Calendar.getInstance().timeInMillis.toString())
+        btn_current.setOnClickListener { input_timedate.setText(Calendar.getInstance().timeInMillis.toString()) }
+        btn_timedate.setOnClickListener { notificationTimeAndDate( input_timedate.text.toString().toLong())  }
     }
     private fun viewOption(){
         TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {
@@ -120,6 +123,7 @@ class LoginGoogleActivity : AppCompatActivity() {
             NotificationUtils().setNotification(mNotificationTime, this)
         }
     }
+
     private fun initAdapter() {
 
         val mLayoutManager = if (mAttributes.orientation == Orientation.HORIZONTAL) {

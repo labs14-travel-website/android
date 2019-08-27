@@ -68,6 +68,7 @@
     <EditText
         android:id="@+id/input_timer"
         android:inputType="number"
+        android:text="5"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content" />
 
@@ -78,11 +79,26 @@
         android:text = "Timer test"
         android:backgroundTint="@color/colorAccent" />
 
-    <EditText
-        android:id="@+id/input_timedate"
-        android:inputType="numberDecimal"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width = "match_parent"
-        android:layout_height = "wrap_content" />
+        android:layout_height = "wrap_content">
+        <EditText
+            android:id="@+id/input_timedate"
+            android:inputType="numberDecimal"
+            android:text="1566848830654"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content" />
+
+        <Button
+            android:id = "@+id/btn_current"
+            android:layout_width = "wrap_content"
+            android:layout_height = "wrap_content"
+            android:text = "Current time"
+            android:backgroundTint="@color/colorAccent" />
+    </LinearLayout>
+
+
 
     <Button
         android:id = "@+id/btn_timedate"

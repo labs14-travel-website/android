@@ -76,18 +76,20 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             when (it.ll_expandable.visibility) {
                 View.VISIBLE -> {
                     it.ll_expandable.visibility = View.GONE
-                    setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
-
+                    setMarker(holder, R.drawable.ic_marker_inactive, mAttributes.markerColor)
+         //           setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
                     //it.cv_attraction_background.setBackgroundColor(context
                     //.getColor(R.color.material_purple_300))
-                    holder.cardColor.setCardBackgroundColor(context.getColor(R.color.colorAttractionCardBackground))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.bgRegular!!)
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
-                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_green_500)
+                    setMarker(holder, R.drawable.ic_marker_active, mAttributes.markerColor)
+            //        setMarker(holder, R.drawable.ic_marker_active, R.color.material_green_500)
                     //it.cv_attraction_background.setBackgroundColor(context
                     //.getColor(R.color.material_blue_600))
-                    holder.cardColor.setCardBackgroundColor(context.getColor(R.color.material_blue_600))
+                   // holder.cardColor.setCardBackgroundColor(context.getColor(R.color.material_blue_600))
+                    holder.cardColor.setCardBackgroundColor(mAttributes.bgExpanded!!)
                 }
             }
         }
@@ -130,7 +132,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         holder.tvEndTime.text = Date(currentAttraction.endTime).toString()
         holder.tvPhoneNum.text = currentAttraction.phoneNum
 
-        setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
+        setMarker(holder, R.drawable.ic_marker_inactive, mAttributes.markerColor)
     }
 
     //will be useful for modifying data
@@ -170,6 +172,6 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
     }
 
     private fun setMarker(holder: AttractionHolder, drawableResId: Int, colorFilter: Int) {
-        holder.timeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, drawableResId, ContextCompat.getColor(holder.itemView.context, colorFilter))
+        holder.timeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, drawableResId, colorFilter)
     }
 }

@@ -7,6 +7,8 @@ import kotlin.properties.Delegates.observable
 
 @Parcelize
 class TimelineAttributes(
+        var bgRegular:Int?=-1,
+        var bgExpanded:Int?=-1,
         var markerSize: Int,
         var markerColor: Int,
         var markerInCenter: Boolean,
@@ -28,11 +30,11 @@ class TimelineAttributes(
     var onOrientationChanged: ((Orientation, Orientation) -> Unit)? = null
 
     override fun toString(): String {
-        return "TimelineAttributes(markerSize=$markerSize, markerColor=$markerColor, markerInCenter=$markerInCenter, linePadding=$linePadding, lineWidth=$lineWidth, startLineColor=$startLineColor, endLineColor=$endLineColor, lineStyle=$lineStyle, lineDashWidth=$lineDashWidth, lineDashGap=$lineDashGap, onOrientationChanged=$onOrientationChanged)"
+        return "TimelineAttributes(bgRegular=$bgRegular, bgExpanded=$bgExpanded,markerSize=$markerSize, markerColor=$markerColor, markerInCenter=$markerInCenter, linePadding=$linePadding, lineWidth=$lineWidth, startLineColor=$startLineColor, endLineColor=$endLineColor, lineStyle=$lineStyle, lineDashWidth=$lineDashWidth, lineDashGap=$lineDashGap, onOrientationChanged=$onOrientationChanged)"
     }
 
     fun copy(): TimelineAttributes {
-        val attributes = TimelineAttributes(markerSize, markerColor, markerInCenter, linePadding, lineWidth, startLineColor, endLineColor, lineStyle, lineDashWidth, lineDashGap)
+        val attributes = TimelineAttributes(bgRegular,bgExpanded,markerSize, markerColor, markerInCenter, linePadding, lineWidth, startLineColor, endLineColor, lineStyle, lineDashWidth, lineDashGap)
         attributes.orientation = orientation
         return attributes
     }
