@@ -86,7 +86,7 @@
         <EditText
             android:id="@+id/input_timedate"
             android:inputType="numberDecimal"
-            android:text="1566848830654"
+            android:text="1566848830654        "
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content" />
 
@@ -100,13 +100,30 @@
 
 
 
-    <Button
-        android:id = "@+id/btn_timedate"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:text = "Time and date test"
-        android:backgroundTint="@color/colorAccent" />
-    </LinearLayout>
+        <Button
+            android:id = "@+id/btn_timedate"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:text = "Time and date test"
+            android:backgroundTint="@color/colorAccent" />
+
+
+        <Button
+            android:id = "@+id/btn_mockdata"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:text = "Load mock data"
+            android:backgroundTint="@color/colorAccent" />
+
+        <Button
+            android:id = "@+id/btn_cleardata"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:text = "Clear local data"
+            android:backgroundTint="@color/colorAccent" />
+
+
+        </LinearLayout>
 
     </ScrollView>
 

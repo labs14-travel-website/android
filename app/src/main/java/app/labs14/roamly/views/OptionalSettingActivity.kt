@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.options_appearance_vertical.*
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class TimelineAttributesBottomSheet: RoundedCornerBottomSheet() {
+class OptionalSettingActivity: RoundedCornerBottomSheet() {
 
     interface Callbacks {
         fun onAttributesChanged(attributes: TimelineAttributes)
@@ -33,7 +33,7 @@ class TimelineAttributesBottomSheet: RoundedCornerBottomSheet() {
         private const val EXTRA_ATTRIBUTES = "EXTRA_ATTRIBUTES"
 
         fun showDialog(fragmentManager: FragmentManager, attributes: TimelineAttributes, callbacks: Callbacks) {
-            val dialog = TimelineAttributesBottomSheet()
+            val dialog = OptionalSettingActivity()
             dialog.arguments = bundleOf(
                     EXTRA_ATTRIBUTES to attributes
             )

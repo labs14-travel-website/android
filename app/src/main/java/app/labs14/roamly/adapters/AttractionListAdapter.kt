@@ -55,7 +55,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         } else {
             layoutInflater.inflate(R.layout.attraction_list_content_vertical, parent, false)
         }
-        return AttractionHolder(view)
+        return AttractionHolder(view, viewType)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -127,7 +127,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         holder.timelineTravel.initLine(0)
         holder.tvDescription.text = currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
-
+        holder.tvTitle.text = currentAttraction.name
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
         holder.tvEndTime.text = Date(currentAttraction.endTime).toString()
         holder.tvPhoneNum.text = currentAttraction.phoneNum
@@ -140,8 +140,32 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         return getItem(position)
     }
 
-    inner class AttractionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class AttractionHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
+        var tvStartTime = itemView.tv_attraction_start_time
+        var tvEndTime = itemView.tv_attraction_end_time
+        var tvTitle = itemView.tv_attraction_name
+        var tvDescription = itemView.tv_attraction_description
+        var tvAddress = itemView.tv_attraction_address
+        var tvPhoneNum = itemView.tv_phone_num
+        var timelineTravel = itemView.timeline2
+        var cardColor = itemView.cv_attraction_background
+        var tvTransportInfo = itemView.tv_transport_info
+        val timeline = itemView.timeline
         init {
+            timeline.initLine(viewType)
+            timeline.markerSize = mAttributes.markerSize
+            timeline.setMarkerColor(mAttributes.markerColor)
+            timeline.isMarkerInCenter = mAttributes.markerInCenter
+            timeline.linePadding = mAttributes.linePadding
+
+            timeline.lineWidth = mAttributes.lineWidth
+            timeline.setStartLineColor(mAttributes.startLineColor, viewType)
+            timeline.setEndLineColor(mAttributes.endLineColor, viewType)
+            timeline.lineStyle = mAttributes.lineStyle
+            timeline.lineStyleDashLength = mAttributes.lineDashWidth
+            timeline.lineStyleDashGap = mAttributes.lineDashGap
+
+
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -150,16 +174,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             }
         }
 
-        var tvStartTime = itemView.tv_attraction_start_time
-        var tvEndTime = itemView.tv_attraction_end_time
-        var tvTitle = itemView.tv_attraction_name
-        var tvDescription = itemView.tv_attraction_description
-        var tvAddress = itemView.tv_attraction_address
-        var tvPhoneNum = itemView.tv_phone_num
-        var timeline = itemView.timeline
-        var timelineTravel = itemView.timeline2
-        var cardColor = itemView.cv_attraction_background
-        var tvTransportInfo = itemView.tv_transport_info
+
     }
 
     interface OnItemClickListener {

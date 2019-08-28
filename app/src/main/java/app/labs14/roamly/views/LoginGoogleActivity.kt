@@ -99,9 +99,11 @@ class LoginGoogleActivity : AppCompatActivity() {
         input_timedate.setText(Calendar.getInstance().timeInMillis.toString())
         btn_current.setOnClickListener { input_timedate.setText(Calendar.getInstance().timeInMillis.toString()) }
         btn_timedate.setOnClickListener { notificationTimeAndDate( input_timedate.text.toString().toLong())  }
+        btn_mockdata.setOnClickListener { mockData() }
+        btn_cleardata.setOnClickListener { clearData() }
     }
     private fun viewOption(){
-        TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object: TimelineAttributesBottomSheet.Callbacks {
+        OptionalSettingActivity.showDialog(supportFragmentManager, mAttributes, object: OptionalSettingActivity.Callbacks {
             override fun onAttributesChanged(attributes: TimelineAttributes) {
                 mAttributes = attributes
                 initAdapter()
@@ -290,14 +292,13 @@ class LoginGoogleActivity : AppCompatActivity() {
         sign_in_button.visibility = View.VISIBLE
     }
 
-
+    private fun clearData(){
+        itineraryViewModel.deleteAllItineraries()
+    }
 
 
 
     private fun mockData(){
-
-        itineraryViewModel.deleteAllItineraries()
-
         itineraryViewModel.insert(Itinerary(1,"Bali", 1564486657))
 
         itineraryViewModel.insert(Itinerary(2,"Vegas", 1564486657))
@@ -317,12 +318,15 @@ class LoginGoogleActivity : AppCompatActivity() {
         itineraryViewModel.insert(Itinerary(9,"Patagonia", 1564486657))
 
         itineraryViewModel.insert(Itinerary(10,"Brooklyn", 1564486657))
+
+        itineraryViewModel.insert(Itinerary(11,"Japan", 1564486657))
+
         // itineraryViewModel.getAllItineraries()
         attractionViewModel.insert(Attraction(11,1,"Ocean Snorkeling", 1564486657,1564496100,25,25,"Get close to seastars and manatees","-8.409518", "115.188919", "Bali, Indonesia", "(525) 264-1082",1,1564485950,"Airplane"))
         attractionViewModel.insert(Attraction(12,9,"Jungle Treking", 1564486657,1564496100,25,25,"Get lost in the green","-8.409518", "115.188919", "Bali, Indonesia", "(406) 703-6279",1,1564485950,"Airplane"))
 
         attractionViewModel.insert(Attraction(13,10,"Swimming with Sharks", 1572739200,1572748451,25,25,"Don't be eaten","-8.409518", "115.188919", "Bali, Indonesia", "(403) 214-5135",1,1572738653,"Airplane"))
-        attractionViewModel.insert(Attraction(14,11,"Live Music", 1564486657,1564496100,25,25,"Come for a famous star","36.114647", "-115.172813", "Washington", "(670) 480-9095",2,1564485950,"Walking"))
+        attractionViewModel.insert(Attraction(14,10,"Live Music", 1564486657,1564496100,25,25,"Come for a famous star","36.114647", "-115.172813", "Washington", "(670) 480-9095",2,1564485950,"Walking"))
 
         attractionViewModel.insert(Attraction(15,2,"Comedy Show", 1564486657,1564496100,25,25,"Laugh at a silly gag","36.114647", "-115.172813", "Washington", "(992) 420-0332",2,1564485950,"Walking"))
 
@@ -367,5 +371,9 @@ class LoginGoogleActivity : AppCompatActivity() {
 
         attractionViewModel.insert(Attraction(38,10,"Outdoor Basketball Game", 1572739200,1572748451,25,25,"Watch amazing feats of skill","40.650002", "-73.949997", "Brooklyn, New York", "(872) 886-7323",7,1572738653,"Car"))
 
+
+        attractionViewModel.insert(Attraction(39,11,"Leave home", 1566939922734,1566939922734,25,25,"leave to IND","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"none"))
+
+        attractionViewModel.insert(Attraction(40,11,"Leave IND", 1566939922734,1566939922734,25,25,"leave to Chicago","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"none"))
     }
 }

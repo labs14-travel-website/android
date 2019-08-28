@@ -23,6 +23,7 @@ class AttractionListActivity : AppCompatActivity() {
     private lateinit var attractionViewModel: AttractionViewModel
 
     private lateinit var mAttributes: TimelineAttributes
+    var itineraryId:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,7 @@ class AttractionListActivity : AppCompatActivity() {
 
         var bundle: Bundle? = intent.extras
 
+        itineraryId = bundle!!.getInt("id", 0)
         var title : TextView = tv_attraction_title
         title.text = bundle!!.getString("title","Title")
         mAttributes = bundle!!.getParcelable("attributes")
@@ -45,8 +47,7 @@ class AttractionListActivity : AppCompatActivity() {
 
         rv_attraction_list.adapter = adapter
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
-
-        attractionViewModel.getAllAttraction().observe(this, Observer<List<Attraction>> {
+        attractionViewModel.getAttractionById(itineraryId).observe(this, Observer<List<Attraction>> {
             adapter.submitList(it)
         })
 
