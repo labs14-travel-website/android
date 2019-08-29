@@ -11,6 +11,7 @@ import android.os.Build
 import java.util.*
 import android.app.NotificationChannel
 import app.labs14.roamly.R
+import java.text.SimpleDateFormat
 
 
 class NotificationService : IntentService("NotificationService") {
@@ -44,8 +45,8 @@ class NotificationService : IntentService("NotificationService") {
 
     companion object {
 
-        const val CHANNEL_ID = "samples.notification.devdeeds.com.CHANNEL_ID"
-        const val CHANNEL_NAME = "Sample Notification"
+        const val CHANNEL_ID = "app.labs14.roamly.notifications.CHANNEL_ID"
+        const val CHANNEL_NAME = "Notification for the next event"
     }
 
 
@@ -70,8 +71,12 @@ class NotificationService : IntentService("NotificationService") {
             var notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notifyIntent = Intent(this, ResultActivity::class.java)
 
-            val title = "Next event is coming up"
-            val message = "Move on to next event."
+            val title = "The next event is coming up"
+
+            val jdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss z")
+            val date = java.util.Date(timestamp )
+          //  jdf.timeZone= TimeZone.getTimeZone("EST")
+            val message = jdf.format(date)+" now. Move on to the next event!"
 
             notifyIntent.putExtra("title", title)
             notifyIntent.putExtra("message", message)
@@ -79,7 +84,7 @@ class NotificationService : IntentService("NotificationService") {
 
             notifyIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
 
-            val calendar = Calendar.getInstance()
+            val calendar = Calendar.getInstance(Locale.JAPAN)
             calendar.timeInMillis = timestamp
 
 

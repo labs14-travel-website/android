@@ -29,6 +29,7 @@
     <string name="dash_gap">Dash Gap</string>
     <string name="line_padding">Line Padding</string>
     <string name="timeline_attributes">Timeline Attributes</string>
+    <string name="optional_settings">Optional Settings</string>
     <string name="style">Style</string>
     <string name="example">Example</string>
     <string name="activity_example_label">Example</string>

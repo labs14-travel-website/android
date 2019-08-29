@@ -1,6 +1,7 @@
 package app.labs14.roamly.adapters
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
+import app.labs14.roamly.models.Alarm
 import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Orientation
 
@@ -20,9 +22,11 @@ import app.labs14.roamly.utils.VectorDrawableUtils
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import kotlinx.android.synthetic.main.attraction_list_content_vertical.view.*
+import kotlinx.android.synthetic.main.itinerary_list_content_vertical.view.*
 
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AttractionListAdapter(private val mAttributes: TimelineAttributes) : androidx.recyclerview.widget.ListAdapter<Attraction, AttractionListAdapter.AttractionHolder>(DIFF_CALLBACK) {
@@ -55,8 +59,9 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         } else {
             layoutInflater.inflate(R.layout.attraction_list_content_vertical, parent, false)
         }
-        return AttractionHolder(view)
+        return AttractionHolder(view, viewType)
     }
+    var queueAlarm=ArrayList<Alarm>()
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: AttractionHolder, position: Int) {
@@ -71,29 +76,49 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             mapIntent.setPackage("com.google.android.apps.maps")
             context.startActivity(mapIntent)
         }
+        setMarker(holder, R.drawable.ic_marker_inactive, mAttributes.markerColor)
+        holder.cardColor.setCardBackgroundColor(mAttributes.bgColorRegular!!)
 
+        holder.tvAddress.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvDescription.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvPhoneNum.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvStartTime.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvTitle.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvTransportInfo.setTextColor(mAttributes.textColorRegular!!)
+        holder.tvEndTime.setTextColor(mAttributes.textColorRegular!!)
         holder.itemView.cv_attraction_background.setOnClickListener {
             when (it.ll_expandable.visibility) {
                 View.VISIBLE -> {
                     it.ll_expandable.visibility = View.GONE
-                    setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
-
-                    //it.cv_attraction_background.setBackgroundColor(context
-                    //.getColor(R.color.material_purple_300))
-                    holder.cardColor.setCardBackgroundColor(context.getColor(R.color.colorAttractionCardBackground))
+                    setMarker(holder, R.drawable.ic_marker_inactive, mAttributes.markerColor)
+                    holder.cardColor.setCardBackgroundColor(mAttributes.bgColorRegular!!)
+                    holder.tvStartTime.setTextColor(mAttributes.textColorRegular!!)
+                    holder.tvTitle.setTextColor(mAttributes.textColorRegular!!)
+                    holder.tvEndTime.setTextColor(mAttributes.textColorRegular!!)
+                    holder.cardColor.setCardBackgroundColor(mAttributes.bgColorRegular!!)
                 }
                 View.GONE -> {
                     it.ll_expandable.visibility = View.VISIBLE
-                    setMarker(holder, R.drawable.ic_marker_active, R.color.material_green_500)
-                    //it.cv_attraction_background.setBackgroundColor(context
-                    //.getColor(R.color.material_blue_600))
-                    holder.cardColor.setCardBackgroundColor(context.getColor(R.color.material_blue_600))
+                    setMarker(holder, R.drawable.ic_marker_active, mAttributes.markerColor)
+                    holder.tvAddress.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.tvDescription.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.tvPhoneNum.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.tvStartTime.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.tvTitle.setTextColor(mAttributes.textColorExpanded!!+5)
+                    holder.tvTransportInfo.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.tvEndTime.setTextColor(mAttributes.textColorExpanded!!)
+                    holder.cardColor.setCardBackgroundColor(mAttributes.bgColorExpanded!!)
                 }
             }
         }
+
+        currentAttraction.startTime
+        currentAttraction.endTime
+
+        holder.cvTransport.setBackgroundColor(mAttributes.bgColorRegular!!)
         if (position <= itemCount - 2) {
             if(position == 0){
-                holder.timeline.setStartLineColor(holder.tvAddress.context.resources.getColor(R.color.colorWhite), 0)
+                holder.timeline.setStartLineColor(holder.tvAddress.context.resources.getColor(R.color.colorBlack), 0)
             } else{
             }
 
@@ -106,7 +131,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             holder.itemView.cv_attraction_transport.visibility = View.GONE
             //TODO: Change this to invisible
             holder.timelineTravel.setMarker(holder.tvAddress.context.getDrawable(R.drawable.ic_marker_inactive), holder.tvAddress.context.getColor(R.color.colorWhite))
-            holder.timeline.setEndLineColor(holder.tvAddress.context.resources.getColor(R.color.colorWhite), 0)
+            holder.timeline.setEndLineColor(holder.tvAddress.context.resources.getColor(R.color.colorBlack), 0)
         }
 
         val etaHours = ((currentAttraction.transportEta) / 3600000)
@@ -125,12 +150,12 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         holder.timelineTravel.initLine(0)
         holder.tvDescription.text = currentAttraction.description
         holder.tvAddress.text = currentAttraction.address
-
+        holder.tvTitle.text = currentAttraction.name
         holder.tvStartTime.text = Date(currentAttraction.startTime).toString()
         holder.tvEndTime.text = Date(currentAttraction.endTime).toString()
         holder.tvPhoneNum.text = currentAttraction.phoneNum
 
-        setMarker(holder, R.drawable.ic_marker_inactive, R.color.material_grey_500)
+        setMarker(holder, R.drawable.ic_marker_inactive, mAttributes.markerColor)
     }
 
     //will be useful for modifying data
@@ -138,8 +163,33 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         return getItem(position)
     }
 
-    inner class AttractionHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class AttractionHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
+        var tvStartTime = itemView.tv_attraction_start_time
+        var tvEndTime = itemView.tv_attraction_end_time
+        var tvTitle = itemView.tv_attraction_name
+        var tvDescription = itemView.tv_attraction_description
+        var tvAddress = itemView.tv_attraction_address
+        var tvPhoneNum = itemView.tv_phone_num
+        var timelineTravel = itemView.timeline2
+        var cardColor = itemView.cv_attraction_background
+        var cvTransport = itemView.cv_attraction_transport
+        var tvTransportInfo = itemView.tv_transport_info
+        val timeline = itemView.timeline
         init {
+            timeline.initLine(viewType)
+            timeline.markerSize = mAttributes.markerSize
+            timeline.setMarkerColor(mAttributes.markerColor)
+            timeline.isMarkerInCenter = mAttributes.markerInCenter
+            timeline.linePadding = mAttributes.linePadding
+
+            timeline.lineWidth = mAttributes.lineWidth
+            timeline.setStartLineColor(mAttributes.startLineColor, viewType)
+            timeline.setEndLineColor(mAttributes.endLineColor, viewType)
+            timeline.lineStyle = mAttributes.lineStyle
+            timeline.lineStyleDashLength = mAttributes.lineDashWidth
+            timeline.lineStyleDashGap = mAttributes.lineDashGap
+
+
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
@@ -148,16 +198,7 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
             }
         }
 
-        var tvStartTime = itemView.tv_attraction_start_time
-        var tvEndTime = itemView.tv_attraction_end_time
-        var tvTitle = itemView.tv_attraction_name
-        var tvDescription = itemView.tv_attraction_description
-        var tvAddress = itemView.tv_attraction_address
-        var tvPhoneNum = itemView.tv_phone_num
-        var timeline = itemView.timeline
-        var timelineTravel = itemView.timeline2
-        var cardColor = itemView.cv_attraction_background
-        var tvTransportInfo = itemView.tv_transport_info
+
     }
 
     interface OnItemClickListener {
@@ -170,6 +211,6 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
     }
 
     private fun setMarker(holder: AttractionHolder, drawableResId: Int, colorFilter: Int) {
-        holder.timeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, drawableResId, ContextCompat.getColor(holder.itemView.context, colorFilter))
+        holder.timeline.marker = VectorDrawableUtils.getDrawable(holder.itemView.context, drawableResId, colorFilter)
     }
 }
