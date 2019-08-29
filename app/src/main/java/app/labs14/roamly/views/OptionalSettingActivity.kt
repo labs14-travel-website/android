@@ -89,6 +89,36 @@ class OptionalSettingActivity: RoundedCornerBottomSheet() {
         }
         rg_orientation.check(if(mAttributes.orientation == Orientation.VERTICAL) R.id.rb_vertical else R.id.rb_horizontal)
 
+        //Shoon 2019/08/28
+        //Text and background color
+        image_textregular_color.mFillColor=mAttributes.textColorRegular!!
+        image_textregular_color.setOnClickListener{
+            showColorPicker(mAttributes.textColorRegular!!, image_textregular_color)
+        }
+        image_textexpanded_color.mFillColor=mAttributes.textColorExpanded!!
+        image_textexpanded_color.setOnClickListener{
+            showColorPicker(mAttributes.textColorExpanded!!, image_textexpanded_color)
+        }
+        image_textediting_color.mFillColor=mAttributes.textColorEdting!!
+        image_textediting_color.setOnClickListener{
+            showColorPicker(mAttributes.textColorEdting!!, image_textediting_color)
+        }
+        image_bgregular_color.mFillColor= mAttributes.bgColorRegular!!
+        image_bgregular_color.setOnClickListener{
+            showColorPicker(mAttributes.bgColorRegular!!, image_bgregular_color)
+        }
+        image_bgexpanded_color.mFillColor= mAttributes.bgColorExpanded!!
+        image_bgexpanded_color.setOnClickListener{
+            showColorPicker(mAttributes.bgColorExpanded!!, image_bgexpanded_color)
+        }
+        image_bgediting_color.mFillColor= mAttributes.bgColorEdting!!
+        image_bgediting_color.setOnClickListener{
+            showColorPicker(mAttributes.bgColorEdting!!, image_bgediting_color)
+        }
+
+
+
+
         //marker
         seek_marker_size.progress = mAttributes.markerSize
         image_marker_color.mFillColor = mAttributes.markerColor
@@ -161,6 +191,12 @@ class OptionalSettingActivity: RoundedCornerBottomSheet() {
                         colorView.mFillColor = color
 
                         when(colorView.id) {
+                            R.id.image_textregular_color->{mAttributes.textColorRegular=color}
+                            R.id.image_textexpanded_color->{mAttributes.textColorExpanded=color}
+                            R.id.image_textediting_color->{mAttributes.textColorEdting=color}
+                            R.id.image_bgregular_color->{mAttributes.bgColorRegular=color}
+                            R.id.image_bgexpanded_color->{mAttributes.bgColorExpanded=color}
+                            R.id.image_bgediting_color->{mAttributes.bgColorEdting=color}
                             R.id.image_marker_color ->  { mAttributes.markerColor = color }
                             R.id.image_start_line_color -> { mAttributes.startLineColor = color }
                             R.id.image_end_line_color -> { mAttributes.endLineColor = color }

@@ -7,15 +7,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.labs14.roamly.models.Alarm
 import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities =[Itinerary::class, Attraction::class], exportSchema = true,version = 29)
+@Database(entities =[Itinerary::class, Attraction::class, Alarm::class], exportSchema = true,version = 30)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun itineraryDao(): ItineraryDao
     abstract fun attractionDao(): AttractionDao
+    abstract fun alarmDao(): AlarmDao
 
     companion object {
         private var instance: UserDatabase? = null

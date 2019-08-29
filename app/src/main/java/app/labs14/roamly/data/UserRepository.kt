@@ -1,22 +1,24 @@
-package app.labs14.roamly
+package app.labs14.roamly.data
 
 import android.app.Application
 import android.os.AsyncTask
-import android.util.Log
 import androidx.lifecycle.LiveData
 import app.labs14.roamly.localStorage.*
+import app.labs14.roamly.models.Alarm
 import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
-import app.labs14.roamly.models.User
 
 //Brandon Lively - 07/28/2019
 
 class UserRepository(application: Application) {
     private var itineraryDao: ItineraryDao
     private var attractionDao: AttractionDao
+    private var alarmDao:AlarmDao
 
     private var allItineraries: LiveData<List<Itinerary>>
     private var allAttractions: LiveData<List<Attraction>>
+    private var allAlarms: LiveData<List<Alarm>>
+
 
     private var isOnline = true
 
@@ -34,9 +36,11 @@ class UserRepository(application: Application) {
 
         itineraryDao = database.itineraryDao()
         attractionDao = database.attractionDao()
+        alarmDao=database.alarmDao()
 
         allItineraries = itineraryDao.getAllItineraries()
         allAttractions = attractionDao.getAllAttractions()
+        allAlarms = alarmDao.getAllAlarms()
 
     }
 
@@ -65,11 +69,37 @@ class UserRepository(application: Application) {
     fun getAllItineraries(): LiveData<List<Itinerary>> {
         return allItineraries
     }
+    //Alarms
 
 
-    //Attractions
+    fun insert(alarm: Alarm) {
+        val insertAlarmAsyncTask = InsertAlarmAsyncTask(alarmDao).execute(alarm)
+    }
+
+    fun update(alarm: Alarm) {
+        val updateAlarmAsyncTask = UpdateAlarmAsyncTask(alarmDao).execute(alarm)
+    }
 
 
+    fun delete(alarm: Alarm) {
+        val deleteAlarmAsyncTask = DeleteAlarmAsyncTask(alarmDao).execute(alarm)
+    }
+
+    fun deleteAllAlarms() {
+        val deleteAllAttractionsAsyncTask = DeleteAllAttractionsAsyncTask(
+            attractionDao
+        ).execute()
+    }
+
+    fun getAllAlarms(): LiveData<List<Alarm>> {
+        return allAlarms
+    }
+
+    fun getAlarmsByItineraryId(id: Int): LiveData<List<Alarm>> {
+        var alarms = alarmDao.getAlarms(id)
+        return alarms
+    }
+//Attractions
     fun insert(attraction: Attraction) {
         val insertAttractionAsyncTask = InsertAttractionAsyncTask(attractionDao).execute(attraction)
     }
@@ -132,7 +162,38 @@ class UserRepository(application: Application) {
                 ItineraryDao.deleteAllItineraries()
             }
         }
+        //Alarm
+        private class InsertAlarmAsyncTask(alarmDao: AlarmDao) : AsyncTask<Alarm, Unit, Unit>() {
+            val alarmDao = alarmDao
 
+            override fun doInBackground(vararg p0: Alarm?) {
+                alarmDao.insert(p0[0]!!)
+            }
+        }
+
+        private class UpdateAlarmAsyncTask(alarmDao: AlarmDao) : AsyncTask<Alarm, Unit, Unit>() {
+            val alarmDao = alarmDao
+
+            override fun doInBackground(vararg p0: Alarm?) {
+                alarmDao.update(p0[0]!!)
+            }
+        }
+
+        private class DeleteAlarmAsyncTask(alarmDao: AlarmDao) : AsyncTask<Alarm, Unit, Unit>() {
+            val alarmDao = alarmDao
+
+            override fun doInBackground(vararg p0: Alarm?) {
+                alarmDao.delete(p0[0]!!)
+            }
+        }
+
+        private class DeleteAllAlarmAsyncTask(attractionDao: AttractionDao) : AsyncTask<Unit, Unit, Unit>() {
+            val attractionDao = attractionDao
+
+            override fun doInBackground(vararg p0: Unit?) {
+                attractionDao.deleteAllAttractions()
+            }
+        }
         //Attraction
 
         private class InsertAttractionAsyncTask(attractionDao: AttractionDao) : AsyncTask<Attraction, Unit, Unit>() {

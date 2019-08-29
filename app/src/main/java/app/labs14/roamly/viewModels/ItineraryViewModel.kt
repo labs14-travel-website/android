@@ -3,7 +3,7 @@ package app.labs14.roamly.viewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import app.labs14.roamly.UserRepository
+import app.labs14.roamly.data.UserRepository
 import app.labs14.roamly.models.Itinerary
 
 class ItineraryViewModel (application: Application) : AndroidViewModel(application){

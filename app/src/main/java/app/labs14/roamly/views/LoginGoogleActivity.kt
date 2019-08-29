@@ -71,6 +71,11 @@ class LoginGoogleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_google)
+        if(NetworkAdapter.isInternetConnected(applicationContext)){
+            tv_debug.text="Internet is connected"
+        }else{
+            tv_debug.text="Internet is not connected"
+        }
 
         initViewModels()
         googleLoginInit()
@@ -79,8 +84,12 @@ class LoginGoogleActivity : AppCompatActivity() {
         setupApollo()
         //default values
         mAttributes = TimelineAttributes(
-            bgRegular=ContextCompat.getColor(this,R.color.colorAttractionCardBackground),
-            bgExpanded=ContextCompat.getColor(this,R.color.material_blue_600),
+            textColorRegular =ContextCompat.getColor(this,R.color.white),
+            textColorExpanded =ContextCompat.getColor(this,R.color.material_red_100),
+            textColorEdting = ContextCompat.getColor(this,R.color.ripple_material_light),
+            bgColorRegular=ContextCompat.getColor(  this,R.color.colorAttractionCardBackground),
+            bgColorExpanded=ContextCompat.getColor(this,R.color.material_blue_600),
+            bgColorEdting = ContextCompat.getColor(this,R.color.material_red_100),
             markerSize = Utils.dpToPx(20f, this),
             markerColor = ContextCompat.getColor(this,R.color.material_grey_500),
             markerInCenter = true,
