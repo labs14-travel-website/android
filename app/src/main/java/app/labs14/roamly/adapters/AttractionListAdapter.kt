@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.DiffUtil
 import app.labs14.roamly.R
 import app.labs14.roamly.models.Alarm
@@ -61,10 +62,11 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         }
         return AttractionHolder(view, viewType)
     }
-    var queueAlarm=ArrayList<Alarm>()
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: AttractionHolder, position: Int) {
+
         val currentAttraction: Attraction = getItem(position)
         var context = holder.tvAddress.context
 
@@ -115,36 +117,44 @@ class AttractionListAdapter(private val mAttributes: TimelineAttributes) : andro
         currentAttraction.startTime
         currentAttraction.endTime
 
-        holder.cvTransport.setBackgroundColor(mAttributes.bgColorRegular!!)
-        if (position <= itemCount - 2) {
-            if(position == 0){
-                holder.timeline.setStartLineColor(holder.tvAddress.context.resources.getColor(R.color.colorBlack), 0)
-            } else{
+        if(currentAttraction.transportLabel=="none"){
+            holder.cvTransport.isInvisible=true
+            holder.timelineTravel.isInvisible=true
+
+
+        }else{
+            holder.cvTransport.setBackgroundColor(mAttributes.bgColorRegular!!)
+            if (position <= itemCount - 2) {
+                if(position == 0){
+                    holder.timeline.setStartLineColor(mAttributes.startLineColor, 0)
+                } else{
+                }
+
+                nextAttraction = getAttractionAt(position)
+                currentAttraction.transportEta = position * 3600000L
+                holder.timelineTravel.marker = holder.tvAddress.context.getDrawable(R.drawable.ic_directions_car_black_24dp)
+                holder.itemView.cv_attraction_transport.visibility = View.VISIBLE
+                holder.timeline.initLine(0)
+            } else {
+                holder.itemView.cv_attraction_transport.visibility = View.GONE
+                //TODO: Change this to invisible
+                holder.timelineTravel.setMarker(holder.tvAddress.context.getDrawable(R.drawable.ic_marker_inactive), mAttributes.markerColor)
+                holder.timeline.setEndLineColor(mAttributes.endLineColor, 0)
             }
 
-            nextAttraction = getAttractionAt(position)
-            currentAttraction.transportEta = position * 3600000L
-            holder.timelineTravel.marker = holder.tvAddress.context.getDrawable(R.drawable.ic_directions_car_black_24dp)
-            holder.itemView.cv_attraction_transport.visibility = View.VISIBLE
-            holder.timeline.initLine(0)
-        } else {
-            holder.itemView.cv_attraction_transport.visibility = View.GONE
-            //TODO: Change this to invisible
-            holder.timelineTravel.setMarker(holder.tvAddress.context.getDrawable(R.drawable.ic_marker_inactive), holder.tvAddress.context.getColor(R.color.colorWhite))
-            holder.timeline.setEndLineColor(holder.tvAddress.context.resources.getColor(R.color.colorBlack), 0)
+            val etaHours = ((currentAttraction.transportEta) / 3600000)
+            val etaMinutes = ((currentAttraction.transportEta) % 3600000) / 60000
+            if (etaHours == 0L) {
+                holder.tvTransportInfo.text = "ETA ${etaMinutes}min     ${currentAttraction.transportLabel}"
+            } else {
+                holder.tvTransportInfo.text = "ETA  ${etaHours}Hr  ${etaMinutes}min     ${currentAttraction.transportLabel}"
+            }
+            holder.itemView.cv_attraction_transport.setOnClickListener {
+                //TODO: pass coordinates off to google maps for navigation
+            }
         }
 
-        val etaHours = ((currentAttraction.transportEta) / 3600000)
-        val etaMinutes = ((currentAttraction.transportEta) % 3600000) / 60000
-        if (etaHours == 0L) {
-            holder.tvTransportInfo.text = "ETA ${etaMinutes}min     ${currentAttraction.transportLabel}"
-        } else {
-            holder.tvTransportInfo.text = "ETA  ${etaHours}Hr  ${etaMinutes}min     ${currentAttraction.transportLabel}"
-        }
 
-        holder.itemView.cv_attraction_transport.setOnClickListener {
-            //TODO: pass coordinates off to google maps for navigation
-        }
 
         holder.timeline.initLine(0)
         holder.timelineTravel.initLine(0)

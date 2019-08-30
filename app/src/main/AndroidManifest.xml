@@ -23,6 +23,15 @@
             android:label = "@string/title_itinerary_list"
             android:theme = "@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".views.AlarmListActivity"
+            android:label="Alarms"
+            android:parentActivityName=".views.AlarmListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="app.labs14.roamly.views.AlarmListActivity" />
+        </activity>
+        <activity
             android:name=".views.AllAttractionListActivity"
             android:label="All itineraries"
             android:parentActivityName=".views.ItineraryListActivity"

@@ -12,7 +12,7 @@ import app.labs14.roamly.models.Attraction
 import app.labs14.roamly.models.Itinerary
 import app.labs14.roamly.models.User
 
-@Database(entities =[Itinerary::class, Attraction::class, Alarm::class], exportSchema = true,version = 30)
+@Database(entities =[Itinerary::class, Attraction::class, Alarm::class], exportSchema = true,version = 32)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun itineraryDao(): ItineraryDao

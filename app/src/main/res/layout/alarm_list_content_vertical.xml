@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "wrap_content"
+    android:layout_marginLeft = "10dp"
+    android:layout_marginRight = "10dp"
+    android:orientation = "horizontal">
+
+
+    <LinearLayout
+        android:layout_width = "match_parent"
+        android:orientation="vertical"
+        android:layout_height = "wrap_content">
+
+
+        <LinearLayout
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_alarm_background"
+                android:layout_width = "match_parent"
+                android:layout_height = "wrap_content"
+                android:layout_gravity = "center_vertical"
+                android:layout_marginLeft = "10dp"
+                android:layout_marginTop = "15dp"
+                android:layout_marginRight = "5dp"
+                android:layout_marginBottom = "15dp"
+                app:cardBackgroundColor = "#353030"
+                app:cardCornerRadius="15dp"
+                app:contentPadding = "15dp">
+
+                <LinearLayout
+                    android:id = "@+id/ll_alarm"
+                    android:layout_width = "match_parent"
+                    android:layout_height = "wrap_content"
+                    android:layout_gravity = "center"
+                    android:gravity = "top"
+                    android:orientation = "vertical">
+
+                    <TextView
+                        android:id = "@+id/tv_alarm_id"
+                        android:layout_width = "match_parent"
+                        android:layout_height = "wrap_content"
+                        android:layout_gravity = "top"
+                        android:textColor="@color/material_grey_200"
+                        android:gravity = "center_horizontal"
+                        android:text = "ID"
+                        android:textSize = "18dp" />
+
+                    <TextView
+                        android:id = "@+id/tv_atracttion_id"
+                        android:layout_width = "match_parent"
+                        android:layout_height = "wrap_content"
+                        android:textColor="@color/material_grey_200"
+                        android:layout_gravity = "left"
+                        android:text = "attraction id" />
+
+                    <TextView
+                        android:id = "@+id/tv_timeAlarm"
+                        android:layout_marginTop="10dp"
+                        android:layout_width = "match_parent"
+                        android:textColor="@color/material_grey_200"
+                        android:layout_height = "wrap_content"
+                        android:layout_gravity = "left"
+                        android:text = "timeAlarm" />
+                    <TextView
+                        android:id = "@+id/tv_alarm_title"
+                        android:layout_width = "match_parent"
+                        android:layout_height = "wrap_content"
+                        android:textColor="@color/material_grey_200"
+                        android:layout_marginBottom = "10dp"
+                        android:text = "title"
+                        android:textSize = "12dp" />
+                    <TextView
+                        android:id = "@+id/tv_alarm_message"
+                        android:layout_width = "match_parent"
+                        android:layout_height = "wrap_content"
+                        android:textColor="@color/material_grey_200"
+                        android:layout_marginBottom = "10dp"
+                        android:text = "message" />
+
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content"
+            android:orientation="horizontal"/>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

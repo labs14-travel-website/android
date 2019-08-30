@@ -19,14 +19,19 @@
             android:layout_width = "match_parent"
             android:layout_height = "?attr/actionBarSize"
             app:popupTheme = "@style/AppTheme.PopupOverlay">
-
             <Button
                 android:id = "@+id/button_all_attraction"
+                android:backgroundTint = "@color/colorAccent"
                 android:layout_width = "wrap_content"
                 android:layout_height = "wrap_content"
-                android:background = "@color/material_teal_800"
-                android:backgroundTint = "@color/colorAccent"
                 android:text = "All attraction" />
+         <Button
+                android:id = "@+id/button_alarms"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+
+                android:backgroundTint = "@color/colorAccent"
+                android:text = "Alarms" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
