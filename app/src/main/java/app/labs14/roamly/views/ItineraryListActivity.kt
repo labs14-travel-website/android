@@ -41,6 +41,7 @@ class ItineraryListActivity : AppCompatActivity() {
         }
         setupRecyclerView()
         button_all_attraction.setOnClickListener {  showAllItinerary()}
+        button_alarms.setOnClickListener { showAlarms() }
     }
 
     private fun showAllItinerary(){
@@ -50,6 +51,12 @@ class ItineraryListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun showAlarms(){
+        var intent = Intent(baseContext, AlarmListActivity::class.java)
+        intent.putExtra("title", "Alarms")
+        intent.putExtra("attributes",mAttributes)
+        startActivity(intent)
+    }
     private fun setupRecyclerView() {
         rv_itinerary_list.layoutManager = LinearLayoutManager(this)
         rv_itinerary_list.setHasFixedSize(true)

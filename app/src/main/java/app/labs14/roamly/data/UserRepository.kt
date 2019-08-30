@@ -69,7 +69,7 @@ class UserRepository(application: Application) {
     fun getAllItineraries(): LiveData<List<Itinerary>> {
         return allItineraries
     }
-    //Alarms
+    //Alarms //Shoon 2019/08/29
 
 
     fun insert(alarm: Alarm) {
@@ -86,8 +86,8 @@ class UserRepository(application: Application) {
     }
 
     fun deleteAllAlarms() {
-        val deleteAllAttractionsAsyncTask = DeleteAllAttractionsAsyncTask(
-            attractionDao
+        val deleteAllAlarmAsyncTask = DeleteAllAlarmAsyncTask(
+            alarmDao
         ).execute()
     }
 
@@ -187,11 +187,11 @@ class UserRepository(application: Application) {
             }
         }
 
-        private class DeleteAllAlarmAsyncTask(attractionDao: AttractionDao) : AsyncTask<Unit, Unit, Unit>() {
-            val attractionDao = attractionDao
+        private class DeleteAllAlarmAsyncTask(alarmDao: AlarmDao) : AsyncTask<Unit, Unit, Unit>() {
+            val alarmDao = alarmDao
 
             override fun doInBackground(vararg p0: Unit?) {
-                attractionDao.deleteAllAttractions()
+                alarmDao.deleteAllAlamrs()
             }
         }
         //Attraction

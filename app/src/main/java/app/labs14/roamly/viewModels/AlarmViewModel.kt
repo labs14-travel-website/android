@@ -7,9 +7,8 @@ import app.labs14.roamly.data.UserRepository
 import app.labs14.roamly.models.Alarm
 
 
-class AlarmsViewModel(application: Application) : AndroidViewModel(application){
-    private var repository: UserRepository =
-        UserRepository(application)
+class AlarmViewModel(application: Application) : AndroidViewModel(application){
+    private var repository: UserRepository =UserRepository(application)
     private var allAlarm: LiveData<List<Alarm>> = repository.getAllAlarms()
 
     fun insert(alarm: Alarm) {

@@ -1,5 +1,6 @@
 package app.labs14.roamly.views
 
+
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -7,21 +8,24 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.labs14.roamly.R
+import app.labs14.roamly.adapters.AlarmListAdapter
 import app.labs14.roamly.adapters.AttractionListAdapter
 import app.labs14.roamly.models.*
+import app.labs14.roamly.viewModels.AlarmViewModel
 
 import app.labs14.roamly.viewModels.AttractionViewModel
 
 import kotlinx.android.synthetic.main.activity_attraction_list.*
 import kotlinx.android.synthetic.main.activity_attraction_list.rv_attraction_list
-import kotlinx.android.synthetic.main.itinerary_detail.*
+
 
 
 // Basil 7/24/2019
 
-class AttractionListActivity : AppCompatActivity() {
+class AlarmListActivity : AppCompatActivity() {
 
     private lateinit var attractionViewModel: AttractionViewModel
+    private lateinit var alarmViewModel: AlarmViewModel
     private lateinit var mAttributes: TimelineAttributes
     var itineraryId:Int = 0
 
@@ -43,18 +47,16 @@ class AttractionListActivity : AppCompatActivity() {
         rv_attraction_list.layoutManager = LinearLayoutManager(this)
         rv_attraction_list.setHasFixedSize(true)
 
-        var adapter = AttractionListAdapter(mAttributes)
+        var adapter = AlarmListAdapter(mAttributes)
 
         rv_attraction_list.adapter = adapter
-
-
-        attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
-        attractionViewModel.getAttractionById(itineraryId).observe(this, Observer<List<Attraction>> {
+        alarmViewModel= ViewModelProviders.of(this).get(AlarmViewModel::class.java)
+        alarmViewModel.getAllAlarm().observe(this, Observer<List<Alarm>> {
             adapter.submitList(it)
         })
 
-        adapter.setOnItemClickListener(object : AttractionListAdapter.OnItemClickListener {
-            override fun onItemClick(attraction: Attraction) {
+        adapter.setOnItemClickListener(object : AlarmListAdapter.OnItemClickListener {
+            override fun onItemClick(alarm: Alarm) {
             }
         })
     }

@@ -20,6 +20,8 @@ import app.labs14.roamly.models.*
 import app.labs14.roamly.notifications.NotificationUtils
 import app.labs14.roamly.utils.BitmapConversion
 import app.labs14.roamly.utils.Utils
+import app.labs14.roamly.viewModels.AlarmViewModel
+
 import app.labs14.roamly.viewModels.AttractionViewModel
 import app.labs14.roamly.viewModels.ItineraryViewModel
 import com.apollographql.apollo.ApolloCall
@@ -48,6 +50,7 @@ class LoginGoogleActivity : AppCompatActivity() {
     //   private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var itineraryViewModel: ItineraryViewModel
     private lateinit var attractionViewModel: AttractionViewModel
+    private lateinit var alarmsViewModel: AlarmViewModel
     lateinit var currentUser:User
     var response = ""
 
@@ -200,8 +203,10 @@ class LoginGoogleActivity : AppCompatActivity() {
 
 
     private fun initViewModels(){
+        alarmsViewModel= ViewModelProviders.of(this).get(AlarmViewModel::class.java)
         itineraryViewModel = ViewModelProviders.of(this).get(ItineraryViewModel::class.java)
         attractionViewModel = ViewModelProviders.of(this).get(AttractionViewModel::class.java)
+
     }
 
     private fun googleLoginInit(){
@@ -303,11 +308,17 @@ class LoginGoogleActivity : AppCompatActivity() {
 
     private fun clearData(){
         itineraryViewModel.deleteAllItineraries()
+        attractionViewModel.deleteAllAttraction()
+        alarmsViewModel.deleteAllAlarm()
     }
 
 
 
     private fun mockData(){
+        val timeToNotify=Calendar.getInstance().timeInMillis+10000
+        alarmsViewModel.insert((Alarm(11,timeToNotify,true,"title","message")))
+        notificationTimer(timeToNotify)
+
         itineraryViewModel.insert(Itinerary(1,"Bali", 1564486657))
 
         itineraryViewModel.insert(Itinerary(2,"Vegas", 1564486657))
@@ -380,9 +391,17 @@ class LoginGoogleActivity : AppCompatActivity() {
 
         attractionViewModel.insert(Attraction(38,10,"Outdoor Basketball Game", 1572739200,1572748451,25,25,"Watch amazing feats of skill","40.650002", "-73.949997", "Brooklyn, New York", "(872) 886-7323",7,1572738653,"Car"))
 
+        val OneHour=3600000
 
-        attractionViewModel.insert(Attraction(39,11,"Leave home", 1566939922734,1566939922734,25,25,"leave to IND","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"none"))
+        attractionViewModel.insert(Attraction(39,11,"Leave home", timeToNotify,timeToNotify+OneHour,25,25,"leave to IND","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"walk"))
 
-        attractionViewModel.insert(Attraction(40,11,"Leave IND", 1566939922734,1566939922734,25,25,"leave to Chicago","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"none"))
+        attractionViewModel.insert(Attraction(40,11,"Leave IND", timeToNotify+OneHour*2,timeToNotify+OneHour*10,25,25,"leave to Chicago","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"walk"))
+
+
+        attractionViewModel.insert(Attraction(41,11,"NRT express ", timeToNotify+OneHour*12,timeToNotify+OneHour*13,25,25,"Narita toTokyo","40.650002", "-73.949997", "Indianaplis, IN", "(872) 886-7323",7,1572738653,"walk"))
+        attractionViewModel.insert(Attraction(42,11,"Shinkansen ", timeToNotify+OneHour*14,timeToNotify+OneHour*15,25,25,"Tokyo to Yokohama","40.650002", "-73.949997", "ShinYokohama", "(872) 886-7323",7,1572738653,"walk"))
+        attractionViewModel.insert(Attraction(43,11,"Local Train ", timeToNotify+OneHour*15,timeToNotify+OneHour*16,25,25,"Shinyokohama to Nitta","40.650002", "-73.949997", "Nitta", "(872) 886-7323",7,1572738653,"walk"))
+        attractionViewModel.insert(Attraction(44,11,"Walk ", timeToNotify+OneHour*16,timeToNotify+OneHour*16+OneHour/6,25,25,"Shinyokohama to Nitta","40.650002", "-73.949997", "Nitta", "(872) 886-7323",7,1572738653,"walk"))
+
     }
 }
